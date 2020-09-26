@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net471;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <PackageProjectUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</PackageProjectUrl>
+    <Authors>ar-dev-1983</Authors>
+    <Description>Computer Hardware Audit Classes</Description>
+    <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</RepositoryUrl>
+    <Copyright>ar-dev-1983</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="4.7.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>

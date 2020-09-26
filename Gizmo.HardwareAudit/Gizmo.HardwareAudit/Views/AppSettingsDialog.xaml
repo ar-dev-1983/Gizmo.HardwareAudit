@@ -1,0 +1,242 @@
+﻿<Window  x:Class="Gizmo.HardwareAudit.AppSettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+        xmlns:local="clr-namespace:Gizmo.HardwareAudit"
+        xmlns:Behaviors="clr-namespace:Gizmo.HardwareAudit.Behaviors" xmlns:views="clr-namespace:Gizmo.HardwareAudit.Views"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Title="Application Settings" Height="480" Icon="/Resources/Images/Settings.png" Width="1200"
+        SnapsToDevicePixels="True" UseLayoutRounding="True" 
+        Style="{DynamicResource {ComponentResourceKey ResourceId=DialogWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+    <Window.Resources>
+        <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <ui:UISwitch Margin="5,2" x:Name="cbLoadLastFileOnStart" Header="  Load last opened file on startup?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding LoadLastFile, Mode=TwoWay}"/>
+            <ui:UISwitch Margin="5,2" x:Name="cbCheckPortsThenScanning" Header="  Check for opened TCP Ports?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckPortsThenPing, Mode=TwoWay}"/>
+            <ui:UISwitch Margin="5,2" x:Name="cbCheckSharedFoldersThenScanning" Header="  Check for avialable shared folders?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckSharedFoldersThenPing, Mode=TwoWay}"/>
+        </StackPanel>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlSelectBorderBrush}}" BorderThickness="0,0,0,2">
+            <ui:UITabPanel x:Name="tbTabs" Orientation="Top">
+                <ui:UITabPanel.Items>
+                    <ui:UITabPanelItem x:Name="PortsTab" IsSelected="True">
+                        <ui:UITabPanelItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <views:GizmoIcon Icon="OpenConnection" FontSize="16"/>
+                                <TextBlock Text="TCP Ports" VerticalAlignment="Center" Margin="5,0"/>
+                            </StackPanel>
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                    <ui:UITabPanelItem x:Name="UsersTab">
+                        <ui:UITabPanelItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <views:GizmoIcon Icon="User" FontSize="16"/>
+                                <TextBlock Text="User Profiles" VerticalAlignment="Center" Margin="5,0"/>
+                            </StackPanel>
+                        </ui:UITabPanelItem.Header>
+                    </ui:UITabPanelItem>
+                </ui:UITabPanel.Items>
+            </ui:UITabPanel>
+        </Border>
+        <Grid x:Name="grPorts" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Visibility="{Binding ElementName=PortsTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ui:UIControlGroup CornerRadius="0" x:Name="btgCheckPorts" Margin="5,5,5,0" Height="24" IsEnabled="{Binding ElementName=cbCheckPortsThenScanning, Path=IsChecked,TargetNullValue=false, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ui:UIButton CornerRadius="0" x:Name="btCheckPortsAdd" Width="24" Command="{Binding AddCheckPortCommand}">
+                    <views:GizmoIcon Icon="Add" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btCheckPortsDelete" Width="24" Command="{Binding DeleteCheckPortCommand}">
+                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btCheckPortsUpSelected" Width="24" Command="{Binding UpCheckPortCommand}">
+                    <views:GizmoIcon Icon="Up" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btCheckPortsDownSelected" Width="24" Command="{Binding DownCheckPortCommand}">
+                    <views:GizmoIcon Icon="Down" FontSize="16"/>
+                </ui:UIButton>
+            </ui:UIControlGroup>
+            <DataGrid Grid.Row="1" Margin="5" IsEnabled="{Binding ElementName=cbCheckPortsThenScanning, Path=IsChecked,TargetNullValue=false, Mode=TwoWay}" x:Name="dgCheckPortsList" 
+                      ItemsSource="{Binding DefaultCheckPorts}" SelectedIndex="{Binding SelectedCheckPortIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      BorderThickness="1"
+                      AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" SelectionMode="Single"  VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <views:GizmoIcon Icon="OpenConnection" FontSize="16"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn  CanUserReorder="False" Header="Enabled" Width="70" Binding="{Binding Path=IsEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SortMemberPath="IsEnabled" CanUserSort="True" >
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="2" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                        <DataGridCheckBoxColumn.EditingElementStyle>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="2" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridCheckBoxColumn.EditingElementStyle>
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn CanUserReorder="False" Header="Name" Width="100*" Binding="{Binding Path=Name}" SortMemberPath="Name" CanUserSort="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn CanUserReorder="False" Header="Description" Width="150*" Binding="{Binding Path=Description}" SortMemberPath="Description" CanUserSort="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn CanUserReorder="False" Header="Port" Width="50" Binding="{Binding Path=Port}" SortMemberPath="Port" CanUserSort="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn CanUserReorder="False" Header="Launch  path (* user HostName for network name replacement)" Width="250*" Binding="{Binding Path=LaunchPath}" SortMemberPath="LunchPath" CanUserSort="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn CanUserReorder="False" Header="Launch  arg (* user HostName for network name replacement)" Width="250*" Binding="{Binding Path=LaunchArg}" SortMemberPath="LunchArg" CanUserSort="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid x:Name="grUsers" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Visibility="{Binding ElementName=UsersTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ui:UIControlGroup CornerRadius="0" x:Name="btgUserProfiles" Margin="5,5,5,0" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ui:UIButton CornerRadius="0" x:Name="btUserProfileAdd" Width="24" Command="{Binding AddUserProfileCommand}">
+                    <views:GizmoIcon Icon="Add" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btUserProfileDelete" Width="24"  Command="{Binding DeleteUserProfileCommand}">
+                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btUserProfileUpSelected" Width="24"  Command="{Binding UpUserProfileCommand}">
+                    <views:GizmoIcon Icon="Up" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btUserProfileDownSelected" Width="24"  Command="{Binding DownUserProfileCommand}">
+                    <views:GizmoIcon Icon="Down" FontSize="16"/>
+                </ui:UIButton>
+            </ui:UIControlGroup>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="640"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="lbUserProfilesList" Grid.RowSpan="4" Margin="5" SelectedIndex="{Binding SelectedUserProfileIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding UserProfiles}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Width="34">
+                                    <GridViewColumnHeader></GridViewColumnHeader>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <views:GizmoIcon Icon="User" FontSize="16"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="300" DisplayMemberBinding="{Binding Path=ProfileName}">
+                                    <GridViewColumnHeader>Profile Name</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn Width="300" DisplayMemberBinding="{Binding Path=UserName}">
+                                    <GridViewColumnHeader>User Name</GridViewColumnHeader>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+                <Border Grid.RowSpan="4" Grid.Column="1" Margin="0,5,5,5" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, NodeCanvasGridBrush}}" BorderThickness="1" CornerRadius="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" TextAlignment="Right" Margin="4,2" VerticalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Text="Profile Name:"/>
+                        <TextBlock Grid.Row="1" TextAlignment="Right" Margin="4,2" VerticalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Text="User Name:"/>
+                        <TextBlock Grid.Row="2" TextAlignment="Right" Margin="4,2" VerticalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Text="User Password:"/>
+                        <ui:UITextBox DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" Text="{Binding Path=ProfileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" Grid.Row="0" Margin="5" Height="26" VerticalAlignment="Center"/>
+                        <ui:UITextBox DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" Text="{Binding Path=UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" Grid.Row="1" Margin="5" Height="26" VerticalAlignment="Center"/>
+                        <PasswordBox x:Name="pbUserPassword"  Grid.Column="1" Grid.Row="2" Margin="5" VerticalAlignment="Center" Behaviors:SecurePasswordAttachedProperties.EncryptedPassword="{Binding Path=UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" PasswordChanged="PbUserPassword_PasswordChanged"  Height="26" >
+                        </PasswordBox>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5,2">
+            <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+            <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

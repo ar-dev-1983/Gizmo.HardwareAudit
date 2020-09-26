@@ -1,0 +1,46 @@
+﻿<Window x:Class="Gizmo.HardwareAudit.ComputerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF" xmlns:local="clr-namespace:Gizmo.HardwareAudit"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
+        Title="Computer Settings"  Height="270" Icon="/Resources/Images/Settings.png" Width="500" SnapsToDevicePixels="True" UseLayoutRounding="True" 
+        Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+    <Window.Resources>
+        <local:BoolConverter x:Key="BoolConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="FQDN:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="IP Address:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="User Profile:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
+        <ui:UITextBox Margin="5" Grid.Row="0" Grid.Column="1" Height="24" x:Name="TbComputerName" Text="{Binding ComputerName, Mode=TwoWay}" VerticalAlignment="Center"  KeyDown="TbContainerName_KeyDown"/>
+        <ui:UITextBox Margin="5" Grid.Row="1" Grid.Column="1" Height="24" x:Name="TbComputerDescription" Text="{Binding ComputerDescription, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TbContainerDescription_KeyDown"/>
+        <ui:UITextBox Margin="5" Grid.Row="2" Grid.Column="1" Height="24" x:Name="TbComputerFQDN" Text="{Binding ComputerFQDN, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TbContainerDescription_KeyDown"/>
+        <ui:UITextBox Margin="5" Grid.Row="3" Grid.Column="1" Height="24" x:Name="TbComputerIPAddress" Text="{Binding ComputerAddress, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TbContainerDescription_KeyDown"/>
+        <ui:UISwitch Margin="5" Grid.Row="4" Grid.Column="1" x:Name="cbUseParentUserProfile" Header="  Use Parent User Profile?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding UseParentUserProfile, Mode=TwoWay}"/>
+        <ui:UIComboBox Flat="False" x:Name="CbUserProfile" Height="26" VerticalAlignment="Center" Margin="5" Grid.Column="1" Grid.Row="5" ItemsSource="{Binding UserProfiles}" SelectedValue="{Binding UserProfileId}" DisplayMemberPath="ProfileName" SelectedValuePath="Id" IsEnabled="{Binding ElementName=cbUseParentUserProfile,Path=IsChecked, Converter={StaticResource BoolConverter}}"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5">
+            <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+            <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

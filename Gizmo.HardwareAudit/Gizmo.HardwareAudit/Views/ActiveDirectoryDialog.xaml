@@ -1,0 +1,50 @@
+﻿<Window x:Class="Gizmo.HardwareAudit.ActiveDirectoryDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+        xmlns:views="clr-namespace:Gizmo.HardwareAudit.Views"
+        xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Title="Active Directory Connection Settings" Height="170" Icon="/Resources/Images/Settings.png" Width="490" SnapsToDevicePixels="True" UseLayoutRounding="True" 
+        Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ui:UIEnumSwitch x:Name="EwMode" Grid.Column="1" Grid.Row="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" SelectedValue="{Binding Path=Settings.Mode, Mode=TwoWay}">
+            <ui:UIEnumSwitch.Items>
+                <ui:UIEnumSwitchItem Width="130" Value="{x:Static enums:DomainDiscoveryModeEnum.FromDomainName}" Header="Domain" HorizontalContentAlignment="Left">
+                    <ui:UIEnumSwitchItem.Icon>
+                        <views:GizmoIcon Icon="ActiveDirectory" FontSize="16"/>
+                    </ui:UIEnumSwitchItem.Icon>
+                </ui:UIEnumSwitchItem>
+                <ui:UIEnumSwitchItem Width="130" Value="{x:Static enums:DomainDiscoveryModeEnum.FromDomainController}" Header="Domain Controller" HorizontalContentAlignment="Left">
+                    <ui:UIEnumSwitchItem.Icon>
+                        <views:GizmoIcon Icon="Container2" FontSize="16"/>
+                    </ui:UIEnumSwitchItem.Icon>
+                </ui:UIEnumSwitchItem>
+            </ui:UIEnumSwitch.Items>
+        </ui:UIEnumSwitch>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Text="{Binding ElementName=EwMode, Path=SelectedItem.Header, Mode=TwoWay}" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+            <TextBlock Text=" Name:" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+        </StackPanel>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="User Profile:" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+        <ui:UITextBox Width="315" Grid.Column="1" Grid.Row="1" x:Name="TbDomainName" Height="26" VerticalAlignment="Center" Margin="5" Text="{Binding Path=Settings.Name, Mode=TwoWay}"/>
+        <ui:UIComboBox Width="315" Grid.Column="1" Grid.Row="2" Flat="False" x:Name="CbUserProfile" Height="26" VerticalAlignment="Center" Margin="5" ItemsSource="{Binding UserProfiles}" SelectedValue="{Binding Path=Settings.UserProfileId, Mode=TwoWay}" DisplayMemberPath="ProfileName" SelectedValuePath="Id"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5">
+            <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+            <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
