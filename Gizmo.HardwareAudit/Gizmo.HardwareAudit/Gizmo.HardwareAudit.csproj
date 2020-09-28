@@ -12,6 +12,8 @@
     <Copyright>ar-dev-1983</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</RepositoryUrl>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
   
   <ItemGroup>

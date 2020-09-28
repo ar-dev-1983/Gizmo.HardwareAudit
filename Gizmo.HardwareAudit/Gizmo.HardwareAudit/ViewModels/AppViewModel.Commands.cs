@@ -162,6 +162,12 @@ namespace Gizmo.HardwareAudit.ViewModels
                             Settings.LastFile = dialogService.FilePath;
                             InitLog();
                             InitProbes();
+                            Root.Initialise();
+                            if (Root != null)
+                            {
+                                Root.PropertyChanged -= SelectedItem_PropertyChanged;
+                                Root.PropertyChanged += SelectedItem_PropertyChanged;
+                            }
                             AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenModelCommand");
                         }
                     }
