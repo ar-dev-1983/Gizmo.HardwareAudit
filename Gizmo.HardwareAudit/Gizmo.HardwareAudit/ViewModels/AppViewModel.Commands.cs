@@ -849,6 +849,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                         var DestinationContainer = FindTreeItemByGuid((Guid)obj);
                         var SourceContainer = FindTreeItemByGuid(SelectedTreeItem.ParentId);
                         var Item = SelectedTreeItem;
+                        Item.ParentId = DestinationContainer.Id;
                         SelectedTreeItem.IsSelected = false;
                         FindChildrenIdAndDelete(Root, Item.Id);
                         DestinationContainer.Children.Add(Item);
