@@ -15,7 +15,7 @@ namespace Gizmo.HardwareAudit.Services
         public bool UseParentUserProfile { get; set; }
         public Guid UserProfileId { get; set; }
         public DomainDiscoverySettings DomainSettings { set; get; }
-
+        public Guid SelectedContainerId { set; get; }
         public bool ContainerSettingsDialog(AppSettings settings)
         {
             ContainerDialog dialog = new ContainerDialog(settings);
@@ -73,6 +73,7 @@ namespace Gizmo.HardwareAudit.Services
                     return false;
             }
         }
+
         public bool ComputerSettingsDialog(AppSettings settings)
         {
             ComputerDialog dialog = new ComputerDialog(settings);
@@ -103,6 +104,19 @@ namespace Gizmo.HardwareAudit.Services
                     IPAddress = (dialog.DataContext as ComputerSettingsViewModel).ComputerAddress;
                     UseParentUserProfile = (dialog.DataContext as ComputerSettingsViewModel).UseParentUserProfile;
                     UserProfileId = (dialog.DataContext as ComputerSettingsViewModel).UserProfileId;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem)
+        {
+            ChooseContainerWindow dialog = new ChooseContainerWindow(settings, treeItem);
+            switch (dialog.ShowDialog())
+            {
+                case true:
+                    SelectedContainerId = (dialog.DataContext as ChooseContainerViewModel).SelectedContainer.Id;
                     return true;
                 default:
                     return false;

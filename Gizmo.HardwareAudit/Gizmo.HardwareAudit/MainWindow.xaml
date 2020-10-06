@@ -480,7 +480,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
-                                <MenuItem x:Name="miMoveToContainer" Header="Move to..." ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemMoveToContainerMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
+                                <MenuItem x:Name="miMoveToContainer" Header="Move to..." Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ChoseContainerCommand}">
                                     <MenuItem.Icon>
                                         <views:GizmoIcon Icon="ContainerMove" FontSize="16"/>
                                     </MenuItem.Icon>

@@ -837,28 +837,34 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        private WorkCommand moveToContainerCommand;
-        public WorkCommand MoveToContainerCommand
+        private WorkCommand choseContainerCommand;
+        public WorkCommand ChoseContainerCommand
         {
             get
             {
-                return moveToContainerCommand ??= new WorkCommand(obj =>
+                return choseContainerCommand ??= new WorkCommand(obj =>
                 {
                     try
                     {
-                        var DestinationContainer = FindTreeItemByGuid((Guid)obj);
-                        var SourceContainer = FindTreeItemByGuid(SelectedTreeItem.ParentId);
-                        var Item = SelectedTreeItem;
-                        Item.ParentId = DestinationContainer.Id;
-                        SelectedTreeItem.IsSelected = false;
-                        FindChildrenIdAndDelete(Root, Item.Id);
-                        DestinationContainer.Children.Add(Item);
-                        DestinationContainer.IsExpanded = true;
-                        Item.IsSelected = true;
+                        if (treeItemDialogService.ChooseContainerDialog(settings, Root) == true)
+                        {
+                            if (treeItemDialogService.SelectedContainerId != SelectedTreeItem.ParentId)
+                            {
+                                var DestinationContainer = FindTreeItemByGuid(treeItemDialogService.SelectedContainerId);
+                                var SourceContainer = FindTreeItemByGuid(SelectedTreeItem.ParentId);
+                                var Item = SelectedTreeItem;
+                                Item.ParentId = DestinationContainer.Id;
+                                SelectedTreeItem.IsSelected = false;
+                                FindChildrenIdAndDelete(Root, Item.Id);
+                                DestinationContainer.Children.Add(Item);
+                                DestinationContainer.IsExpanded = true;
+                                Item.IsSelected = true;
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
-                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "MoveToContainerCommand");
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "ChoseContainerCommand");
                     }
                 }, (obj) => SelectedTreeItem != null ? !SelectedTreeItem.ProbeInUse : false);
             }

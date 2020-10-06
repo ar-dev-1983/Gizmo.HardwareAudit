@@ -94,7 +94,6 @@ namespace Gizmo.HardwareAudit.ViewModels
         public TreeItem SelectedTreeItem => Root.SelectedItem;
         public ObservableCollection<MenuItem> SelectedTreeItemSharedFoldersMenuList => BuildSharedFoldersMenuItems();
         public ObservableCollection<MenuItem> SelectedTreeItemTCPPortsMenuList => BuildCheckPortResultsMenuItems();
-        public ObservableCollection<MenuItem> SelectedTreeItemMoveToContainerMenuList => BuildMoveToContainerMenuItems();
         #endregion
 
         #region AppViewModel
@@ -734,19 +733,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                         foreach (var port in Settings.DefaultCheckPorts)
                             if (node.Id == port.Id)
                                 result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenConnection, FontSize = 16 } });
-            }
-            return result;
-        }
-
-        internal ObservableCollection<MenuItem> BuildMoveToContainerMenuItems()
-        {
-            ObservableCollection<MenuItem> result = new ObservableCollection<MenuItem>();
-            foreach (var node in Traverse(Root, node => node.Children).ToList().Where(x => x.Type == ItemTypeEnum.ChildContainer && x.ParentType == SelectedTreeItem.ParentType).ToList())
-            {
-                if (node.Id != SelectedTreeItem.ParentId)
-                {
-                    result.Add(new MenuItem() { Height = 22, Header = node.Name, Command = MoveToContainerCommand, CommandParameter = node.Id, Icon = new GizmoIcon() { Icon = GizmoIconEnum.Container, FontSize = 16 } });
-                }
             }
             return result;
         }
