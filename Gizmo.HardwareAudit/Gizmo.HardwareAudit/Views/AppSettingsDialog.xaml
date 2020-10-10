@@ -66,6 +66,12 @@
                 <ui:UIButton CornerRadius="0" x:Name="btCheckPortsDownSelected" Width="24" Command="{Binding DownCheckPortCommand}">
                     <views:GizmoIcon Icon="Down" FontSize="16"/>
                 </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btExport" Width="24" Command="{Binding ExportChekPortsListCommand}">
+                    <views:GizmoIcon Icon="Export" FontSize="16"/>
+                </ui:UIButton>
+                <ui:UIButton CornerRadius="0" x:Name="btImport" Width="24" Command="{Binding ImportChekPortsListCommand}">
+                    <views:GizmoIcon Icon="Import" FontSize="16"/>
+                </ui:UIButton>
             </ui:UIControlGroup>
             <DataGrid Grid.Row="1" Margin="5" IsEnabled="{Binding ElementName=cbCheckPortsThenScanning, Path=IsChecked,TargetNullValue=false, Mode=TwoWay}" x:Name="dgCheckPortsList" 
                       ItemsSource="{Binding DefaultCheckPorts}" SelectedIndex="{Binding SelectedCheckPortIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

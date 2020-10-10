@@ -17,5 +17,9 @@ namespace Gizmo.HardwareAudit.Interfaces
 
         ComputerHardwareScan ImportScan(string filename);
         void ExportScan(string filename, ComputerHardwareScan scan);
+
+        ObservableCollection<CheckTPCPortSetting> ImportCheckPortsList(string filename);
+        void ExportCheckPortsList(string filename, ObservableCollection<CheckTPCPortSetting> list);
+
     }
 }

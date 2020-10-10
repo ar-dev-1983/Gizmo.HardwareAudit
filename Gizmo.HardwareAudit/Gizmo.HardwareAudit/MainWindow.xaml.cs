@@ -274,7 +274,7 @@ namespace Gizmo.HardwareAudit
         private void Log_Click(object sender, RoutedEventArgs e)
         {
             if (tpTabPanelLeft != null)
-                tpTabPanelLeft.SelectedIndex = 1;
+                tpTabPanelLeft.SelectedIndex = 2;
         }
 
         private void About_Click(object sender, RoutedEventArgs e)

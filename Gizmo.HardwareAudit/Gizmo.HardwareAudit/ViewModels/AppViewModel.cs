@@ -128,22 +128,30 @@ namespace Gizmo.HardwareAudit.ViewModels
                 if (Settings.LastFile != "")
                 {
                     Root = serializationService.OpenModel(Settings.LastFile);
+                    ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
                     AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Loaded", LogItemTypeEnum.Information, "AppViewModel");
                 }
                 else
                 {
                     Root = new TreeItem() { Children = { TreeItem.CreateRoot() } };
+                    ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
                 }
             }
             else
             {
                 Root = new TreeItem() { Children = { TreeItem.CreateRoot() } };
+                ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
             }
             InitProbes();
             Root.Initialise();
             if (Root != null)
             {
                 Root.PropertyChanged += SelectedItem_PropertyChanged;
+            }
+            ReportRoot.Initialise();
+            if (ReportRoot != null)
+            {
+                ReportRoot.PropertyChanged += SelectedItem_PropertyChanged;
             }
         }
 
@@ -152,6 +160,10 @@ namespace Gizmo.HardwareAudit.ViewModels
             if (e.PropertyName.Equals("SelectedItem"))
             {
                 OnNamedPropertyChanged("SelectedTreeItem");
+            }
+            else if (e.PropertyName.Equals("SelectedReport"))
+            {
+                OnNamedPropertyChanged("SelectedReportItem");
             }
         }
 
@@ -715,10 +727,13 @@ namespace Gizmo.HardwareAudit.ViewModels
         internal ObservableCollection<MenuItem> BuildSharedFoldersMenuItems()
         {
             ObservableCollection<MenuItem> result = new ObservableCollection<MenuItem>();
-            if (SelectedTreeItem.SharedFolders.Count > 0)
+            if (SelectedTreeItem != null)
             {
-                foreach (var node in SelectedTreeItem.SharedFolders)
-                    result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenSharedFolder, FontSize = 16 } });
+                if (SelectedTreeItem.SharedFolders.Count > 0)
+                {
+                    foreach (var node in SelectedTreeItem.SharedFolders)
+                        result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenSharedFolder, FontSize = 16 } });
+                }
             }
             return result;
         }
@@ -726,13 +741,16 @@ namespace Gizmo.HardwareAudit.ViewModels
         internal ObservableCollection<MenuItem> BuildCheckPortResultsMenuItems()
         {
             ObservableCollection<MenuItem> result = new ObservableCollection<MenuItem>();
-            if (SelectedTreeItem.CheckPortResults.Count > 0)
+            if (SelectedTreeItem!=null)
             {
-                foreach (var node in SelectedTreeItem.CheckPortResults)
-                    if (node.IsOpened)
-                        foreach (var port in Settings.DefaultCheckPorts)
-                            if (node.Id == port.Id)
-                                result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenConnection, FontSize = 16 } });
+                if (SelectedTreeItem.CheckPortResults.Count > 0)
+                {
+                    foreach (var node in SelectedTreeItem.CheckPortResults)
+                        if (node.IsOpened)
+                            foreach (var port in Settings.DefaultCheckPorts)
+                                if (node.Id == port.Id)
+                                    result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenConnection, FontSize = 16 } });
+                }
             }
             return result;
         }

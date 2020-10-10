@@ -13,6 +13,8 @@ namespace Gizmo.HardwareAudit.ViewModels
         private AppSettings settings;
         private int selectedCheckPortIndex;
         private int selectedUserProfileIndex;
+        readonly IDialog dialogService;
+        readonly ISerialization serializationService;
         #endregion
 
         #region Public Properties
@@ -185,6 +187,44 @@ namespace Gizmo.HardwareAudit.ViewModels
                 });
             }
         }
+
+        private WorkCommand exportChekPortsListCommand;
+        public WorkCommand ExportChekPortsListCommand
+        {
+            get
+            {
+                return exportChekPortsListCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (dialogService.SaveFileDialog("CheckPortsList_" + DateTime.Now.ToShortDateString().Replace(".", "_") + "_" + DateTime.Now.ToLongTimeString().Replace(":", "_"), "cfg files | *.cfg") == true)
+                        {
+                            serializationService.ExportCheckPortsList(dialogService.FilePath, DefaultCheckPorts);
+                        }
+                    }
+                    catch (Exception) { }
+                });
+            }
+        }
+
+        private WorkCommand importChekPortsListCommand;
+        public WorkCommand ImportChekPortsListCommand
+        {
+            get
+            {
+                return importChekPortsListCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (dialogService.OpenFileDialog("cfg files|*.cfg") == true)
+                        {
+                            DefaultCheckPorts = serializationService.ImportCheckPortsList(dialogService.FilePath);
+                        }
+                    }
+                    catch (Exception) { }
+                });
+            }
+        }
         #endregion
 
         #region UserProfiles
@@ -273,8 +313,10 @@ namespace Gizmo.HardwareAudit.ViewModels
         #endregion
         #endregion
 
-        public AppSettingsViewModel(AppSettings appSettings)
+        public AppSettingsViewModel(IDialog defaultDialogService, ISerialization jsonService, AppSettings appSettings)
         {
+            dialogService = defaultDialogService;
+            serializationService = jsonService;
             Settings = appSettings;
         }
     }

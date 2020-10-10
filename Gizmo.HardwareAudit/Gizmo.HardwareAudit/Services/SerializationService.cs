@@ -68,5 +68,20 @@ namespace Gizmo.HardwareAudit.Services
         {
             return JsonSerializer.Deserialize<ComputerHardwareScan>(File.ReadAllText(filename));
         }
+
+        public void ExportCheckPortsList(string filename, ObservableCollection<CheckTPCPortSetting> list)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            var jsonString = JsonSerializer.Serialize<ObservableCollection<CheckTPCPortSetting>>(list, options);
+            File.WriteAllText(filename, jsonString);
+        }
+
+        public ObservableCollection<CheckTPCPortSetting> ImportCheckPortsList(string filename)
+        {
+            return JsonSerializer.Deserialize<ObservableCollection<CheckTPCPortSetting>>(File.ReadAllText(filename));
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Gizmo.HardwareAudit.Behaviors;
 using Gizmo.HardwareAudit.Models;
+using Gizmo.HardwareAudit.Services;
 using Gizmo.HardwareAudit.ViewModels;
 using Gizmo.WPF;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace Gizmo.HardwareAudit
             Owner = Application.Current.MainWindow;
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, UIThemeEnum.BlueDark);
-            appsvm = new AppSettingsViewModel(new AppSettings());
+            appsvm = new AppSettingsViewModel(new DefaultDialogService(), new SerializationService(), new AppSettings());
             DataContext = appsvm;
         }
 
@@ -28,7 +29,7 @@ namespace Gizmo.HardwareAudit
             Owner = Application.Current.MainWindow;
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
-            appsvm = new AppSettingsViewModel(settings);
+            appsvm = new AppSettingsViewModel(new DefaultDialogService(), new SerializationService(), settings);
             DataContext = appsvm;
         }
 

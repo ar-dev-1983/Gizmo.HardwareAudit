@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 
 namespace Gizmo.HardwareAudit.Models
 {
-    public class Container : BaseViewModel, IDisposable
+    public class ContainerItem : BaseViewModel, IDisposable
     {
         private readonly PropertyChangedEventHandler propertyChangedHandler;
         private readonly NotifyCollectionChangedEventHandler collectionChangedhandler;
@@ -21,7 +21,7 @@ namespace Gizmo.HardwareAudit.Models
         private ItemTypeEnum type = ItemTypeEnum.None;
         private ItemTypeEnum parentType = ItemTypeEnum.None;
         private string name = string.Empty;
-        private ObservableCollection<Container> children = new ObservableCollection<Container>();
+        private ObservableCollection<ContainerItem> children = new ObservableCollection<ContainerItem>();
         private bool isSelected = false;
         private bool isExpanded = false;
         private bool isTrueContainer = false;
@@ -83,7 +83,7 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
-        public ObservableCollection<Container> Children
+        public ObservableCollection<ContainerItem> Children
         {
             get => children;
             set
@@ -123,7 +123,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        public Container SelectedItem
+        public ContainerItem SelectedItem
         {
             get
             {
@@ -132,7 +132,7 @@ namespace Gizmo.HardwareAudit.Models
         }
         #endregion
 
-        public Container()
+        public ContainerItem()
         {
             propertyChangedHandler = new PropertyChangedEventHandler(Item_PropertyChanged);
             collectionChangedhandler = new NotifyCollectionChangedEventHandler(Items_CollectionChanged);
@@ -157,7 +157,7 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
-        private void SubscribePropertyChanged(Container item)
+        private void SubscribePropertyChanged(ContainerItem item)
         {
             item.PropertyChanged += propertyChangedHandler;
             item.Children.CollectionChanged += collectionChangedhandler;
@@ -167,7 +167,7 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
-        private void UnsubscribePropertyChanged(Container item)
+        private void UnsubscribePropertyChanged(ContainerItem item)
         {
             foreach (var subitem in item.Children)
             {
@@ -181,7 +181,7 @@ namespace Gizmo.HardwareAudit.Models
         {
             if (e.OldItems != null)
             {
-                foreach (Container item in e.OldItems)
+                foreach (ContainerItem item in e.OldItems)
                 {
                     UnsubscribePropertyChanged(item);
                 }
@@ -189,7 +189,7 @@ namespace Gizmo.HardwareAudit.Models
 
             if (e.NewItems != null)
             {
-                foreach (Container item in e.NewItems)
+                foreach (ContainerItem item in e.NewItems)
                 {
                     SubscribePropertyChanged(item);
                 }
@@ -209,44 +209,5 @@ namespace Gizmo.HardwareAudit.Models
             UnsubscribePropertyChanged(this);
             Children.CollectionChanged -= collectionChangedhandler;
         }
-
-        #region Public Methods
-
-        public static Container CreateRoot()
-        {
-            var result = new Container()
-            {
-                Type = ItemTypeEnum.Root,
-                Name = "Home",
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ParentId = new Guid()
-            };
-            result.Children.Add(CreateActiveDirectory());
-            result.Children.Add(CreateWorkgroup());
-            return result;
-        }
-
-        private static Container CreateActiveDirectory()
-        {
-            return new Container()
-            {
-                Type = ItemTypeEnum.ActiveDirectory,
-                Name = "Active Directory",
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                ParentId = Guid.Parse("00000000-0000-0000-0000-000000000001")
-            };
-        }
-
-        private static Container CreateWorkgroup()
-        {
-            return new Container()
-            {
-                Type = ItemTypeEnum.Workgroup,
-                Name = "Workgroup",
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                ParentId = Guid.Parse("00000000-0000-0000-0000-000000000001")
-            };
-        }
-        #endregion
     }
 }

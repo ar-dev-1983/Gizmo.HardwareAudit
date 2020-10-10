@@ -6,7 +6,7 @@
     public enum ItemTypeEnum
     {
         /// <summary>
-        /// None - initialisation value
+        /// None - initialization value
         /// </summary>
         None,
         /// <summary>

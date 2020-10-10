@@ -10,8 +10,8 @@ namespace Gizmo.HardwareAudit.ViewModels
 {
     public class ChooseContainerViewModel : BaseViewModel
     {
-        private Container root;
-        public Container Root
+        private ContainerItem root;
+        public ContainerItem Root
         {
             get => root;
             set
@@ -21,11 +21,11 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
-        public Container SelectedContainer => Root.SelectedItem;
+        public ContainerItem SelectedContainer => Root.SelectedItem;
 
         public ChooseContainerViewModel(TreeItem treeItem)
         {
-            Root = new Container();
+            Root = new ContainerItem();
             GetContainersFromTreeItem(treeItem, Root.Children, treeItem.SelectedItem.ParentId);
             Root.Initialise();
             if (Root != null)
@@ -33,13 +33,13 @@ namespace Gizmo.HardwareAudit.ViewModels
                 Root.PropertyChanged += SelectedItem_PropertyChanged;
             }
         }
-        private void GetContainersFromTreeItem(TreeItem treeItem, ObservableCollection<Container> items, Guid selectedItemParentId)
+        private void GetContainersFromTreeItem(TreeItem treeItem, ObservableCollection<ContainerItem> items, Guid selectedItemParentId)
         {
             foreach (var node in treeItem.Children)
             {
                 if (node.Type != ItemTypeEnum.ChildComputer && node.Type != ItemTypeEnum.ChildDevice)
                 {
-                    var newContainer = new Container()
+                    var newContainer = new ContainerItem()
                     {
                         Id = node.Id,
                         Name = node.Name,

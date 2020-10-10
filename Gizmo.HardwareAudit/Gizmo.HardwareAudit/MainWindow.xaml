@@ -13,8 +13,7 @@
         Width="1132" Height="650" MinWidth="800" MinHeight="600" d:DesignHeight="650" d:DesignWidth="1132" 
         SnapsToDevicePixels="True" UseLayoutRounding="True" Closed="Window_Closed"
         Style="{DynamicResource {ComponentResourceKey ResourceId=DefaultWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
-        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
-        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}" Icon="/Resources/Icons/AppIcon.ico">
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Icon="/Resources/Icons/AppIcon.ico">
     <Window.Resources>
         <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
         <local:BoolToFontStyle x:Key="BoolToFontStyle" />
@@ -38,7 +37,7 @@
                 </StackPanel>
             </Grid>
             <Grid Visibility="{Binding IsFirstRun, Converter={StaticResource BoolToVisivilityInvertedConverter}}"
-                  Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+                  >
                 <StackPanel Margin="20">
                     <TextBlock x:Name="tbUnlock" Margin="5" FontSize="18" Text="Enter master password to unlock" TextWrapping="Wrap"/>
                     <TextBlock x:Name="tbUnlockTip" Margin="5" FontSize="13" Text="* password is required" TextWrapping="Wrap" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, DisabledWindowForegroundBrush}}"/>
@@ -57,8 +56,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid Visibility="{Binding IsUnlocked, Converter={StaticResource BoolToVisivilityConverter}}"
-              Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+        <Grid Visibility="{Binding IsUnlocked, Converter={StaticResource BoolToVisivilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="29"  />
@@ -73,6 +71,11 @@
                                     <views:GizmoIcon  FontSize="16" Icon="ComputerAll" />
                                 </ui:UITabPanelItem.Header>
                             </ui:UITabPanelItem>
+                            <ui:UITabPanelItem x:Name="ReportsTab" Margin="0,3" Visibility="Collapsed">
+                                <ui:UITabPanelItem.Header>
+                                    <views:GizmoIcon  FontSize="16" Icon="Reports" />
+                                </ui:UITabPanelItem.Header>
+                            </ui:UITabPanelItem>
                             <ui:UITabPanelItem x:Name="MessagesTab" Margin="0,3">
                                 <ui:UITabPanelItem.Header>
                                     <views:GizmoIcon  FontSize="16" Icon="NotificationBell" />
@@ -81,8 +84,6 @@
                         </ui:UITabPanel.Items>
                     </ui:UITabPanel>
                 </Border>
-                <Grid x:Name="grReports" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}" Grid.Column="1">
-                </Grid>
                 <Grid x:Name="grMessages" Visibility="{Binding ElementName=MessagesTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -605,6 +606,51 @@
                     </ui:UITreeList>
                     <views:TreeItemView Grid.Column="2" Margin="0,26,0,0" Item="{Binding SelectedTreeItem}"/>
                 </Grid>
+                <Grid x:Name="grReports" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="350" MinWidth="350" MaxWidth="800" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="5" Margin="-1,0,-1,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" />
+                    <ui:UITreeList Grid.Column="0" x:Name="TvReportsList" BorderThickness="1" Margin="-1,0,-1,0" ItemsSource="{Binding ReportRoot.Children}"
+                                   VirtualizingPanel.IsVirtualizing="True"
+                                   VirtualizingPanel.VirtualizationMode="Recycling"
+                                   VirtualizingPanel.ScrollUnit="Item"
+                                   VirtualizingPanel.IsContainerVirtualizable="True">
+                        <ui:UITreeList.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
+                        </ui:UITreeList.ItemTemplate>
+                        <ui:UITreeList.ItemContainerStyle>
+                            <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemStyle}">
+                                <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                                <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Style.Triggers>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:UITreeList.ItemContainerStyle>
+                        <ui:UITreeList.Columns>
+                            <GridViewColumn Width="{Binding ElementName=TvReportsList, Path=ActualWidth}">
+                                <GridViewColumnHeader>Name</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ui:UITreeNodeExpanderControl Grid.Column="0" VerticalAlignment="Center" />
+                                            <views:ReportItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </ui:UITreeList.Columns>
+                    </ui:UITreeList>
+                </Grid>
             </Grid>
             <Menu WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-1,-30,-1,-2" Height="31" BorderThickness="0">
                 <MenuItem Width="31" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" x:Name="FileMenu">
@@ -644,6 +690,417 @@
                             <views:GizmoIcon Icon="Exit" FontSize="16"/>
                         </MenuItem.Icon>
                     </MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="EditCompurersMenu" Header="Edit" Visibility="{Binding ElementName=ProjectTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}">
+                    <MenuItem.Resources>
+                        <CompositeCollection x:Key="EditActiveDirectoryMenu">
+                            <MenuItem Header="Enumerate from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BrowseActiveDirectoryToContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ActiveDirectory" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditDomainRootMenu">
+                            <MenuItem Header="Update from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.UpdateFromActiveDirectoryCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditDomainDiscoverySettingsCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ChildComputer" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditActiveDirectoryContainerMenu">
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ChildComputer" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditWorkgroupContainerMenu">
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ChildComputer" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditWorkgroupMenu">
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ChildComputer" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditComputerMenu" x:Shared="false">
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Ping computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Ping" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Scan computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Refresh" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Hardware scans">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ComputerAll" FontSize="16"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="Import hardware scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ImportScanCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Import" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all, but keep last scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastOneCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="TCP Ports"  ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemTCPPortsMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="OpenConnection" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Shared Folders" ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemSharedFoldersMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="OpenSharedFolder" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Move to..." Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ChoseContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="ContainerMove" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Delete computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteComputerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                    </MenuItem.Resources>
+                    <MenuItem.Style>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource BaseMenuItemStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem}" Value="{x:Null}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.None}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.Root}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.ActiveDirectory}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditActiveDirectoryMenu}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.DomainRoot}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditDomainRootMenu}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.Workgroup}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditWorkgroupMenu}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.ChildComputer}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditComputerMenu}"/>
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.ChildContainer}"/>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.ParentType}" Value="{x:Static enums:ItemTypeEnum.DomainRoot}"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="ItemsSource" Value="{StaticResource EditActiveDirectoryContainerMenu}"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.ChildContainer}"/>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.ParentType}" Value="{x:Static enums:ItemTypeEnum.ActiveDirectory}"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="ItemsSource" Value="{StaticResource EditActiveDirectoryContainerMenu}"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.Type}" Value="{x:Static enums:ItemTypeEnum.ChildContainer}"/>
+                                        <Condition  Binding="{Binding Path=SelectedTreeItem.ParentType}" Value="{x:Static enums:ItemTypeEnum.Workgroup}"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="ItemsSource" Value="{StaticResource EditWorkgroupContainerMenu}"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Header="Project" Click="Project_Click">
