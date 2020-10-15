@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Hardware;
+using System;
 using System.Collections.Generic;
 using System.Management;
 using System.Text;
@@ -53,6 +54,14 @@ namespace Gizmo.HardwareAuditClasses
         public List<SoftwareLicensingProduct> SoftwareLicensingProducts { set; get; }
         [JsonIgnore]
         public bool IsSoftwareLicensingProductsPresent => SoftwareLicensingProducts != null && (SoftwareLicensingProducts.Count > 0);
+        
+        public List<WindowsLocalUser> WindowsLocalUsers { set; get; }
+        [JsonIgnore]
+        public bool IsWindowsLocalUsersPresent => WindowsLocalUsers != null && (WindowsLocalUsers.Count > 0);
+        
+        public List<WindowsLocalGroup> WindowsLocalGroups { set; get; }
+        [JsonIgnore]
+        public bool IsWindowsLocalGroupsPresent => WindowsLocalGroups != null && (WindowsLocalGroups.Count > 0);
 
         public ComputerHardwareScan()
         {
@@ -71,6 +80,8 @@ namespace Gizmo.HardwareAuditClasses
             VideoControllers = new List<VideoController>();
             NetworkAdapters = new List<NetworkAdapter>();
             Printers = new List<Printer>();
+            WindowsLocalUsers = new List<WindowsLocalUser>();
+            WindowsLocalGroups = new List<WindowsLocalGroup>();
         }
 
         public static ComputerHardwareScan Scan(string Name, ConnectionOptions User, bool IsLocal)
@@ -269,6 +280,9 @@ namespace Gizmo.HardwareAuditClasses
                 result.VideoControllers = VideoController.Enumerate(IsLocal ? new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2") : new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2", User));
                 result.Printers = Printer.Enumerate(IsLocal ? new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2") : new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2", User));
                 result.SoftwareLicensingProducts = SoftwareLicensingProduct.Enumerate(IsLocal ? new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2") : new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2", User));
+                result.WindowsLocalUsers = WindowsLocalUser.Enumerate(IsLocal ? new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2") : new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2", User));
+                result.WindowsLocalGroups = WindowsLocalGroup.Enumerate(IsLocal ? new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2") : new ManagementScope("\\\\" + ScopeName + "\\root\\cimv2", User));
+
                 if (result.IsMemoryDevicesPresent)
                 {
                     var AllMem = 0.0f;

@@ -15,6 +15,8 @@
         Partition,
         Monitor,
         Printer,
-        MicrosoftLicenseInformation
+        MicrosoftLicenseInformation,
+        WindowsLocalUser,
+        WindowsLocalGroup
     }
 }

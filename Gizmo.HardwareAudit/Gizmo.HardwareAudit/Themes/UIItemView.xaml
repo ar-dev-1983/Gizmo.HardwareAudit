@@ -62,7 +62,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
         </Grid>
     </ControlTemplate>
@@ -78,7 +78,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -94,7 +94,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
         </Grid>
     </ControlTemplate>
@@ -113,8 +113,12 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -122,7 +126,13 @@
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="6" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
             <TextBlock Margin="5,3,5,0"  Grid.Column="7" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header04}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="8" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value04}"/>
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="10" Grid.Column="2" Grid.Row="1" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UIItemView_FourValues" TargetType="{x:Type local:UIItemView}">
@@ -140,7 +150,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -150,7 +160,7 @@
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="8" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value04}"/>
         </Grid>
     </ControlTemplate>
-    
+
     <ControlTemplate x:Key="UIItemView_CPU" TargetType="{x:Type local:UIItemView}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -166,7 +176,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -190,7 +200,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -218,9 +228,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.ColumnSpan="7" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -228,17 +239,23 @@
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header04}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value04}"/>
-            
+
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header05}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value05}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header06}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" Grid.Row="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value06}"/>
-            
+
             <TextBlock Margin="1,3,1,0"  Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header07}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="6" Grid.Row="1" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value07}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header08}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="6" Grid.Row="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value08}"/>
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="10" Grid.Column="2" Grid.Row="4" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UIItemView_PhysicalDrive" TargetType="{x:Type local:UIItemView}">
@@ -254,7 +271,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -262,7 +279,7 @@
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="6" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
         </Grid>
     </ControlTemplate>
-    
+
     <ControlTemplate x:Key="UIItemView_Partition" TargetType="{x:Type local:UIItemView}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -274,7 +291,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -294,7 +311,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -320,14 +337,15 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.ColumnSpan="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
-            
+
             <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
-            
+
             <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header03}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header04}" Foreground="{TemplateBinding Foreground}" />
@@ -337,7 +355,13 @@
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" Grid.Row="3" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value05}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header06}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" Grid.Row="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value06}"/>
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="5" Grid.Column="2" Grid.Row="5" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UIItemView_Printer" TargetType="{x:Type local:UIItemView}">
@@ -353,9 +377,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
-            <ContentPresenter Margin="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
             <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
@@ -369,10 +394,104 @@
                 <ui:UISwitch Margin="1,3,4,3" Grid.Column="1" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value04, RelativeSource={RelativeSource TemplatedParent}}" Header="{TemplateBinding Header04}" HeaderPlacement="Right"/>
                 <ui:UISwitch Margin="1,3,4,3" Grid.Column="2" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value05, RelativeSource={RelativeSource TemplatedParent}}" Header="{TemplateBinding Header05}" HeaderPlacement="Right"/>
             </Grid>
-
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="5" Grid.Column="2" Grid.Row="2" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
+    <ControlTemplate x:Key="UIItemView_WindowsLocalUser" TargetType="{x:Type local:UIItemView}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="0"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
+            <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header03}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0" Grid.ColumnSpan="3"  Grid.Column="2" Grid.Row="1"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header04}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UISwitch Margin="1,3,4,3" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value04, RelativeSource={RelativeSource TemplatedParent}}"/>
+            <TextBlock Margin="1,3,1,0"  Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header05}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Grid.Row="3" Margin="1,3,1,0" Grid.Column="4"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value05}"/>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="Password" Foreground="{TemplateBinding Foreground}" />
+            <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="140"/>
+                </Grid.ColumnDefinitions>
+                <ui:UISwitch Margin="1,3,4,3" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value06, RelativeSource={RelativeSource TemplatedParent}}" Header="{TemplateBinding Header06}" HeaderPlacement="Right"/>
+                <ui:UISwitch Margin="1,3,4,3" Grid.Column="1" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value07, RelativeSource={RelativeSource TemplatedParent}}" Header="{TemplateBinding Header07}" HeaderPlacement="Right"/>
+                <ui:UISwitch Margin="1,3,4,3" Grid.Column="2" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value08, RelativeSource={RelativeSource TemplatedParent}}" Header="{TemplateBinding Header08}" HeaderPlacement="Right"/>
+            </Grid>
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="5" Grid.Column="2" Grid.Row="5" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="UIItemView_WindowsLocalGroup" TargetType="{x:Type local:UIItemView}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
+            <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="2" Grid.Row="0"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
+            <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header03}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Margin="1,3,1,0" Grid.ColumnSpan="5"  Grid.Column="2" Grid.Row="1"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value03}"/>
+            <TextBlock Margin="5,3,5,0"  Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header04}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UISwitch Margin="1,3,4,3" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" IsReadOnly="True" IsChecked="{Binding Path=Value04, RelativeSource={RelativeSource TemplatedParent}}"/>
+            <TextBlock Margin="1,3,1,0"  Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header05}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Grid.Row="3" Margin="1,3,1,0" Grid.Column="4"  VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value05}"/>
+            <TextBlock Margin="1,3,1,0"  Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header06}" Foreground="{TemplateBinding Foreground}" />
+            <ui:UITextBox Style="{StaticResource FlatReadonly}" Grid.Row="4" Margin="1,3,1,0" Grid.Column="2" Grid.ColumnSpan="3"  VerticalAlignment="Top" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value06}" AcceptsReturn="True"/>
+            <Border x:Name="PART_Separator" Grid.ColumnSpan="5" Grid.Column="2" Grid.Row="5" Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" Height="3" Margin="1,5,1,1" Visibility="Collapsed"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowSeparator" Value="true">
+                <Setter TargetName="PART_Separator" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <Style TargetType="{x:Type local:UIItemView}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
         <Setter Property="CornerRadius" Value="0" />
@@ -418,6 +537,12 @@
             </Trigger>
             <Trigger Property="ViewType" Value="Printer">
                 <Setter Property="Template" Value="{StaticResource UIItemView_Printer}" />
+            </Trigger>
+            <Trigger Property="ViewType" Value="WindowsLocalUser">
+                <Setter Property="Template" Value="{StaticResource UIItemView_WindowsLocalUser}" />
+            </Trigger>
+            <Trigger Property="ViewType" Value="WindowsLocalGroup">
+                <Setter Property="Template" Value="{StaticResource UIItemView_WindowsLocalGroup}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -846,7 +846,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (treeItemDialogService.ChooseContainerDialog(settings, Root) == true)
+                        if (treeItemDialogService.ChooseContainerDialog(settings, Root, true) == true)
                         {
                             if (treeItemDialogService.SelectedContainerId != SelectedTreeItem.ParentId)
                             {
@@ -881,7 +881,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             List<object> result = new List<object>() { discoverySettings, null };
             try
             {
-                result[1] = DomainDiscovery.EnumerateDomainInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode);
+                result[1] = DomainDiscovery.EnumerateComputersInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode);
                 e.Result = result;
             }
             catch (Exception ex)

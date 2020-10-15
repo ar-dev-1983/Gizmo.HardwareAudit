@@ -21,6 +21,6 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ActiveDirectorySettingsDialog(AppSettings settings, DomainDiscoverySettings domainDiscoverySettings);
         bool ComputerSettingsDialog(AppSettings settings);
         bool ComputerSettingsDialog(AppSettings settings, string name, string desc, string fqdn, string address, bool useParentId, Guid profileId);
-        bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem);
+        bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem, bool useSelectedParentId);
     }
 }

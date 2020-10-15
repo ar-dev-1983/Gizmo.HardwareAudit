@@ -20,6 +20,7 @@ namespace Gizmo.HardwareAudit.Models
         private ReportItemTypeEnum type = ReportItemTypeEnum.None;
         private ReportItemTypeEnum parentType = ReportItemTypeEnum.None;
         private string name = string.Empty;
+        private string description = string.Empty;
         private ObservableCollection<ReportItem> children = new ObservableCollection<ReportItem>();
         private bool isSelected = false;
         private bool isExpanded = false;
@@ -77,6 +78,16 @@ namespace Gizmo.HardwareAudit.Models
             {
                 if (name == value) return;
                 name = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Description
+        {
+            get => description;
+            set
+            {
+                if (description == value) return;
+                description = value;
                 OnPropertyChanged();
             }
         }

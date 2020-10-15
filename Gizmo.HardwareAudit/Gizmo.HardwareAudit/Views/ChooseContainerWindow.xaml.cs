@@ -9,10 +9,19 @@ namespace Gizmo.HardwareAudit
     {
         private readonly ChooseContainerViewModel ccvm;
 
+        public ChooseContainerWindow(AppSettings appSettings, TreeItem treeItem, bool useSelectedParentId)
+        {
+            InitializeComponent();
+            ccvm = new ChooseContainerViewModel(treeItem, useSelectedParentId);
+            DataContext = ccvm;
+            Owner = Application.Current.MainWindow;
+            ThemeManager.ApplyThemeToWindow(this, appSettings.Theme);
+        }
+
         public ChooseContainerWindow(AppSettings appSettings, TreeItem treeItem)
         {
             InitializeComponent();
-            ccvm = new ChooseContainerViewModel(treeItem);
+            ccvm = new ChooseContainerViewModel(treeItem, false);
             DataContext = ccvm;
             Owner = Application.Current.MainWindow;
             ThemeManager.ApplyThemeToWindow(this, appSettings.Theme);

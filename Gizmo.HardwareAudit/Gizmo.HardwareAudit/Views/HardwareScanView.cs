@@ -1,6 +1,7 @@
 ﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAuditClasses;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -125,6 +126,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.CPU, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.CPU,
                                             Header01 = node.SlotLocator,
                                             Header02 = "Model",
@@ -153,6 +155,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.MemoryDevice, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MemoryDevice,
                                             Header02 = "Vendor",
                                             Header03 = "Part Number",
@@ -160,7 +163,8 @@ namespace Gizmo.HardwareAudit.Views
                                             Value01 = node.MemoryTypeString,
                                             Value02 = node.ManufacturerName,
                                             Value03 = node.PartNumber,
-                                            Value04 = node.SizeString
+                                            Value04 = node.SizeString,
+                                            ShowSeparator = Item.MemoryDevices.IndexOf(node) != Item.MemoryDevices.Count - 1
                                         });
                                     }
                                 }
@@ -180,6 +184,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.VideoAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.VideoController,
                                             Header01 = "Product",
                                             Header02 = "CPU",
@@ -206,6 +211,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Monitor, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Monitor,
                                             Header01 = "Vendor",
                                             Header02 = "Product",
@@ -232,6 +238,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.NetworkAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.NetworkAdapter,
                                             Header01 = "Product",
                                             Header02 = "IP",
@@ -247,6 +254,7 @@ namespace Gizmo.HardwareAudit.Views
                                             Value07 = node.DHCP_Enabled,
                                             Header08 = "DHCP Server",
                                             Value08 = node.DHCP_ServerIP,
+                                            ShowSeparator = Item.NetworkAdapters.IndexOf(node) != Item.NetworkAdapters.Count - 1
                                         });
                                     }
                                 }
@@ -266,6 +274,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.PhysicalDisk, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.PhysicalDrive,
                                             Header01 = "Product",
                                             Header02 = "Serial Number",
@@ -292,6 +301,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Partition, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Partition,
                                             Header01 = node.Letter,
                                             Header02 = "Aviailable Size",
@@ -316,6 +326,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Windows, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MicrosoftLicenseInformation,
                                             Header01 = "Name",
                                             Header02 = "Channel",
@@ -328,7 +339,8 @@ namespace Gizmo.HardwareAudit.Views
                                             Value03 = node.LicenseStatus,
                                             Value04 = node.PatrialProductKey,
                                             Value05 = node.LicenseFamily,
-                                            Value06 = node.ProductKeyID
+                                            Value06 = node.ProductKeyID,
+                                            ShowSeparator = Item.SoftwareLicensingProducts.IndexOf(node) != Item.SoftwareLicensingProducts.Count - 1
                                         });
                                     }
                                 }
@@ -348,6 +360,7 @@ namespace Gizmo.HardwareAudit.Views
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Printer, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Printer,
                                             Header01 = "Name",
                                             Header02 = "Port",
@@ -359,6 +372,79 @@ namespace Gizmo.HardwareAudit.Views
                                             Value03 = node.IsLocal.ToString(),
                                             Value04 = node.IsNetwork.ToString(),
                                             Value05 = node.IsShared.ToString(),
+                                            ShowSeparator = Item.Printers.IndexOf(node) != Item.Printers.Count - 1
+                                        });
+                                    }
+                                }
+
+                                break;
+                            }
+                    }
+                    switch (ViewMode)
+                    {
+                        case UIViewModeEnum.All:
+                        case UIViewModeEnum.LocalUsers:
+                            {
+                                if (Item.IsWindowsLocalUsersPresent)
+                                {
+                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL USERS" });
+                                    foreach (var node in Item.WindowsLocalUsers)
+                                    {
+                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.User, FontSize = 16 },
+                                            ViewType = UIItemViewTypeEnum.WindowsLocalUser,
+                                            Header01 = "Name",
+                                            Header02 = "Caption",
+                                            Header03 = "Description",
+                                            Header04 = "Active",
+                                            Header05 = "Status",
+                                            Header06 = "Changeable",
+                                            Header07 = "Expires",
+                                            Header08 = "Required",
+                                            Value01 = node.Name,
+                                            Value02 = node.Caption,
+                                            Value03 = node.Description,
+                                            Value04 = node.IsActive.ToString(),
+                                            Value05 = node.Status,
+                                            Value06 = node.PasswordChangeable.ToString(),
+                                            Value07 = node.PasswordExpires.ToString(),
+                                            Value08 = node.PasswordRequired.ToString(),
+                                            ShowSeparator = Item.WindowsLocalUsers.IndexOf(node) != Item.WindowsLocalUsers.Count - 1
+                                        });
+                                    }
+                                }
+
+                                break;
+                            }
+                    }
+                    switch (ViewMode)
+                    {
+                        case UIViewModeEnum.All:
+                        case UIViewModeEnum.LocalGroups:
+                            {
+                                if (Item.IsWindowsLocalGroupsPresent)
+                                {
+                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL GROUPS" });
+                                    foreach (var node in Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList())
+                                    {
+                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        {
+                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.UserGroup, FontSize = 16 },
+                                            ViewType = UIItemViewTypeEnum.WindowsLocalGroup,
+                                            Header01 = "Name",
+                                            Header02 = "Caption",
+                                            Header03 = "Description",
+                                            Header04 = "Local",
+                                            Header05 = "Status",
+                                            Header06 = "Users",
+                                            Value01 = node.Name,
+                                            Value02 = node.Caption,
+                                            Value03 = node.Description,
+                                            Value04 = node.IsLocal.ToString(),
+                                            Value05 = node.Status,
+                                            Value06 = String.Join("\n", node.Childrens.ToArray()),
+                                            ShowSeparator = Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList().IndexOf(node) != Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList().Count() - 1
                                         });
                                     }
                                 }

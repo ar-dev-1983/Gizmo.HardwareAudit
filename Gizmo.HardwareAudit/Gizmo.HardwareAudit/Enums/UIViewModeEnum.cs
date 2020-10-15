@@ -12,6 +12,8 @@
         Partitions,
         Printers,
         Licenses,
-        Displays
+        Displays,
+        LocalUsers,
+        LocalGroups
     }
 }

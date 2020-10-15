@@ -121,7 +121,11 @@ namespace Gizmo.HardwareAudit.Views
             get => (bool)GetValue(FlatProperty);
             set => SetValue(FlatProperty, value);
         }
-
+        public bool ShowSeparator
+        {
+            get => (bool)GetValue(ShowSeparatorProperty);
+            set => SetValue(ShowSeparatorProperty, value);
+        }
         public static readonly DependencyProperty Header01Property = DependencyProperty.Register("Header01", typeof(string), typeof(UIItemView), new UIPropertyMetadata(string.Empty));
         public static readonly DependencyProperty Header02Property = DependencyProperty.Register("Header02", typeof(string), typeof(UIItemView), new UIPropertyMetadata(string.Empty));
         public static readonly DependencyProperty Header03Property = DependencyProperty.Register("Header03", typeof(string), typeof(UIItemView), new UIPropertyMetadata(string.Empty));
@@ -142,6 +146,7 @@ namespace Gizmo.HardwareAudit.Views
         public static readonly DependencyProperty ViewTypeProperty = DependencyProperty.Register("ViewType", typeof(UIItemViewTypeEnum), typeof(UIItemView), new UIPropertyMetadata(UIItemViewTypeEnum.OneValue));
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(UIItemView), new UIPropertyMetadata(new CornerRadius(0)));
         public static readonly DependencyProperty FlatProperty = DependencyProperty.Register("Flat", typeof(bool), typeof(UIItemView), new FrameworkPropertyMetadata(true));
+        public static readonly DependencyProperty ShowSeparatorProperty = DependencyProperty.Register("ShowSeparator", typeof(bool), typeof(UIItemView), new FrameworkPropertyMetadata(false));
 
     }
 }

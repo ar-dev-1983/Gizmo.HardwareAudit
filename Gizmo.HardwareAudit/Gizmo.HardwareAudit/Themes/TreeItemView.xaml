@@ -147,6 +147,16 @@
                                             <local:GizmoIcon Icon="Windows" FontSize="16"/>
                                         </ui:UIEnumSwitchItem.Icon>
                                     </ui:UIEnumSwitchItem>
+                                    <ui:UIEnumSwitchItem Width="24" Value="{x:Static enums:UIViewModeEnum.LocalUsers}">
+                                        <ui:UIEnumSwitchItem.Icon>
+                                            <local:GizmoIcon Icon="Users" FontSize="16"/>
+                                        </ui:UIEnumSwitchItem.Icon>
+                                    </ui:UIEnumSwitchItem>
+                                    <ui:UIEnumSwitchItem Width="24" Value="{x:Static enums:UIViewModeEnum.LocalGroups}">
+                                        <ui:UIEnumSwitchItem.Icon>
+                                            <local:GizmoIcon Icon="UserGroup" FontSize="16"/>
+                                        </ui:UIEnumSwitchItem.Icon>
+                                    </ui:UIEnumSwitchItem>
                                 </ui:UIEnumSwitch.Items>
                             </ui:UIEnumSwitch>
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">

@@ -618,6 +618,15 @@
                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                    VirtualizingPanel.ScrollUnit="Item"
                                    VirtualizingPanel.IsContainerVirtualizable="True">
+                        <ui:UITreeList.Resources>
+                            <ContextMenu x:Key="WorkgroupReportsMenu">
+                                <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ui:UITreeList.Resources>
                         <ui:UITreeList.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
                         </ui:UITreeList.ItemTemplate>
@@ -627,11 +636,20 @@
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
                                 <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.None}">
+                                        <Setter Property="ContextMenu" Value="{x:Null}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Root}">
+                                        <Setter Property="ContextMenu" Value="{x:Null}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Workgroup}">
+                                        <Setter Property="ContextMenu" Value="{StaticResource WorkgroupReportsMenu}"/>
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </ui:UITreeList.ItemContainerStyle>
                         <ui:UITreeList.Columns>
-                            <GridViewColumn Width="{Binding ElementName=TvReportsList, Path=ActualWidth}">
+                            <GridViewColumn Width="200">
                                 <GridViewColumnHeader>Name</GridViewColumnHeader>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -645,6 +663,14 @@
                                             <views:ReportItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
                                         </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100">
+                                <GridViewColumnHeader>Description</GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Description, Mode=OneWay}" VerticalAlignment="Center" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -1098,6 +1124,38 @@
                                         <Setter Property="ItemsSource" Value="{StaticResource EditWorkgroupContainerMenu}"/>
                                     </MultiDataTrigger.Setters>
                                 </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+                </MenuItem>
+                <MenuItem x:Name="EditReportsMenu" Header="Edit" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}">
+                    <MenuItem.Resources>
+                        <CompositeCollection x:Key="EditWorkgroupReportsMenu">
+                            <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                    </MenuItem.Resources>
+                    <MenuItem.Style>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource BaseMenuItemStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem}" Value="{x:Null}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.None}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Root}">
+                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Workgroup}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditWorkgroupReportsMenu}"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>

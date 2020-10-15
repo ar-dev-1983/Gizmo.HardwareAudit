@@ -28,6 +28,14 @@ namespace Gizmo.HardwareAudit
             appvm = new AppViewModel(new DefaultDialogService(), new TreeItemDialogService(), new SerializationService(), new AppSettingsDialogService());
             DataContext = appvm;
             ThemeManager.ApplyThemeToWindow(this, appvm.Settings.Theme);
+            if (appvm.IsFirstRun)
+            {
+                tbSetUnlockPassword.Focus();
+            }
+            else if (!appvm.IsUnlocked)
+            {
+                tbUnlockPassword.Focus();
+            } 
         }
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -244,6 +252,8 @@ namespace Gizmo.HardwareAudit
         }
         #endregion
 
+        #region Theme Changing Events
+       
         private void MiBlueDark_Click(object sender, RoutedEventArgs e)
         {
             appvm.Settings.Theme = UIThemeEnum.BlueDark;
@@ -265,6 +275,9 @@ namespace Gizmo.HardwareAudit
             ThemeManager.ApplyThemeToWindow(this, appvm.Settings.Theme);
         }
 
+        #endregion
+
+        #region View changing Events
         private void Project_Click(object sender, RoutedEventArgs e)
         {
             if (tpTabPanelLeft != null)
@@ -276,10 +289,13 @@ namespace Gizmo.HardwareAudit
             if (tpTabPanelLeft != null)
                 tpTabPanelLeft.SelectedIndex = 2;
         }
+        #endregion
 
+        #region About
         private void About_Click(object sender, RoutedEventArgs e)
         {
             new AboutWindow(appvm.Settings).ShowDialog();
-        }
+        } 
+        #endregion
     }
 }

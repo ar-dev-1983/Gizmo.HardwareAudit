@@ -110,9 +110,9 @@ namespace Gizmo.HardwareAudit.Services
             }
         }
 
-        public bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem)
+        public bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem, bool useSelectedParentId)
         {
-            ChooseContainerWindow dialog = new ChooseContainerWindow(settings, treeItem);
+            ChooseContainerWindow dialog = new ChooseContainerWindow(settings, treeItem, useSelectedParentId);
             switch (dialog.ShowDialog())
             {
                 case true:

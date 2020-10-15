@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:Gizmo.HardwareAudit.Views"
         xmlns:local="clr-namespace:Gizmo.HardwareAudit" 
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
-        Height="450" Width="350" Icon="/Resources/Icons/AppIcon.ico" SnapsToDevicePixels="True" UseLayoutRounding="True" 
+        Height="450" Width="350" Title="Select Container" Icon="/Resources/Images/Settings.png" SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
         Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
         Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}">
@@ -33,7 +33,7 @@
             </ui:UITreeList.ItemContainerStyle>
             <ui:UITreeList.Columns>
                 <GridViewColumn Width="352">
-                    <GridViewColumnHeader>Choose Container to move item in</GridViewColumnHeader>
+                    <GridViewColumnHeader>Select Container</GridViewColumnHeader>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Grid HorizontalAlignment="Stretch">

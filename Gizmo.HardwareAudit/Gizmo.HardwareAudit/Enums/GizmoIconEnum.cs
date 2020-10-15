@@ -50,6 +50,8 @@
         Up = 0xe92c,
         Down = 0xe92d,
         Left = 0xe92e,
-        Right = 0xe92f
+        Right = 0xe92f,
+        UserGroup = 0xe930,
+        Users = 0xe931
     }
 }
