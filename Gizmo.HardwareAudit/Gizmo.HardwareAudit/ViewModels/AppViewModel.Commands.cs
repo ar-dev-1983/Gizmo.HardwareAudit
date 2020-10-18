@@ -882,6 +882,9 @@ namespace Gizmo.HardwareAudit.ViewModels
             try
             {
                 result[1] = DomainDiscovery.EnumerateComputersInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode);
+                //var Users = DomainDiscovery.EnumerateUsersInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode);
+                //var Groups = DomainDiscovery.EnumerateGroupsInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode);
+
                 e.Result = result;
             }
             catch (Exception ex)

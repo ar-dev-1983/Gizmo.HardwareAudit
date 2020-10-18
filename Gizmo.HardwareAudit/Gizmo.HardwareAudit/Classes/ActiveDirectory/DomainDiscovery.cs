@@ -82,6 +82,27 @@ namespace Gizmo.HardwareAudit
             }
             return Domains;
         }
+        
+        public static List<DomainInformation> EnumerateGroupsFromDomain(string name, UserProfile options)
+        {
+            var dc = EnumerateDomains(name, options);
+            List<DomainInformation> Domains = new List<DomainInformation>();
+            foreach (var domain in dc)
+            {
+                DomainInformation newDomain = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = (domain as Domain).Name };
+                var gc = DomainDiscovery.EnumerateGlobalCatalogs((domain as Domain).Name, options);
+                foreach (var globalCatalog in gc)
+                {
+                    if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
+                    {
+                        DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
+                        EnumerateGroups(newDomain, directoryRoot);
+                    }
+                }
+                Domains.Add(newDomain);
+            }
+            return Domains;
+        }
 
         public static DomainInformation EnumerateComputersFromDomainController(string name, UserProfile options)
         {
@@ -96,6 +117,14 @@ namespace Gizmo.HardwareAudit
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
             EnumerateUsers(domainController, directoryRoot);
+            return domainController;
+        }
+
+        public static DomainInformation EnumerateGroupsFromDomainController(string name, UserProfile options)
+        {
+            DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
+            DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
+            EnumerateGroups(domainController, directoryRoot);
             return domainController;
         }
 
@@ -192,7 +221,7 @@ namespace Gizmo.HardwareAudit
                                 }
                             case "user":
                                 {
-                                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Computer, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty, Info = new ActiveDirectoryUserInfo(child) };
+                                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.User, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty, Info = new ActiveDirectoryUserInfo(child) };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
                                         root.Childrens.Add(item);
@@ -209,6 +238,69 @@ namespace Gizmo.HardwareAudit
             }
         }
 
+        private static void EnumerateGroups(DomainInformation root, DirectoryEntry directory)
+        {
+            foreach (DirectoryEntry child in directory.Children)
+            {
+                if (child.SchemaClassName == "organizationalUnit" || child.SchemaClassName == "container" || child.SchemaClassName == "group")
+                {
+                    DirectorySearcher mySearcher = new DirectorySearcher(child)
+                    {
+                        Filter = "(objectClass=group)"
+                    };
+                    if (mySearcher.FindAll().Count != 0 || child.SchemaClassName == "group")
+                    {
+                        switch (child.SchemaClassName)
+                        {
+                            case "organizationalUnit":
+                                {
+
+                                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
+                                    if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
+                                    {
+                                        root.Childrens.Add(item);
+                                        EnumerateGroups(item, child);
+                                    }
+                                    break;
+                                }
+                            case "container":
+                                {
+
+                                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
+                                    if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
+                                    {
+                                        root.Childrens.Add(item);
+                                        EnumerateGroups(item, child);
+                                    }
+                                    break;
+                                }
+                            case "group":
+                                {
+                                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Group, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty, Info = new ActiveDirectoryGroupInfo(child) };
+                                    if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
+                                    {
+                                        if (child.Properties["member"] != null)
+                                        {
+                                            foreach (var member in child.Properties["member"])
+                                            {
+                                                (item.Info as ActiveDirectoryGroupInfo).Members.Add(member.ToString().Split(',')[0].Replace("CN=",""));
+                                            }
+                                        }
+                                        root.Childrens.Add(item);
+                                    }
+                                    break;
+                                }
+                        }
+                    }
+                    else
+                        continue;
+                }
+                else
+                    continue;
+            }
+        }
+
+
         public static List<DomainInformation> EnumerateComputersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode) => mode switch
         {
             DomainDiscoveryModeEnum.FromDomainName => EnumerateComputersFromDomain(name, options),
@@ -220,6 +312,13 @@ namespace Gizmo.HardwareAudit
         {
             DomainDiscoveryModeEnum.FromDomainName => EnumerateUsersFromDomain(name, options),
             DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateUsersFromDomainController(name, options) },
+            _ => new List<DomainInformation>()
+        };
+
+        public static List<DomainInformation> EnumerateGroupsInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode) => mode switch
+        {
+            DomainDiscoveryModeEnum.FromDomainName => EnumerateGroupsFromDomain(name, options),
+            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateGroupsFromDomainController(name, options) },
             _ => new List<DomainInformation>()
         };
     }

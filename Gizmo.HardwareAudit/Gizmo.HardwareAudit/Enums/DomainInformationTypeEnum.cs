@@ -6,6 +6,7 @@
         Root,
         OrganizationUnit,
         Computer,
-        User
+        User,
+        Group
     }
 }
