@@ -14,14 +14,6 @@
         /// </summary>
         Root,
         /// <summary>
-        /// ActiveDirectory - indicates that is Active Directory Reports Read Only Item
-        /// </summary>
-        ActiveDirectory,
-        /// <summary>
-        /// Workgroup - indicates that is Workgroup Reports Read Only Item
-        /// </summary>
-        Workgroup,
-        /// <summary>
         /// Container - container for other containers or items
         /// </summary>
         Container,

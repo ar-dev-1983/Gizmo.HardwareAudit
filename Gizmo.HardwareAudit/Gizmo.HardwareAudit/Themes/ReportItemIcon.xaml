@@ -15,26 +15,56 @@
                                 <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
                             </local:GizmoIcon.Effect>
                         </local:GizmoIcon>
-                        <local:GizmoIcon x:Name="PART_UserIcon" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="{TemplateBinding Foreground}" TextAlignment="Center" Visibility="Collapsed" Icon="User"/>
+                        <local:GizmoIcon x:Name="PART_Icon2" Visibility="Collapsed" Icon="{TemplateBinding CustomIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
+                            <local:GizmoIcon.Effect>
+                                <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
+                            </local:GizmoIcon.Effect>
+                        </local:GizmoIcon>
                     </StackPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ItemType" Value="Root">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="Reports" />
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="ActiveDirectory">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="ActiveDirectory" />
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="Workgroup">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="Workgroup" />
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="Report">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="Report" />
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="Container">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="Container" />
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="None">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="None" />
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition  Property="ItemType" Value="Root"/>
+                                <Condition  Property="UseCustomIcon" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="Reports" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition  Property="ItemType" Value="Report"/>
+                                <Condition  Property="UseCustomIcon" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="Report" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition  Property="ItemType" Value="Container"/>
+                                <Condition  Property="UseCustomIcon" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="Container" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition  Property="ItemType" Value="None"/>
+                                <Condition  Property="UseCustomIcon" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="None" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <Trigger Property="UseCustomIcon" Value="true">
+                            <Setter TargetName="PART_Icon" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Icon2" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

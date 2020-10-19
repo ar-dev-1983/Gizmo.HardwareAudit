@@ -24,6 +24,10 @@ namespace Gizmo.HardwareAudit.Models
         private ObservableCollection<ReportItem> children = new ObservableCollection<ReportItem>();
         private bool isSelected = false;
         private bool isExpanded = false;
+        private bool useCustomIcon = false;
+        private GizmoIconEnum customIcon = GizmoIconEnum.None;
+        private Guid treeItemId = new Guid();
+
         #endregion
 
         #region Public Properties
@@ -81,6 +85,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+        
         public string Description
         {
             get => description;
@@ -102,6 +107,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+        
         public bool IsSelected
         {
             get => isSelected;
@@ -112,6 +118,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+       
         public bool IsExpanded
         {
             get => isExpanded;
@@ -122,6 +129,39 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
+        public bool UseCustomIcon
+        {
+            get => useCustomIcon;
+            set
+            {
+                if (useCustomIcon == value) return;
+                useCustomIcon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GizmoIconEnum CustomIcon
+        {
+            get => customIcon;
+            set
+            {
+                if (customIcon == value) return;
+                customIcon = value;
+                OnPropertyChanged();
+            }
+        }
+        public Guid TreeItemId
+        {
+            get => treeItemId;
+            set
+            {
+                if (treeItemId == value) return;
+                treeItemId = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ReportItem SelectedReport
         {
             get
@@ -218,31 +258,7 @@ namespace Gizmo.HardwareAudit.Models
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ParentId = new Guid()
             };
-            result.Children.Add(CreateActiveDirectoryReportsRoot());
-            result.Children.Add(CreateWorkgroupReportsRoot());
             return result;
-        }
-
-        private static ReportItem CreateActiveDirectoryReportsRoot()
-        {
-            return new ReportItem()
-            {
-                Type = ReportItemTypeEnum.ActiveDirectory,
-                Name = "Active Directory Reports",
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                ParentId = Guid.Parse("00000000-0000-0000-0000-000000000001")
-            };
-        }
-
-        private static ReportItem CreateWorkgroupReportsRoot()
-        {
-            return new ReportItem()
-            {
-                Type = ReportItemTypeEnum.Workgroup,
-                Name = "Workgroup Reports",
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                ParentId = Guid.Parse("00000000-0000-0000-0000-000000000001")
-            };
         }
     }
 }

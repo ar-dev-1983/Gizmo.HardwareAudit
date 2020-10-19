@@ -591,6 +591,49 @@ namespace Gizmo.HardwareAudit.ViewModels
             return false;
         }
 
+        internal bool FindReportItemAndDelete(Guid id)
+        {
+            if (ReportRoot.Children.Count != 0)
+            {
+                foreach (var node in ReportRoot.Children)
+                {
+                    if (node.Id == id)
+                    {
+                        ReportRoot.Children.Remove(node);
+                        return true;
+                    }
+                }
+                foreach (var node in ReportRoot.Children)
+                {
+                    var result = FindReportChildrenIdAndDelete(node, id);
+                    if (result)
+                    { return true; }
+                }
+            }
+            return false;
+        }
+
+        internal bool FindReportChildrenIdAndDelete(ReportItem Item, Guid id)
+        {
+            if (Item.Children.Count != 0)
+            {
+                foreach (var node in Item.Children)
+                {
+                    if (node.Id == id)
+                    {
+                        Item.Children.Remove(node);
+                        return true;
+                    }
+                }
+                foreach (var node in Item.Children)
+                {
+                    if (FindReportChildrenIdAndDelete(node, id))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         internal ConnectionOptions BuildConnectionOptions(Guid id)
         {
             try

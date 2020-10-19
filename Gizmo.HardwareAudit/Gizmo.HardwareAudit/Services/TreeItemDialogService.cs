@@ -1,4 +1,5 @@
-﻿using Gizmo.HardwareAudit.Interfaces;
+﻿using Gizmo.HardwareAudit.Enums;
+using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
 using System;
@@ -16,6 +17,7 @@ namespace Gizmo.HardwareAudit.Services
         public Guid UserProfileId { get; set; }
         public DomainDiscoverySettings DomainSettings { set; get; }
         public Guid SelectedContainerId { set; get; }
+
         public bool ContainerSettingsDialog(AppSettings settings)
         {
             ContainerDialog dialog = new ContainerDialog(settings);
@@ -117,6 +119,41 @@ namespace Gizmo.HardwareAudit.Services
             {
                 case true:
                     SelectedContainerId = (dialog.DataContext as ChooseContainerViewModel).SelectedContainer.Id;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool UseCustomIcon { get; set; }
+        public GizmoIconEnum CustomIcon { set; get; }
+
+        public bool ReportContainerSettingsDialog(AppSettings settings)
+        {
+            ReportContainerDialog dialog = new ReportContainerDialog(settings);
+            switch (dialog.ShowDialog())
+            {
+                case true:
+                    Name = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerName;
+                    Description = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerDescription;
+                    UseCustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).UseCustomIcon;
+                    CustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).CustomIcon;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon)
+        {
+            ReportContainerDialog dialog = new ReportContainerDialog(settings, name, desc, useCustomIcon, customIcon);
+            switch (dialog.ShowDialog())
+            {
+                case true:
+                    Name = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerName;
+                    Description = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerDescription;
+                    UseCustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).UseCustomIcon;
+                    CustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).CustomIcon; 
                     return true;
                 default:
                     return false;

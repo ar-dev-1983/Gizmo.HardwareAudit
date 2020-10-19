@@ -13,7 +13,9 @@
         Width="1132" Height="650" MinWidth="800" MinHeight="600" d:DesignHeight="650" d:DesignWidth="1132" 
         SnapsToDevicePixels="True" UseLayoutRounding="True" Closed="Window_Closed"
         Style="{DynamicResource {ComponentResourceKey ResourceId=DefaultWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
-        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Icon="/Resources/Icons/AppIcon.ico">
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
+        Icon="/Resources/Icons/AppIcon.ico">
     <Window.Resources>
         <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
         <local:BoolToFontStyle x:Key="BoolToFontStyle" />
@@ -71,7 +73,7 @@
                                     <views:GizmoIcon  FontSize="16" Icon="ComputerAll" />
                                 </ui:UITabPanelItem.Header>
                             </ui:UITabPanelItem>
-                            <ui:UITabPanelItem x:Name="ReportsTab" Margin="0,3" Visibility="Collapsed">
+                            <ui:UITabPanelItem x:Name="ReportsTab" Margin="0,3">
                                 <ui:UITabPanelItem.Header>
                                     <views:GizmoIcon  FontSize="16" Icon="Reports" />
                                 </ui:UITabPanelItem.Header>
@@ -619,10 +621,50 @@
                                    VirtualizingPanel.ScrollUnit="Item"
                                    VirtualizingPanel.IsContainerVirtualizable="True">
                         <ui:UITreeList.Resources>
-                            <ContextMenu x:Key="WorkgroupReportsMenu">
+                            <ContextMenu x:Key="ReportsMenu">
+                                <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                                 <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                     <MenuItem.Icon>
                                         <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                            <ContextMenu x:Key="ContainerReportsMenu">
+                                <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteReportContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Delete" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -640,10 +682,10 @@
                                         <Setter Property="ContextMenu" Value="{x:Null}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Root}">
-                                        <Setter Property="ContextMenu" Value="{x:Null}"/>
+                                        <Setter Property="ContextMenu" Value="{StaticResource ReportsMenu}"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Workgroup}">
-                                        <Setter Property="ContextMenu" Value="{StaticResource WorkgroupReportsMenu}"/>
+                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Container}">
+                                        <Setter Property="ContextMenu" Value="{StaticResource ContainerReportsMenu}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -660,7 +702,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <ui:UITreeNodeExpanderControl Grid.Column="0" VerticalAlignment="Center" />
-                                            <views:ReportItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <views:ReportItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" UseCustomIcon="{Binding Path=UseCustomIcon, Mode=OneWay}" CustomIcon="{Binding Path=CustomIcon, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
                                         </Grid>
                                     </DataTemplate>
@@ -1130,10 +1172,50 @@
                 </MenuItem>
                 <MenuItem x:Name="EditReportsMenu" Header="Edit" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}">
                     <MenuItem.Resources>
-                        <CompositeCollection x:Key="EditWorkgroupReportsMenu">
+                        <CompositeCollection x:Key="EditReportsMenu">
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                 <MenuItem.Icon>
                                     <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+                        <CompositeCollection x:Key="EditContainerReportsMenu">
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Container" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Report" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Clear content" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Clear2" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteReportContainerCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </CompositeCollection>
@@ -1150,11 +1232,10 @@
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Root}">
-                                    <Setter Property="ItemsSource" Value="{x:Null}"/>
-                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditReportsMenu}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Workgroup}">
-                                    <Setter Property="ItemsSource" Value="{StaticResource EditWorkgroupReportsMenu}"/>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Container}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditContainerReportsMenu}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

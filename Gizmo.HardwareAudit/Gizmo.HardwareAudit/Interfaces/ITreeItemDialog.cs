@@ -1,4 +1,5 @@
-﻿using Gizmo.HardwareAudit.Models;
+﻿using Gizmo.HardwareAudit.Enums;
+using Gizmo.HardwareAudit.Models;
 using System;
 
 namespace Gizmo.HardwareAudit.Interfaces
@@ -22,5 +23,12 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ComputerSettingsDialog(AppSettings settings);
         bool ComputerSettingsDialog(AppSettings settings, string name, string desc, string fqdn, string address, bool useParentId, Guid profileId);
         bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem, bool useSelectedParentId);
+
+        bool UseCustomIcon { get; set; }
+        GizmoIconEnum CustomIcon { set; get; }
+
+        bool ReportContainerSettingsDialog(AppSettings settings);
+        bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
+
     }
 }
