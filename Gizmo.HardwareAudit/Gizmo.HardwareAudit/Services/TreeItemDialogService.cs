@@ -159,5 +159,37 @@ namespace Gizmo.HardwareAudit.Services
                     return false;
             }
         }
+       
+        public bool ReportItemSettingsDialog(AppSettings settings)
+        {
+            ReportDialog dialog = new ReportDialog(settings);
+            switch (dialog.ShowDialog())
+            {
+                case true:
+                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ContainerName;
+                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ContainerDescription;
+                    UseCustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).UseCustomIcon;
+                    CustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).CustomIcon;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon)
+        {
+            ReportDialog dialog = new ReportDialog(settings, name, desc, useCustomIcon, customIcon);
+            switch (dialog.ShowDialog())
+            {
+                case true:
+                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ContainerName;
+                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ContainerDescription;
+                    UseCustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).UseCustomIcon;
+                    CustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).CustomIcon;
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

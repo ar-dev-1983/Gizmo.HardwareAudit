@@ -30,5 +30,8 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ReportContainerSettingsDialog(AppSettings settings);
         bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
 
+        bool ReportItemSettingsDialog(AppSettings settings);
+        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
+
     }
 }

@@ -43,7 +43,7 @@ namespace Gizmo.HardwareAudit.Enums
         [Category("App")]
         Reports = 0xe90b,
 
-        [Category("App")]
+        [Category("Item Icons")]
         Report = 0xe90c,
 
         [Category("App")]

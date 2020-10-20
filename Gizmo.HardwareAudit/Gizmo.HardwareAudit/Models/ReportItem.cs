@@ -26,8 +26,6 @@ namespace Gizmo.HardwareAudit.Models
         private bool isExpanded = false;
         private bool useCustomIcon = false;
         private GizmoIconEnum customIcon = GizmoIconEnum.None;
-        private Guid treeItemId = new Guid();
-
         #endregion
 
         #region Public Properties
@@ -151,17 +149,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        public Guid TreeItemId
-        {
-            get => treeItemId;
-            set
-            {
-                if (treeItemId == value) return;
-                treeItemId = value;
-                OnPropertyChanged();
-            }
-        }
-
+       
         public ReportItem SelectedReport
         {
             get

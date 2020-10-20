@@ -621,7 +621,7 @@
                                    VirtualizingPanel.ScrollUnit="Item"
                                    VirtualizingPanel.IsContainerVirtualizable="True">
                         <ui:UITreeList.Resources>
-                            <ContextMenu x:Key="ReportsMenu">
+                            <ContextMenu x:Key="ReportsRootMenu">
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
                                         <views:GizmoIcon Icon="Container" FontSize="16"/>
@@ -668,12 +668,26 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
+                            <ContextMenu x:Key="ItemReportsMenu">
+                                <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Delete report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteReportCommand}">
+                                    <MenuItem.Icon>
+                                        <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
                         </ui:UITreeList.Resources>
                         <ui:UITreeList.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
                         </ui:UITreeList.ItemTemplate>
                         <ui:UITreeList.ItemContainerStyle>
                             <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemStyle}">
+                                <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnPreviewMouseRightButtonDown" />
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -682,10 +696,13 @@
                                         <Setter Property="ContextMenu" Value="{x:Null}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Root}">
-                                        <Setter Property="ContextMenu" Value="{StaticResource ReportsMenu}"/>
+                                        <Setter Property="ContextMenu" Value="{StaticResource ReportsRootMenu}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Container}">
                                         <Setter Property="ContextMenu" Value="{StaticResource ContainerReportsMenu}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ReportItemTypeEnum.Report}">
+                                        <Setter Property="ContextMenu" Value="{StaticResource  ItemReportsMenu}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -1219,6 +1236,20 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                         </CompositeCollection>
+                        <CompositeCollection x:Key="EditItemReportsMenu">
+                            <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Delete report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.DeleteReportCommand}">
+                                <MenuItem.Icon>
+                                    <views:GizmoIcon Icon="Delete" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </CompositeCollection>
+
                     </MenuItem.Resources>
                     <MenuItem.Style>
                         <Style TargetType="MenuItem" BasedOn="{StaticResource BaseMenuItemStyle}">
@@ -1236,6 +1267,9 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Container}">
                                     <Setter Property="ItemsSource" Value="{StaticResource EditContainerReportsMenu}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SelectedReportItem.Type}" Value="{x:Static enums:ReportItemTypeEnum.Report}">
+                                    <Setter Property="ItemsSource" Value="{StaticResource EditItemReportsMenu}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

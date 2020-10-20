@@ -119,7 +119,6 @@ namespace Gizmo.HardwareAudit
                                 //updates menu items for selected tree item in case if there changes occures. Not the best idea, but i has't find another solution
                                 appvm.OnNamedPropertyChanged("SelectedTreeItemSharedFoldersMenuList");
                                 appvm.OnNamedPropertyChanged("SelectedTreeItemTCPPortsMenuList");
-                                appvm.OnNamedPropertyChanged("SelectedTreeItemMoveToContainerMenuList");
                             }
                         }
                         else
@@ -128,7 +127,21 @@ namespace Gizmo.HardwareAudit
                             //updates menu items for selected tree item in case if there changes occures. Not the best idea, but i has't find another solution
                             appvm.OnNamedPropertyChanged("SelectedTreeItemSharedFoldersMenuList");
                             appvm.OnNamedPropertyChanged("SelectedTreeItemTCPPortsMenuList");
-                            appvm.OnNamedPropertyChanged("SelectedTreeItemMoveToContainerMenuList");
+                        }
+                    }
+                    else if ((sender as UITreeListItem).DataContext is ReportItem)
+                    {
+                        var reportItem = (sender as UITreeListItem).DataContext as ReportItem;
+                        if (appvm.SelectedReportItem != null)
+                        {
+                            if (appvm.SelectedReportItem.Id != reportItem.Id)
+                            {
+                                reportItem.IsSelected = true;
+                            }
+                        }
+                        else
+                        {
+                            reportItem.IsSelected = true;
                         }
                     }
                 }
