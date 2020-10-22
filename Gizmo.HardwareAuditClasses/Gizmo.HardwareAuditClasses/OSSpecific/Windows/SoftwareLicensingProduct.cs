@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,29 +8,31 @@ using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.SoftwareLicensingProduct)]
     public class SoftwareLicensingProduct
     {
-        [Category("MicrosoftSoftwareProductItem")]
-        [Description("Лицензия Microsoft: имя")]
+        [Description("Microsoft Product Name")]
+        [ReportVisibility(true)]
         public string Name { set; get; }
 
-        [Description("Лицензия Microsoft: описание")]
+        [Description("Microsoft Product Description")]
+        [ReportVisibility(true)]
         public string Description { set; get; }
 
-        [Category("MicrosoftSoftwareProductItem")]
-        [Description("Лицензия Microsoft: статус")]
+        [Description("Microsoft Product License Status")]
+        [ReportVisibility(true)]
         public string LicenseStatus { set; get; }
 
-        [Category("MicrosoftSoftwareProductItem")]
-        [Description("Лицензия Microsoft: семейство")]
+        [Description("Microsoft Product License Family")]
+        [ReportVisibility(true)]
         public string LicenseFamily { set; get; }
 
-        [Category("MicrosoftSoftwareProductItem")]
-        [Description("Лицензия Microsoft: часть ключа продукта")]
+        [Description("Microsoft Product Patrial Key")]
+        [ReportVisibility(true)]
         public string PatrialProductKey { set; get; }
 
-        [Category("MicrosoftSoftwareProductItem")]
-        [Description("Лицензия Microsoft: идентификатор продукта")]
+        [Description("Microsoft Product Key ID")]
+        [ReportVisibility(true)]
         public string ProductKeyID { set; get; }
 
         public SoftwareLicensingProduct()

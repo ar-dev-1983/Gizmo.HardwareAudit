@@ -1,7 +1,5 @@
 ﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
-using System;
-using System.Collections.ObjectModel;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {

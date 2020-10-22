@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Gizmo.HardwareAuditClasses
+namespace Gizmo.HardwareAuditClasses.Helpers
 {
     public class StringFormatting
     {

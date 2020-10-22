@@ -153,13 +153,13 @@ namespace Gizmo.HardwareAudit.Services
                     Name = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerName;
                     Description = (dialog.DataContext as ReportContainerSettingsViewModel).ContainerDescription;
                     UseCustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).UseCustomIcon;
-                    CustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).CustomIcon; 
+                    CustomIcon = (dialog.DataContext as ReportContainerSettingsViewModel).CustomIcon;
                     return true;
                 default:
                     return false;
             }
         }
-       
+
         public bool ReportItemSettingsDialog(AppSettings settings)
         {
             ReportDialog dialog = new ReportDialog(settings);

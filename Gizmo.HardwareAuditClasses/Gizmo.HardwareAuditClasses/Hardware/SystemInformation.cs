@@ -1,27 +1,30 @@
-﻿using System.ComponentModel;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System.ComponentModel;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.SystemInformation)]
     public class SystemInformation
     {
-        [Category("System Information")]
-        [Description("System: производитель")]
+        [Description("System Vendor")]
+        [ReportVisibility(true)]
         public string ManufacturerName { set; get; }
 
-        [Category("System Information")]
-        [Description("System: имя")]
+        [Description("System Name")]
+        [ReportVisibility(true)]
         public string ProductName { set; get; }
 
-        [Category("System Information")]
-        [Description("System: версия")]
+        [Description("System Version")]
+        [ReportVisibility(true)]
         public string Version { set; get; }
 
-        [Category("System Information")]
-        [Description("System: серийный номер")]
+        [Description("System Serial Number")]
+        [ReportVisibility(true)]
         public string SerialNumber { set; get; }
 
-        [Category("System Information")]
-        [Description("System: семейство")]
+        [Description("System Family")]
+        [ReportVisibility(true)]
         public string Family { set; get; }
 
         public SystemInformation()

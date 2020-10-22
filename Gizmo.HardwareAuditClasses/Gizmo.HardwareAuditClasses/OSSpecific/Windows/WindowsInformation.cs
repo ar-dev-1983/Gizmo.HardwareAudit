@@ -1,36 +1,44 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.ComponentModel;
 using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.WindowsInformation)]
     public class WindowsInformation
     {
-        [Category("OSInformation")]
-        [Description("ОС: Производитель")]
+        [Description("OS Vendor")]
+        [ReportVisibility(true)]
         public string Manufacturer { set; get; }
 
-        [Category("OSInformation")]
-        [Description("ОС: Имя")]
+        [Description("OS Name")]
+        [ReportVisibility(true)]
         public string Name { set; get; }
 
-        [Category("OSInformation")]
-        [Description("ОС: Версия")]
+        [Description("OS Version")]
+        [ReportVisibility(true)]
         public string Version { set; get; }
 
-        [Category("OSInformation")]
-        [Description("ОС: Архитектура")]
+        [Description("OS Architecture")]
+        [ReportVisibility(true)]
         public string OSArchitecture { set; get; }
 
-        [Category("OSInformation")]
-        [Description("ОС: Путь к папке Windows")]
+        [Description("OS Windows Directory")]
+        [ReportVisibility(true)]
         public string WindowsDirectory { set; get; }
 
+        [Description("OS Total Memory")]
+        [ReportVisibility(true)]
         public string TotalMemory { set; get; }
 
+        [Description("OS Aviailable Memory")]
+        [ReportVisibility(true)]
         public string AviailableMemory { set; get; }
 
-        [Description("ОС: дата установки")]
+        [Description("OS Install Date")]
+        [ReportVisibility(true)]
         public string InstallDate { set; get; }
 
         public WindowsInformation()

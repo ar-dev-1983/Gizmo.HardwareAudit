@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,18 +8,19 @@ using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.LogicalDrive)]
     public class LogicalDrive
     {
-        [Category("LogicalDrive")]
-        [Description("Раздел диска: метка")]
+        [ReportVisibility(true)]
+        [Description("Partition Letter")]
         public string Letter { set; get; }
 
-        [Category("LogicalDrive")]
-        [Description("Раздел диска: объем")]
+        [ReportVisibility(true)]
+        [Description("Partition Size")]
         public string TotalSize { set; get; }
 
-        [Category("LogicalDrive")]
-        [Description("Раздел диска: доступный объем")]
+        [ReportVisibility(true)]
+        [Description("Partition Aviailable Size")]
         public string AviailableSize { set; get; }
 
         public LogicalDrive()

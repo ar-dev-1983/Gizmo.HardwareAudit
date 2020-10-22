@@ -784,7 +784,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         internal ObservableCollection<MenuItem> BuildCheckPortResultsMenuItems()
         {
             ObservableCollection<MenuItem> result = new ObservableCollection<MenuItem>();
-            if (SelectedTreeItem!=null)
+            if (SelectedTreeItem != null)
             {
                 if (SelectedTreeItem.CheckPortResults.Count > 0)
                 {

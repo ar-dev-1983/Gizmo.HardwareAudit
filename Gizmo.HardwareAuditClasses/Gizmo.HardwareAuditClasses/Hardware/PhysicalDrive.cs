@@ -1,22 +1,25 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.PhysicalDrive)]
     public class PhysicalDrive
     {
-        [Category("PhysicalDrive")]
-        [Description("Физический диск: модель")]
+        [Description("Physical Drive Model")]
+        [ReportVisibility(true)]
         public string Model { set; get; }
 
-        [Category("PhysicalDrive")]
-        [Description("Физический диск: серийный номер")]
+        [Description("Physical Drive Serial Number")]
+        [ReportVisibility(true)]
         public string SerialNumber { set; get; }
 
-        [Category("PhysicalDrive")]
-        [Description("Физический диск: объем")]
+        [Description("Physical Drive Size")]
+        [ReportVisibility(true)]
         public string Size { set; get; }
 
         public PhysicalDrive()

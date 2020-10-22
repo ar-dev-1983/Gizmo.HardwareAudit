@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,18 +9,27 @@ using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.Printer)]
     public class Printer
     {
-        [Category("Printer")]
-        [Description("Принтер: имя")]
+        [Description("Printer Name")]
+        [ReportVisibility(true)]
         public string DefaultPrinter { set; get; }
 
-        [Category("Printer")]
-        [Description("Принтер: имя порта")]
+        [Description("Printer Port")]
+        [ReportVisibility(true)]
         public string DefaultPrinterPortName { set; get; }
 
+        [Description("Printer is Local")]
+        [ReportVisibility(true)]
         public bool IsLocal { set; get; }
+
+        [Description("Printer is Network")]
+        [ReportVisibility(true)]
         public bool IsNetwork { set; get; }
+
+        [Description("Printer is Shared")]
+        [ReportVisibility(true)]
         public bool IsShared { set; get; }
 
         public Printer()

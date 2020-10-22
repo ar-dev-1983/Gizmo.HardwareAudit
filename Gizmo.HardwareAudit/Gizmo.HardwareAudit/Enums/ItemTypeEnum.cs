@@ -30,7 +30,7 @@
         /// </summary>
         ChildContainer,
         /// <summary>
-        /// ChildDevice - unknown device (for fututre purpuses)
+        /// ChildDevice - unknown device
         /// </summary>
         ChildDevice,
         /// <summary>

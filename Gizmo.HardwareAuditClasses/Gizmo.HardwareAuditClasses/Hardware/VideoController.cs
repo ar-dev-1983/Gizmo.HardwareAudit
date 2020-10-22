@@ -1,22 +1,25 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.VideoController)]
     public class VideoController
     {
-        [Category("VideoController")]
-        [Description("Видео адаптер: имя")]
+        [Description("Video Controller Name")]
+        [ReportVisibility(true)]
         public string Name { set; get; }
 
-        [Category("VideoController")]
-        [Description("Видео адаптер: процессор")]
+        [Description("Video Controller Processor")]
+        [ReportVisibility(true)]
         public string VideoProcessor { set; get; }
 
-        [Category("VideoController")]
-        [Description("Видео адаптер: режим")]
+        [Description("Video Controller Mode Description")]
+        [ReportVisibility(true)]
         public string VideoModeDescription { set; get; }
 
         public VideoController()

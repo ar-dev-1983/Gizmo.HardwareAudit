@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,20 +9,22 @@ using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.Monitor)]
     public class Monitor
     {
+        [ReportVisibility(false)]
         public Guid Id { set; get; }
 
-        [Category("Monitor")]
-        [Description("Монитор: производитель")]
+        [Description("Monitor Manufacturer")]
+        [ReportVisibility(true)]
         public string Manufacturer { set; get; }
 
-        [Category("Monitor")]
-        [Description("Монитор: модель")]
+        [Description("Monitor Model")]
+        [ReportVisibility(true)]
         public string MonitorModel { set; get; }
 
-        [Category("Monitor")]
-        [Description("Монитор: серийный номер")]
+        [Description("Monitor Serial Number")]
+        [ReportVisibility(true)]
         public string MonitorSerialNumber { set; get; }
 
         public Monitor()

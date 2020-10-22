@@ -1,31 +1,41 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.NetworkAdapter)]
     public class NetworkAdapter
     {
-        [Description("Сетевой адаптер: имя")]
+        [Description("Network Adapter Name")]
+        [ReportVisibility(true)]
         public string Adapter { set; get; }
 
-        [Description("Сетевой адаптер: физический адрес")]
+        [Description("Network Adapter MAC")]
+        [ReportVisibility(true)]
         public string MAC { set; get; }
 
-        [Description("Сетевой адаптер: IP-адрес")]
+        [Description("Network Adapter IP Address")]
+        [ReportVisibility(true)]
         public string IPAddress { set; get; }
 
-        [Description("Сетевой адаптер: шлюз по-умолчанию")]
+        [Description("Network Adapter Default Geteway")]
+        [ReportVisibility(true)]
         public string DefaultGeteway { set; get; }
 
-        [Description("Сетевой адаптер: маска подсети")]
+        [Description("Network Adapter Subnet Masks")]
+        [ReportVisibility(true)]
         public string SubnetMasks { set; get; }
 
-        [Description("Сетевой адаптер: DHCP разрешен")]
+        [Description("Network Adapter DHCP Enabled")]
+        [ReportVisibility(true)]
         public string DHCP_Enabled { set; get; }
 
-        [Description("Сетевой адаптер: DHCP сервер")]
+        [Description("Network Adapter DHCP Server IP")]
+        [ReportVisibility(true)]
         public string DHCP_ServerIP { set; get; }
 
         public NetworkAdapter()

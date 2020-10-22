@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Gizmo.HardwareAudit.Views
-{    
+{
     ///
     /// this part of the code contains the code from the project FontAwesome5
     /// https://github.com/MartinTopfstedt/FontAwesome5

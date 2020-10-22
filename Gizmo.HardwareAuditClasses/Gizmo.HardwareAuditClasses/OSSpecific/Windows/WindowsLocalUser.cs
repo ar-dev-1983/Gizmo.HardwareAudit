@@ -1,56 +1,73 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 
-namespace Gizmo.HardwareAuditClasses.Hardware
+namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.WindowsLocalUser)]
     public class WindowsLocalUser
     {
-        [Category("Local User")]
-        [Description("Домен")]
+        [Description("Local User Domain")]
+        [ReportVisibility(true)]
         public string Domain { set; get; }
-        [Category("Local User")]
-        [Description("Имя")]
+
+        [Description("Local User Name")]
+        [ReportVisibility(true)]
         public string Name { set; get; }
-        [Category("Local User")]
-        [Description("Тип")]
+
+        [Description("Local User Account Type")]
+        [ReportVisibility(true)]
         public string AccountType { set; get; }
-        [Category("Local User")]
-        [Description("Полное имя профиля")]
+
+        [Description("Local User Caption")]
+        [ReportVisibility(true)]
         public string Caption { set; get; }
-        [Category("Local User")]
-        [Description("Полное имя")]
+
+        [Description("Local User Full Name")]
+        [ReportVisibility(true)]
         public string FullName { set; get; }
-        [Category("Local User")]
-        [Description("Описание")]
+
+        [Description("Local User Description")]
+        [ReportVisibility(true)]
         public string Description { set; get; }
-        [Category("Local User")]
-        [Description("IsActive")]
+
+        [Description("Local User is Active")]
+        [ReportVisibility(true)]
         public bool IsActive { set; get; }
-        [Category("Local User")]
-        [Description("IsLocal")]
+
+        [Description("Local User is Local")]
+        [ReportVisibility(true)]
         public bool IsLocal { set; get; }
-        [Category("Local User")]
-        [Description("Lockout")]
+
+        [Description("Local User Lockout")]
+        [ReportVisibility(true)]
         public bool Lockout { set; get; }
-        [Category("Local User")]
-        [Description("PasswordChangeable")]
+
+        [Description("Local User Password Changeable")]
+        [ReportVisibility(true)]
         public bool PasswordChangeable { set; get; }
-        [Category("Local User")]
-        [Description("PasswordExpires")]
+
+        [Description("Local User Password Expires")]
+        [ReportVisibility(true)]
         public bool PasswordExpires { set; get; }
-        [Category("Local User")]
-        [Description("PasswordRequired")]
+
+        [Description("Local User Password is Required")]
+        [ReportVisibility(true)]
         public bool PasswordRequired { set; get; }
-        [Category("Local User")]
-        [Description("Статус")]
+
+        [Description("Local User Status")]
+        [ReportVisibility(true)]
         public string Status { set; get; }
-        [Category("Local User")]
-        [Description("SID")]
+
+        [Description("Local User SID")]
+        [ReportVisibility(true)]
         public string SID { set; get; }
-        [Category("Local User")]
-        [Description("SIDType")]
+
+        [Description("Local User SID Type")]
+        [ReportVisibility(true)]
         public string SIDType { set; get; }
 
         public WindowsLocalUser()

@@ -45,7 +45,7 @@ namespace Gizmo.HardwareAudit
             {
                 if ((DataContext as ReportItemSettingsViewModel).UseCustomIcon && (DataContext as ReportItemSettingsViewModel).CustomIcon == GizmoIconEnum.None)
                 {
-                    (DataContext as ReportItemSettingsViewModel).CustomIcon = GizmoIconEnum.Container;
+                    (DataContext as ReportItemSettingsViewModel).CustomIcon = GizmoIconEnum.Report;
                 }
                 DialogResult = true;
             }

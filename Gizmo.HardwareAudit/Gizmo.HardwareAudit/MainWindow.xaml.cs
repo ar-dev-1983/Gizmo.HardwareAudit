@@ -35,7 +35,7 @@ namespace Gizmo.HardwareAudit
             else if (!appvm.IsUnlocked)
             {
                 tbUnlockPassword.Focus();
-            } 
+            }
         }
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -266,7 +266,7 @@ namespace Gizmo.HardwareAudit
         #endregion
 
         #region Theme Changing Events
-       
+
         private void MiBlueDark_Click(object sender, RoutedEventArgs e)
         {
             appvm.Settings.Theme = UIThemeEnum.BlueDark;
@@ -308,7 +308,7 @@ namespace Gizmo.HardwareAudit
         private void About_Click(object sender, RoutedEventArgs e)
         {
             new AboutWindow(appvm.Settings).ShowDialog();
-        } 
+        }
         #endregion
     }
 }

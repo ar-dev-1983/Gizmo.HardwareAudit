@@ -83,5 +83,20 @@ namespace Gizmo.HardwareAudit.Services
         {
             return JsonSerializer.Deserialize<ObservableCollection<CheckTPCPortSetting>>(File.ReadAllText(filename));
         }
+
+        public ReportItem OpenReportModel(string filename)
+        {
+            return JsonSerializer.Deserialize<ReportItem>(File.ReadAllText(filename));
+        }
+
+        public void SaveReportModel(string filename, ReportItem item)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            var jsonString = JsonSerializer.Serialize<ReportItem>(item, options);
+            File.WriteAllText(filename, jsonString);
+        }
     }
 }

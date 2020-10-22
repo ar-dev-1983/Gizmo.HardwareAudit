@@ -1,39 +1,49 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management;
 
-namespace Gizmo.HardwareAuditClasses.Hardware
+namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.WindowsLocalGroup)]
     public class WindowsLocalGroup
     {
-        [Category("Local Group")]
-        [Description("Домен")]
+        [Description("Local Group Domain")]
+        [ReportVisibility(true)]
         public string Domain { set; get; }
-        [Category("Local Group")]
-        [Description("Имя")]
+
+        [Description("Local Group Name")]
+        [ReportVisibility(true)]
         public string Name { set; get; }
-        [Category("Local Group")]
-        [Description("Описание")] 
+
+        [Description("Local Group Description")]
+        [ReportVisibility(true)]
         public string Description { set; get; }
-        [Category("Local Group")]
-        [Description("Полное имя профиля")]
+
+        [Description("Local Group Caption")]
+        [ReportVisibility(true)]
         public string Caption { set; get; }
-        [Category("Local Group")]
-        [Description("IsLocal")]
+
+        [Description("Local Group is Local")]
+        [ReportVisibility(true)]
         public bool IsLocal { set; get; }
-        [Category("Local Group")]
-        [Description("Статус")]
+
+        [Description("Local Group Status")]
+        [ReportVisibility(true)]
         public string Status { set; get; }
-        [Category("Local Group")]
-        [Description("SID")]
+
+        [Description("Local Group SID")]
+        [ReportVisibility(true)]
         public string SID { set; get; }
-        [Category("Local Group")]
-        [Description("SIDType")]
+
+        [Description("Local Group SID Type")]
+        [ReportVisibility(true)]
         public string SIDType { set; get; }
 
-        [Category("Local Group")]
-        [Description("Члены группы")]
+        [Description("Local Group Members")]
+        [ReportVisibility(true)]
         public List<string> Childrens { set; get; }
 
         public WindowsLocalGroup()
@@ -104,7 +114,7 @@ namespace Gizmo.HardwareAuditClasses.Hardware
                     {
                         var child = m["PartComponent"] != null ? StringFormatting.CleanInvalidXmlChars(m["PartComponent"].ToString()).TrimStart().TrimEnd() : string.Empty;
                         if (child != string.Empty)
-                            node.Childrens.Add(child.Split(',')[1].Replace("Name=\"","").Replace("\"",""));
+                            node.Childrens.Add(child.Split(',')[1].Replace("Name=\"", "").Replace("\"", ""));
                     }
                 }
                 catch (Exception) { }

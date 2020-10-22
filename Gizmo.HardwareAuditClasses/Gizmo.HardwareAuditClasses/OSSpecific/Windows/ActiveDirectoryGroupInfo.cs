@@ -1,20 +1,31 @@
-﻿using System;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.DirectoryServices;
 
-namespace Gizmo.HardwareAudit
+namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.ActiveDirectoryGroupInfo)]
     public class ActiveDirectoryGroupInfo
     {
+
+        [ReportVisibility(false)]
         public Guid Id { set; get; }
+
+        [ReportVisibility(true)]
         [Description("Имя группы")]
         public string Name { set; get; }
+
+        [ReportVisibility(true)]
         [Description("Описание группы")]
         public string Description { set; get; }
 
+        [ReportVisibility(false)]
         public string DistinguishedName { set; get; }
 
+        [ReportVisibility(true)]
+        [Description("Члены группы")]
         public List<string> Members { set; get; }
 
         public ActiveDirectoryGroupInfo()
@@ -24,15 +35,6 @@ namespace Gizmo.HardwareAudit
             Description = string.Empty;
 
             DistinguishedName = string.Empty;
-            Members = new List<string>();
-        }
-
-        public ActiveDirectoryGroupInfo(DirectoryEntry directoryEntry)
-        {
-            Id = Guid.NewGuid();
-            Name = directoryEntry.Properties["cn"].Value != null ? directoryEntry.Properties["cn"].Value.ToString() : string.Empty;
-            Description = directoryEntry.Properties["description"].Value != null ? directoryEntry.Properties["description"].Value.ToString() : string.Empty;
-            DistinguishedName = directoryEntry.Properties["distinguishedName"].Value != null ? directoryEntry.Properties["distinguishedName"].Value.ToString() : string.Empty;
             Members = new List<string>();
         }
     }

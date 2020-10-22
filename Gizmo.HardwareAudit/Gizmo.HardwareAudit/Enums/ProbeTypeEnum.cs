@@ -18,8 +18,12 @@
         /// </summary>
         CheckSharedFolders,
         /// <summary>
-        /// Perform hardware scan action
+        /// Perform hardware scan action through WMI
         /// </summary>
-        CheckWMI
+        CheckWMI,
+        /// <summary>
+        /// Perform hardware scan action through Gizmo Hardware Audit Agent
+        /// </summary>
+        CheckAgent
     }
 }

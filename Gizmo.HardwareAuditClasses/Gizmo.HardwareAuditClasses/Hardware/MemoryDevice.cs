@@ -1,40 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.MemoryDevice)]
     public class MemoryDevice
     {
-        [Category("Memory")]
-        [Description("Оперативная память: источник")]
+        [ReportVisibility(true)]
+        [Description("RAM Device Locator")]
         public string DeviceLocator { set; get; }
 
-        [Category("Memory")]
-        [Description("Оперативная память: слот")]
+        [ReportVisibility(true)]
+        [Description("RAM Bank Locator")]
         public string BankLocator { set; get; }
 
-        [Category("Memory")]
-        [Description("Memory: производитель")]
+        [ReportVisibility(true)]
+        [Description("RAM Manufacturer")]
         public string ManufacturerName { set; get; }
 
-        [Category("Memory")]
-        [Description("Оперативная память: серийный номер")]
+        [ReportVisibility(true)]
+        [Description("RAM Serial Number")]
         public string SerialNumber { set; get; }
 
-        [Category("Memory")]
-        [Description("Оперативная память: номер партии")]
+        [ReportVisibility(true)]
+        [Description("RAM Part Number")]
         public string PartNumber { set; get; }
 
-        [Category("Memory")]
-        [Description("Оперативная память: частота")]
+        [ReportVisibility(true)]
+        [Description("RAM Speed")]
         public int Speed { set; get; }
 
+        [ReportVisibility(false)]
         public int MemoryType { set; get; }
 
         [JsonIgnore]
-        [Category("Memory")]
-        [Description("Оперативная память: тип памяти")]
+        [ReportVisibility(true)]
+        [Description("RAM Memory Type")]
         public string MemoryTypeString
         {
             get
@@ -44,11 +48,12 @@ namespace Gizmo.HardwareAuditClasses
             }
         }
 
+        [ReportVisibility(false)]
         public int FormFactor { set; get; }
 
         [JsonIgnore]
-        [Category("Memory")]
-        [Description("Оперативная память: тип")]
+        [ReportVisibility(true)]
+        [Description("RAM Form Factor")]
         public string FormFactorString
         {
             get
@@ -58,11 +63,12 @@ namespace Gizmo.HardwareAuditClasses
             }
         }
 
+        [ReportVisibility(false)]
         public int Size { set; get; }
 
         [JsonIgnore]
-        [Category("Memory")]
-        [Description("Оперативная память: объем")]
+        [ReportVisibility(true)]
+        [Description("RAM Size")]
         public string SizeString
         {
             get
@@ -71,8 +77,8 @@ namespace Gizmo.HardwareAuditClasses
             }
         }
 
-        [Category("Memory")]
-        [Description("Оперативная память: модель")]
+        [ReportVisibility(true)]
+        [Description("RAM Asset Tag")]
         public string AssetTag { set; get; }
 
         public MemoryDevice()

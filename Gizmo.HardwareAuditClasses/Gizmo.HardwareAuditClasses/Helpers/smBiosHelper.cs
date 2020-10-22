@@ -1,4 +1,4 @@
-﻿namespace Gizmo.HardwareAuditClasses
+﻿namespace Gizmo.HardwareAuditClasses.Helpers
 {
     public class SmBiosHelper
     {

@@ -2,9 +2,7 @@
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {

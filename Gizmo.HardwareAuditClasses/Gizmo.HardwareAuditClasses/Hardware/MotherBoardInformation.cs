@@ -1,23 +1,26 @@
-﻿using System.ComponentModel;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System.ComponentModel;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.MotherBoardInformation)]
     public class MotherBoardInformation
     {
-        [Category("MotherBoard")]
-        [Description("MotherBoard: производитель")]
+        [Description("MotherBoard Manufacturer")]
+        [ReportVisibility(true)]
         public string ManufacturerName { set; get; }
 
-        [Category("MotherBoard")]
-        [Description("MotherBoard: имя")]
+        [Description("MotherBoard Product Name")]
+        [ReportVisibility(true)]
         public string ProductName { set; get; }
 
-        [Category("MotherBoard")]
-        [Description("MotherBoard: версия")]
+        [Description("MotherBoard Version")]
+        [ReportVisibility(true)]
         public string Version { set; get; }
 
-        [Category("MotherBoard")]
-        [Description("MotherBoard: серийный номер")]
+        [Description("MotherBoard Serial Number")]
+        [ReportVisibility(true)]
         public string SerialNumber { set; get; }
 
         public MotherBoardInformation()

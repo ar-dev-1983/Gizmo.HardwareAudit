@@ -1,14 +1,17 @@
-﻿using System.ComponentModel;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
+using System.ComponentModel;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.BIOSInformation)]
     public class BIOSInformation
     {
-        [Category("BIOS")]
-        [Description("BIOS: производитель")]
+        [Description("BIOS Vendor")]
+        [ReportVisibility(true)]
         public string Vendor { set; get; }
-        [Category("BIOS")]
-        [Description("BIOS: версия")]
+        [Description("BIOS Version")]
+        [ReportVisibility(true)]
         public string Version { set; get; }
 
         public BIOSInformation()

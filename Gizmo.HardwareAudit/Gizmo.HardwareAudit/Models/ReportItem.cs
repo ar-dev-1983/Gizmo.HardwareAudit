@@ -83,7 +83,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         public string Description
         {
             get => description;
@@ -105,7 +105,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         public bool IsSelected
         {
             get => isSelected;
@@ -116,7 +116,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-       
+
         public bool IsExpanded
         {
             get => isExpanded;
@@ -149,7 +149,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-       
+
         public ReportItem SelectedReport
         {
             get

@@ -21,5 +21,8 @@ namespace Gizmo.HardwareAudit.Interfaces
         ObservableCollection<CheckTPCPortSetting> ImportCheckPortsList(string filename);
         void ExportCheckPortsList(string filename, ObservableCollection<CheckTPCPortSetting> list);
 
+        ReportItem OpenReportModel(string filename);
+        void SaveReportModel(string filename, ReportItem item);
+
     }
 }

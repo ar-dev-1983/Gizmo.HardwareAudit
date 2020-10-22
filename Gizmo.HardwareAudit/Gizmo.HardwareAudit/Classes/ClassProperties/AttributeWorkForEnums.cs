@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gizmo.HardwareAudit.Classes.Helpers
 {
-    public static class EnumAttributeHelper
+    public static class AttributeWorkForEnums
     {
         public static T GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
         {

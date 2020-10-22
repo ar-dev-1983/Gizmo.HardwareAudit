@@ -24,7 +24,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         public ReportItem SelectedReportItem => ReportRoot.SelectedReport;
         #endregion
 
@@ -60,6 +60,119 @@ namespace Gizmo.HardwareAudit.ViewModels
         }
         #endregion
 
+        #region Report Model
+        private WorkCommand newReportModelCommand;
+        public WorkCommand NewReportModelCommand
+        {
+            get
+            {
+                return newReportModelCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (dialogService.QueryYesNoAnswer("Save existing Report Model before creating new one?"))
+                        {
+                            if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                            {
+                                serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
+                                Settings.LastFile = dialogService.FilePath;
+                                AddLogItem(DateTime.Now, "Model File: \"" + dialogService.FilePath + "\"", "Saved", LogItemTypeEnum.Information, "NewReportModelCommand");
+                            }
+                        }
+
+                        ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
+                        AddLogItem(DateTime.Now, "New Report Model created", "Successful", LogItemTypeEnum.Information, "NewReportModelCommand");
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "NewReportModelCommand");
+                    }
+                });
+            }
+        }
+
+        private WorkCommand saveReportModelCommand;
+        public WorkCommand SaveReportModelCommand
+        {
+            get
+            {
+                return saveReportModelCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (Settings.LastFile != string.Empty)
+                        {
+                            serializationService.SaveReportModel(Settings.LastFile, ReportRoot);
+                        }
+                        else
+                        {
+                            if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                            {
+                                serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
+                            }
+                        }
+                        AddLogItem(DateTime.Now, "Report Model File: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveReportModelCommand");
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "SaveReportModelCommand");
+                    }
+                });
+            }
+        }
+
+        private WorkCommand saveAsReportModelCommand;
+        public WorkCommand SaveAsReportModelCommand
+        {
+            get
+            {
+                return saveAsReportModelCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                        {
+                            serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
+                            AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveAsReportModelCommand");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "SaveAsReportModelCommand");
+                    }
+                });
+            }
+        }
+
+        private WorkCommand openReportModelCommand;
+        public WorkCommand OpenReportModelCommand
+        {
+            get
+            {
+                return openReportModelCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        if (dialogService.OpenFileDialog("Report Model files|*.rdat") == true)
+                        {
+                            ReportRoot = serializationService.OpenReportModel(dialogService.FilePath);
+                            ReportRoot.Initialise();
+                            if (ReportRoot != null)
+                            {
+                                ReportRoot.PropertyChanged -= SelectedItem_PropertyChanged;
+                                ReportRoot.PropertyChanged += SelectedItem_PropertyChanged;
+                            }
+                            AddLogItem(DateTime.Now, "Report Model File: \"" + Settings.LastFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenReportModelCommand");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "OpenReportModelCommand");
+                    }
+                });
+            }
+        }
+        #endregion
 
         #region Report Commands
         private WorkCommand newReportCommand;
@@ -220,7 +333,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                     }
                 }, (obj) => SelectedReportItem != null);
             }
-        } 
+        }
         #endregion
     }
 }
