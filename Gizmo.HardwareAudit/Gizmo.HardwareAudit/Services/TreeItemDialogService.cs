@@ -2,6 +2,7 @@
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
+using Gizmo.HardwareAuditClasses.Enums;
 using System;
 
 namespace Gizmo.HardwareAudit.Services
@@ -17,6 +18,7 @@ namespace Gizmo.HardwareAudit.Services
         public Guid UserProfileId { get; set; }
         public DomainDiscoverySettings DomainSettings { set; get; }
         public Guid SelectedContainerId { set; get; }
+        public ReportSettings ReportSettings { set; get; }
 
         public bool ContainerSettingsDialog(AppSettings settings)
         {
@@ -160,32 +162,50 @@ namespace Gizmo.HardwareAudit.Services
             }
         }
 
-        public bool ReportItemSettingsDialog(AppSettings settings)
+        public bool ReportItemSettingsDialog(AppSettings settings, TreeItem root)
         {
-            ReportDialog dialog = new ReportDialog(settings);
+            ReportDialog dialog = new ReportDialog(settings, root);
             switch (dialog.ShowDialog())
             {
                 case true:
-                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ContainerName;
-                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ContainerDescription;
+                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ReportName;
+                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ReportDescription;
                     UseCustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).UseCustomIcon;
                     CustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).CustomIcon;
+                    ReportSettings = new ReportSettings()
+                    {
+                        ReportSourceContainerId = (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer != null ? (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer.Id : new Guid(),
+                        ReportTimeStamp = DateTime.Now,
+                        Columns = (dialog.DataContext as ReportItemSettingsViewModel).Columns,
+                        ComponentGroupingItem = (ComponentGroupingTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentGroupingItem.Value,
+                        ComponentItem = (ComponentTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentItem.Value,
+                        EachValueIsASepareteRow = (dialog.DataContext as ReportItemSettingsViewModel).EachValueIsASepareteRow
+                    };
                     return true;
                 default:
                     return false;
             }
         }
 
-        public bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon)
+        public bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings)
         {
-            ReportDialog dialog = new ReportDialog(settings, name, desc, useCustomIcon, customIcon);
+            ReportDialog dialog = new ReportDialog(settings, name, desc, useCustomIcon, customIcon, root, reportSettings);
             switch (dialog.ShowDialog())
             {
                 case true:
-                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ContainerName;
-                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ContainerDescription;
+                    Name = (dialog.DataContext as ReportItemSettingsViewModel).ReportName;
+                    Description = (dialog.DataContext as ReportItemSettingsViewModel).ReportDescription;
                     UseCustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).UseCustomIcon;
                     CustomIcon = (dialog.DataContext as ReportItemSettingsViewModel).CustomIcon;
+                    ReportSettings = new ReportSettings()
+                    {
+                        ReportSourceContainerId = (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer.Id,
+                        ReportTimeStamp = DateTime.Now,
+                        Columns = (dialog.DataContext as ReportItemSettingsViewModel).Columns,
+                        ComponentGroupingItem = (ComponentGroupingTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentGroupingItem.Value,
+                        ComponentItem = (ComponentTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentItem.Value,
+                        EachValueIsASepareteRow = (dialog.DataContext as ReportItemSettingsViewModel).EachValueIsASepareteRow
+                    };
                     return true;
                 default:
                     return false;

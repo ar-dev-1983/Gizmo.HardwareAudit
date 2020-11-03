@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Gizmo.HardwareAudit.Views
+namespace Gizmo.HardwareAudit.Controls
 {
     public class TreeItemIcon : ContentControl
     {

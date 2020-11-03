@@ -1,4 +1,6 @@
-﻿namespace Gizmo.HardwareAudit.Classes.Helpers
+﻿using Gizmo.HardwareAuditClasses.Enums;
+
+namespace Gizmo.HardwareAudit.Classes.Helpers
 {
     public class ClassProperties
     {
@@ -8,15 +10,17 @@
         public string PropertyKey { set; get; }
         public string PropertyBindingKey { set; get; }
         public string PropertyValueType { set; get; }
+        public FieldTypeEnum FieldType { set; get; }
 
         public ClassProperties()
         {
-            IsSelected = false;
+            IsSelected = true;
             SourceClassTypeName = string.Empty;
             PropertyDescription = string.Empty;
             PropertyKey = string.Empty;
             PropertyBindingKey = string.Empty;
             PropertyValueType = string.Empty;
+            FieldType = FieldTypeEnum.None;
         }
     }
 }

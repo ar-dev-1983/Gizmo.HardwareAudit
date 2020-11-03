@@ -11,26 +11,32 @@ namespace Gizmo.HardwareAuditClasses
     {
         [ReportVisibility(true)]
         [Description("RAM Device Locator")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string DeviceLocator { set; get; }
 
         [ReportVisibility(true)]
         [Description("RAM Bank Locator")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string BankLocator { set; get; }
 
         [ReportVisibility(true)]
         [Description("RAM Manufacturer")]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ManufacturerName { set; get; }
 
         [ReportVisibility(true)]
         [Description("RAM Serial Number")]
+        [FieldType(FieldTypeEnum.KeyToIgnore)]
         public string SerialNumber { set; get; }
 
         [ReportVisibility(true)]
         [Description("RAM Part Number")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string PartNumber { set; get; }
 
         [ReportVisibility(true)]
         [Description("RAM Speed")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public int Speed { set; get; }
 
         [ReportVisibility(false)]
@@ -39,6 +45,7 @@ namespace Gizmo.HardwareAuditClasses
         [JsonIgnore]
         [ReportVisibility(true)]
         [Description("RAM Memory Type")]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string MemoryTypeString
         {
             get
@@ -54,6 +61,7 @@ namespace Gizmo.HardwareAuditClasses
         [JsonIgnore]
         [ReportVisibility(true)]
         [Description("RAM Form Factor")]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string FormFactorString
         {
             get
@@ -69,6 +77,7 @@ namespace Gizmo.HardwareAuditClasses
         [JsonIgnore]
         [ReportVisibility(true)]
         [Description("RAM Size")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SizeString
         {
             get
@@ -79,6 +88,7 @@ namespace Gizmo.HardwareAuditClasses
 
         [ReportVisibility(true)]
         [Description("RAM Asset Tag")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string AssetTag { set; get; }
 
         public MemoryDevice()

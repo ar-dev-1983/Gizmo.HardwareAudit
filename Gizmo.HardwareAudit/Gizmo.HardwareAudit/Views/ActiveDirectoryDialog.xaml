@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
-        xmlns:views="clr-namespace:Gizmo.HardwareAudit.Views"
-        xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums"
+        xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums" 
+        xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Title="Active Directory Connection Settings" Height="170" Icon="/Resources/Images/Settings.png" Width="490" SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
@@ -25,12 +25,12 @@
             <ui:UIEnumSwitch.Items>
                 <ui:UIEnumSwitchItem Width="130" Value="{x:Static enums:DomainDiscoveryModeEnum.FromDomainName}" Header="Domain" HorizontalContentAlignment="Left">
                     <ui:UIEnumSwitchItem.Icon>
-                        <views:GizmoIcon Icon="ActiveDirectory" FontSize="16"/>
+                        <controls:GizmoIcon Icon="ActiveDirectory" FontSize="16"/>
                     </ui:UIEnumSwitchItem.Icon>
                 </ui:UIEnumSwitchItem>
                 <ui:UIEnumSwitchItem Width="130" Value="{x:Static enums:DomainDiscoveryModeEnum.FromDomainController}" Header="Domain Controller" HorizontalContentAlignment="Left">
                     <ui:UIEnumSwitchItem.Icon>
-                        <views:GizmoIcon Icon="Container2" FontSize="16"/>
+                        <controls:GizmoIcon Icon="Container2" FontSize="16"/>
                     </ui:UIEnumSwitchItem.Icon>
                 </ui:UIEnumSwitchItem>
             </ui:UIEnumSwitch.Items>

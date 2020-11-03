@@ -1,11 +1,14 @@
 ﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
+using Gizmo.HardwareAuditClasses.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Gizmo.HardwareAudit.Models
 {
@@ -26,6 +29,11 @@ namespace Gizmo.HardwareAudit.Models
         private bool isExpanded = false;
         private bool useCustomIcon = false;
         private GizmoIconEnum customIcon = GizmoIconEnum.None;
+        private ReportSettings settings = null;
+        public DataTable dataTable = null;
+        private bool reportIsBusy = false;
+        private bool reportBuildIsDone = false;
+
         #endregion
 
         #region Public Properties
@@ -105,7 +113,8 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-
+        
+        [JsonIgnore]
         public bool IsSelected
         {
             get => isSelected;
@@ -116,7 +125,8 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-
+        
+        [JsonIgnore]
         public bool IsExpanded
         {
             get => isExpanded;
@@ -149,12 +159,59 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-
+        
+        [JsonIgnore]
         public ReportItem SelectedReport
         {
             get
             {
                 return Traverse(this, node => node.Children).FirstOrDefault(m => m.IsSelected);
+            }
+        }
+        
+        public ReportSettings Settings
+        {
+            get => settings;
+            set
+            {
+                if (settings == value) return;
+                settings = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        [JsonIgnore]
+        public DataTable DataTable
+        {
+            get => dataTable;
+            set
+            {
+                if (dataTable == value) return;
+                dataTable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        public bool ReportIsBusy
+        {
+            get => reportIsBusy;
+            set
+            {
+                if (reportIsBusy == value) return;
+                reportIsBusy = value;
+                OnPropertyChanged();
+            }
+        }
+        [JsonIgnore]
+        public bool ReportBuildIsDone
+        {
+            get => reportBuildIsDone;
+            set
+            {
+                if (reportBuildIsDone == value) return;
+                reportBuildIsDone = value;
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -248,5 +305,50 @@ namespace Gizmo.HardwareAudit.Models
             };
             return result;
         }
+
+        internal void InitialiseDataGrid()
+        {
+            if (Type == ReportItemTypeEnum.Report)
+            {
+                DataTable = new DataTable();
+                DataTable.TableName = Name.Replace("  "," ").Replace("  ", " ").Replace("  ", " ").Replace(" ", "_");
+                if (Settings != null)
+                {
+                    if (Settings.Columns != null)
+                    {
+                        if (Settings.Columns.Count != 0)
+                        {
+                            if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByContainer)
+                            {
+                                DataTable.Columns.Add("#");
+                                if (Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryComputerInfo ||
+                                    Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryGroupInfo ||
+                                    Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryUserInfo)
+                                {
+                                    DataTable.Columns.Add("Computer Name");
+                                    DataTable.Columns.Add("Computer Description");
+                                    DataTable.Columns.Add("Computer FQDN");
+                                    DataTable.Columns.Add("Computer IP Address");
+                                }
+                            }
+                            else if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByInstance)
+                            {
+                                DataTable.Columns.Add("#");
+                            }
+                            foreach (var column in Settings.Columns)
+                            {
+                                if (column.IsSelected)
+                                    DataTable.Columns.Add(column.PropertyDescription);
+                            }
+                            if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByInstance)
+                            {
+                                DataTable.Columns.Add("Quantity");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

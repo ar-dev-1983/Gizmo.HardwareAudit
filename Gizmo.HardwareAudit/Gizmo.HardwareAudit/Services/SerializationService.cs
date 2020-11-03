@@ -1,9 +1,12 @@
 ﻿using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAuditClasses;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Gizmo.HardwareAudit.Services
 {
@@ -96,6 +99,17 @@ namespace Gizmo.HardwareAudit.Services
                 WriteIndented = true
             };
             var jsonString = JsonSerializer.Serialize<ReportItem>(item, options);
+            File.WriteAllText(filename, jsonString);
+        }
+
+        public void ExportAsJson(string filename, List<Dictionary<string, object>> keyValuePairs)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+            };
+            var jsonString = JsonSerializer.Serialize<List<Dictionary<string, object>>>(keyValuePairs, options);
             File.WriteAllText(filename, jsonString);
         }
     }

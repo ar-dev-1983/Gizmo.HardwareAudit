@@ -1,7 +1,7 @@
-﻿using Gizmo.HardwareAudit.Enums;
+﻿using Gizmo.HardwareAudit.Controls;
+using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
-using Gizmo.HardwareAudit.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -128,12 +128,19 @@ namespace Gizmo.HardwareAudit.ViewModels
                 if (Settings.LastFile != "")
                 {
                     Root = serializationService.OpenModel(Settings.LastFile);
-                    ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
                     AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Loaded", LogItemTypeEnum.Information, "AppViewModel");
                 }
                 else
                 {
                     Root = new TreeItem() { Children = { TreeItem.CreateRoot() } };
+                }
+                if (Settings.LastReportFile != "")
+                {
+                    ReportRoot = serializationService.OpenReportModel(Settings.LastReportFile);
+                    AddLogItem(DateTime.Now, "Report Model File: \"" + Settings.LastReportFile + "\"", "Loaded", LogItemTypeEnum.Information, "AppViewModel");
+                }
+                else
+                {
                     ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
                 }
             }
@@ -148,6 +155,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 Root.PropertyChanged += SelectedItem_PropertyChanged;
             }
+            InitReports();
             ReportRoot.Initialise();
             if (ReportRoot != null)
             {
@@ -680,7 +688,14 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
             return null;
         }
-
+        internal ReportItem FindReportItemByGuid(Guid id)
+        {
+            if (ReportRoot.Children.Count != 0)
+            {
+                return Traverse(ReportRoot, node => node.Children).FirstOrDefault(m => m.Id == id);
+            }
+            return null;
+        }
         internal void ClearHardwareScansInChildrends(TreeItem Item, ItemTypeEnum Type)
         {
             if (Item.Children.Count != 0)

@@ -1,8 +1,8 @@
 ﻿using Gizmo.HardwareAudit.Classes.Helpers;
+using Gizmo.HardwareAudit.Controls;
 using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
-using Gizmo.HardwareAudit.Views;
 using Gizmo.WPF;
 using System.Windows;
 using System.Windows.Input;

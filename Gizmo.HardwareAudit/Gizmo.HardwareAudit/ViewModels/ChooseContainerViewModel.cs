@@ -1,8 +1,6 @@
-﻿using Gizmo.HardwareAudit.Enums;
+﻿using Gizmo.HardwareAudit.Classes.Helpers;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
-using System;
-using System.Collections.ObjectModel;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {
@@ -26,9 +24,9 @@ namespace Gizmo.HardwareAudit.ViewModels
             Root = new ContainerItem();
 
             if (useSelectedParentId)
-                GetContainersFromTreeItem(treeItem, Root.Children, treeItem.SelectedItem.ParentId);
+                TreeItemHelper.GetContainersFromTreeItem(treeItem, Root.Children, treeItem.SelectedItem.ParentId);
             else
-                GetContainersFromTreeItem(treeItem, Root.Children);
+                TreeItemHelper.GetAllContainersFromTreeItem(treeItem, Root.Children);
 
             Root.Initialise();
             if (Root != null)
@@ -37,57 +35,6 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        private void GetContainersFromTreeItem(TreeItem treeItem, ObservableCollection<ContainerItem> items, Guid selectedItemParentId)
-        {
-            foreach (var node in treeItem.Children)
-            {
-                if (node.Type != ItemTypeEnum.ChildComputer && node.Type != ItemTypeEnum.ChildDevice)
-                {
-                    var newContainer = new ContainerItem()
-                    {
-                        Id = node.Id,
-                        Name = node.Name,
-                        ParentId = node.ParentId,
-                        IsExpanded = node.IsExpanded,
-                        Type = node.Type,
-                        ParentType = node.ParentType,
-                        IsTrueContainer = node.Type == ItemTypeEnum.ChildContainer
-                        || node.Type == ItemTypeEnum.Workgroup,
-                        IsSelected = node.Id == selectedItemParentId
-                    };
-                    if (node.Children.Count != 0)
-                    {
-                        GetContainersFromTreeItem(node, newContainer.Children, selectedItemParentId);
-                    }
-                    items.Add(newContainer);
-                }
-            }
-        }
-
-        private void GetContainersFromTreeItem(TreeItem treeItem, ObservableCollection<ContainerItem> items)
-        {
-            foreach (var node in treeItem.Children)
-            {
-                if (node.Type != ItemTypeEnum.ChildComputer && node.Type != ItemTypeEnum.ChildDevice)
-                {
-                    var newContainer = new ContainerItem()
-                    {
-                        Id = node.Id,
-                        Name = node.Name,
-                        ParentId = node.ParentId,
-                        IsExpanded = node.IsExpanded,
-                        Type = node.Type,
-                        ParentType = node.ParentType,
-                        IsTrueContainer = node.Type != ItemTypeEnum.None
-                    };
-                    if (node.Children.Count != 0)
-                    {
-                        GetContainersFromTreeItem(node, newContainer.Children);
-                    }
-                    items.Add(newContainer);
-                }
-            }
-        }
         private void SelectedItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("SelectedItem"))

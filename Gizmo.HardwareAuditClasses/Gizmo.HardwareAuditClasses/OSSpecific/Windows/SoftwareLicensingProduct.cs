@@ -13,26 +13,32 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("Microsoft Product Name")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Name { set; get; }
 
         [Description("Microsoft Product Description")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Description { set; get; }
 
         [Description("Microsoft Product License Status")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string LicenseStatus { set; get; }
 
         [Description("Microsoft Product License Family")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string LicenseFamily { set; get; }
 
         [Description("Microsoft Product Patrial Key")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string PatrialProductKey { set; get; }
 
         [Description("Microsoft Product Key ID")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string ProductKeyID { set; get; }
 
         public SoftwareLicensingProduct()

@@ -3,7 +3,7 @@ using Gizmo.HardwareAudit.Models;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Gizmo.HardwareAudit.Views
+namespace Gizmo.HardwareAudit.Controls
 {
     public class TreeItemView : Control
     {

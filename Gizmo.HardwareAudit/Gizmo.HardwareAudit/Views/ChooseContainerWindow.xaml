@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF" 
-        xmlns:views="clr-namespace:Gizmo.HardwareAudit.Views"
         xmlns:local="clr-namespace:Gizmo.HardwareAudit" 
+        xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Height="450" Width="350" Title="Select Container" Icon="/Resources/Images/Settings.png" SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
@@ -16,11 +16,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ui:UITreeList Grid.Row="0" x:Name="TvContainerList" BorderThickness="0,0,0,1" Margin="-1,0,-1,0" ItemsSource="{Binding Root.Children}"
+        <ui:UITreeList Grid.Row="0" x:Name="TvContainerList" BorderThickness="0,1,0,1" Margin="-1,0,-1,0" ItemsSource="{Binding Root.Children}"
                                    VirtualizingPanel.IsVirtualizing="True"
                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                    VirtualizingPanel.ScrollUnit="Item"
-                                   VirtualizingPanel.IsContainerVirtualizable="True">
+                                   VirtualizingPanel.IsContainerVirtualizable="True"
+                       Style="{StaticResource HeaderlessUITreeList}">
             <ui:UITreeList.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
             </ui:UITreeList.ItemTemplate>
@@ -43,7 +44,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <ui:UITreeNodeExpanderControl Grid.Column="0" VerticalAlignment="Center" />
-                                <views:TreeItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <controls:TreeItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>

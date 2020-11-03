@@ -16,6 +16,7 @@ namespace Gizmo.HardwareAudit.Models
         private UIThemeEnum theme;
         private bool loadLastFile;
         private string lastFile;
+        private string lastReportFile;
         private string logFile;
         private bool checkPortsThenPing;
         private bool checkSharedFoldersThenPing;
@@ -80,6 +81,16 @@ namespace Gizmo.HardwareAudit.Models
             {
                 if (lastFile == value) return;
                 lastFile = value;
+                OnPropertyChanged();
+            }
+        }
+        public string LastReportFile
+        {
+            get => lastReportFile;
+            set
+            {
+                if (lastReportFile == value) return;
+                lastReportFile = value;
                 OnPropertyChanged();
             }
         }
@@ -150,6 +161,7 @@ namespace Gizmo.HardwareAudit.Models
             theme = UIThemeEnum.BlueDark;
             loadLastFile = false;
             lastFile = string.Empty;
+            lastReportFile = string.Empty;
             logFile = string.Empty;
             checkPortsThenPing = false;
             checkSharedFoldersThenPing = false;

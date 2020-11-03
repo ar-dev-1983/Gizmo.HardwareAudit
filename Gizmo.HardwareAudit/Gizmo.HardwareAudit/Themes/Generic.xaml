@@ -3,8 +3,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/UIItemView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/TreeItemIcon.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/ReportItemIcon.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/TreeItemView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/HardwareScanView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/ReportItemIcon.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAudit;Component/Themes/ReportItemView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

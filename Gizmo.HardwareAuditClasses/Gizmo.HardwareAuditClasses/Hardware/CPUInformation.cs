@@ -9,30 +9,37 @@ namespace Gizmo.HardwareAuditClasses
     {
         [ReportVisibility(true)]
         [Description("CPU Slot")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SlotLocator { set; get; }
 
         [ReportVisibility(true)]
         [Description("CPU Manufacturer")]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ManufacturerName { set; get; }
 
         [ReportVisibility(true)]
         [Description("CPU Version")]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Version { set; get; }
 
         [ReportVisibility(true)]
         [Description("CPU Core Count")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public int CoreCount { set; get; }
 
         [ReportVisibility(false)]
         [Description("CPU Core Enabled")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public int CoreEnabled { set; get; }
 
         [ReportVisibility(true)]
         [Description("CPU Thread Count")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public int ThreadCount { set; get; }
 
         [ReportVisibility(false)]
         [Description("CPU External Clock")]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public int ExternalClock { set; get; }
 
         public CPUInformation()

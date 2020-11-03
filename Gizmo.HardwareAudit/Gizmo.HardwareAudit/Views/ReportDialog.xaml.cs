@@ -1,8 +1,8 @@
 ﻿using Gizmo.HardwareAudit.Classes.Helpers;
+using Gizmo.HardwareAudit.Controls;
 using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
-using Gizmo.HardwareAudit.Views;
 using Gizmo.WPF;
 using System.Windows;
 using System.Windows.Input;
@@ -20,28 +20,27 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        public ReportDialog(AppSettings settings)
+        public ReportDialog(AppSettings settings, TreeItem root)
         {
             Owner = Application.Current.MainWindow;
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
-            DataContext = new ReportItemSettingsViewModel();
+            DataContext = new ReportItemSettingsViewModel(root);
             FillWrapPanelWithIcons(false, GizmoIconEnum.None);
-
         }
 
-        public ReportDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmoIconEnum customIcon)
+        public ReportDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings)
         {
             Owner = Application.Current.MainWindow;
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
-            DataContext = new ReportItemSettingsViewModel(name, description, useCustomIcon, customIcon);
+            DataContext = new ReportItemSettingsViewModel(name, description, useCustomIcon, customIcon, root, reportSettings);
             FillWrapPanelWithIcons(useCustomIcon, customIcon);
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (TbContainerName.Text != string.Empty)
+            if (TbReportName.Text != string.Empty)
             {
                 if ((DataContext as ReportItemSettingsViewModel).UseCustomIcon && (DataContext as ReportItemSettingsViewModel).CustomIcon == GizmoIconEnum.None)
                 {
@@ -60,11 +59,11 @@ namespace Gizmo.HardwareAudit
             DialogResult = false;
         }
 
-        private void TbContainerName_KeyDown(object sender, KeyEventArgs e)
+        private void TbReportName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                TbContainerDescription.Focus();
+                TbReportDescription.Focus();
             }
         }
 

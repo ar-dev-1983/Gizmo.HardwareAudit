@@ -15,6 +15,7 @@ namespace Gizmo.HardwareAudit.Interfaces
         Guid UserProfileId { get; set; }
         DomainDiscoverySettings DomainSettings { set; get; }
         Guid SelectedContainerId { set; get; }
+        ReportSettings ReportSettings { set; get; }
 
         bool ContainerSettingsDialog(AppSettings settings);
         bool ContainerSettingsDialog(AppSettings settings, string name, string desc, bool useParentId, Guid profileId);
@@ -30,8 +31,8 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ReportContainerSettingsDialog(AppSettings settings);
         bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
 
-        bool ReportItemSettingsDialog(AppSettings settings);
-        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
+        bool ReportItemSettingsDialog(AppSettings settings, TreeItem root);
+        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings);
 
     }
 }

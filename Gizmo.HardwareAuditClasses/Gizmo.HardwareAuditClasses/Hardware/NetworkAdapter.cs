@@ -12,30 +12,37 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("Network Adapter Name")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Adapter { set; get; }
 
         [Description("Network Adapter MAC")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string MAC { set; get; }
 
         [Description("Network Adapter IP Address")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string IPAddress { set; get; }
 
         [Description("Network Adapter Default Geteway")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string DefaultGeteway { set; get; }
 
         [Description("Network Adapter Subnet Masks")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SubnetMasks { set; get; }
 
         [Description("Network Adapter DHCP Enabled")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string DHCP_Enabled { set; get; }
 
         [Description("Network Adapter DHCP Server IP")]
         [ReportVisibility(true)]
+        [FieldType(FieldTypeEnum.KeyToSort)]
         public string DHCP_ServerIP { set; get; }
 
         public NetworkAdapter()

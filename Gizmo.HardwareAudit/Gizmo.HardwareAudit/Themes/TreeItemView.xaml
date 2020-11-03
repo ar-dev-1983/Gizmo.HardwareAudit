@@ -1,7 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Gizmo.HardwareAudit.Views"
+    xmlns:local="clr-namespace:Gizmo.HardwareAudit.Controls"
     xmlns:converters="clr-namespace:Gizmo.HardwareAudit"
     xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
     xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums">

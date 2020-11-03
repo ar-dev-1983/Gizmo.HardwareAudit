@@ -1,5 +1,8 @@
-﻿using Gizmo.HardwareAudit.Interfaces;
+﻿using Gizmo.HardwareAudit.Classes.Helpers;
+using Gizmo.HardwareAudit.Interfaces;
+using Gizmo.HardwareAuditClasses.Enums;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Gizmo.HardwareAudit.Models
@@ -10,7 +13,10 @@ namespace Gizmo.HardwareAudit.Models
 
         private Guid reportSourceContainerId = new Guid();
         private DateTime reportTimeStamp = new DateTime();
-
+        private ObservableCollection<ClassProperties> columns;
+        private ComponentGroupingTypeEnum componentGroupingItem;
+        private ComponentTypeEnum componentItem;
+        private bool eachValueIsASepareteRow = false;
         public Guid ReportSourceContainerId
         {
             get => reportSourceContainerId;
@@ -29,6 +35,46 @@ namespace Gizmo.HardwareAudit.Models
             {
                 if (reportTimeStamp == value) return;
                 reportTimeStamp = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<ClassProperties> Columns
+        {
+            get => columns;
+            set
+            {
+                if (columns == value) return;
+                columns = value;
+                OnPropertyChanged();
+            }
+        }
+        public ComponentGroupingTypeEnum ComponentGroupingItem
+        {
+            get => componentGroupingItem;
+            set
+            {
+                if (componentGroupingItem == value) return;
+                componentGroupingItem = value;
+                OnPropertyChanged();
+            }
+        }
+        public ComponentTypeEnum ComponentItem
+        {
+            get => componentItem;
+            set
+            {
+                if (componentItem == value) return;
+                componentItem = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool EachValueIsASepareteRow
+        {
+            get => eachValueIsASepareteRow;
+            set
+            {
+                if (eachValueIsASepareteRow == value) return;
+                eachValueIsASepareteRow = value;
                 OnPropertyChanged();
             }
         }
