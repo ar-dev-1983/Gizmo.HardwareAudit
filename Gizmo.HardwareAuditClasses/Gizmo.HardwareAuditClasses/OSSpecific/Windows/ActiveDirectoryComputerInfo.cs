@@ -33,19 +33,24 @@ namespace Gizmo.HardwareAuditClasses
         [ReportVisibility(false)]
         public string DistinguishedName { set; get; }
 
-        [ReportVisibility(false)]
+        [ReportVisibility(true)]
+        [Description("When Created")]
         public string WhenCreated { set; get; }
 
-        [ReportVisibility(false)]
+        [ReportVisibility(true)]
+        [Description("When Changed")]
         public string WhenChanged { set; get; }
 
-        [ReportVisibility(false)]
+        [ReportVisibility(true)]
+        [Description("Last Logon")]
         public string LastLogon { set; get; }
 
-        [ReportVisibility(false)]
+        [ReportVisibility(true)]
+        [Description("Operating System")]
         public string OperatingSystem { set; get; }
 
-        [ReportVisibility(false)]
+        [ReportVisibility(true)]
+        [Description("LastLogon Timestamp")]
         public string LastLogonTimestamp { set; get; }
 
         [ReportVisibility(false)]

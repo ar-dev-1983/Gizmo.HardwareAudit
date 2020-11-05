@@ -16,63 +16,63 @@ namespace Gizmo.HardwareAuditClasses
         public string SourceName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Учетная запись AD")]
+        [Description("User Name")]
         public string UserName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Имя")]
+        [Description("First name")]
         public string FirstName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Фамилия")]
+        [Description("Last name")]
         public string LastName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Инициалы")]
+        [Description("Initials")]
         public string MN { set; get; }
 
         [ReportVisibility(true)]
-        [Description("ФИО")]
+        [Description("Screen name")]
         public string ScreenName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Описание")]
+        [Description("Description")]
         public string Description { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Комната")]
+        [Description("Room")]
         public string Room { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Улица")]
+        [Description("Street")]
         public string Street { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Город")]
+        [Description("Town")]
         public string Town { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Область")]
+        [Description("Area")]
         public string Area { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Страна")]
+        [Description("Country")]
         public string Country { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Почтовый индекс")]
+        [Description("Post Code")]
         public string PostCode { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Почтовый ящик")]
+        [Description("Post Box")]
         public string PostBox { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Телефонный номер")]
+        [Description("Phone Number")]
         public string PhoneNumber { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Адрес электронной почты")]
+        [Description("Email")]
         public string Email { set; get; }
 
 
@@ -80,19 +80,19 @@ namespace Gizmo.HardwareAuditClasses
         public string DistinguishedName { set; get; }
 
         [ReportVisibility(true)]
-        [Description("IsActive")]
+        [Description("Is Active")]
         public bool IsActive { set; get; }
 
         [ReportVisibility(true)]
-        [Description("PasswordChangeable")]
+        [Description("Password Changeable")]
         public bool PasswordChangeable { set; get; }
 
         [ReportVisibility(true)]
-        [Description("PasswordExpires")]
+        [Description("Password Expires")]
         public bool PasswordExpires { set; get; }
 
         [ReportVisibility(true)]
-        [Description("PasswordRequired")]
+        [Description("Password Required")]
         public bool PasswordRequired { set; get; }
 
         public ActiveDirectoryUserInfo()

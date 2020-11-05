@@ -13,6 +13,7 @@ namespace Gizmo.HardwareAudit
         public DomainDiscovery()
         { }
 
+        #region Domain Methods
         public static DomainCollection EnumerateDomains(string forestName, UserProfile options)
         {
             using (Forest forest = Forest.GetForest(new DirectoryContext(DirectoryContextType.Forest, forestName, options.UserName, UserProfile.ToInsecureString(options.UserPassword))))
@@ -42,7 +43,9 @@ namespace Gizmo.HardwareAudit
             { }
             return result;
         }
+        #endregion
 
+        #region Enumerate information from Domain
         public static List<DomainInformation> EnumerateComputersFromDomain(string name, UserProfile options, bool ignoreStructure = false)
         {
             var dc = EnumerateDomains(name, options);
@@ -56,7 +59,10 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateComputers(newDomain, directoryRoot, ignoreStructure);
+                        if (ignoreStructure)
+                            EnumerateOnlyComputers(newDomain, directoryRoot);
+                        else
+                            EnumerateComputers(newDomain, directoryRoot);
                     }
                 }
                 Domains.Add(newDomain);
@@ -77,7 +83,10 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateUsers(newDomain, directoryRoot, ignoreStructure);
+                        if (ignoreStructure)
+                            EnumerateOnlyUsers(newDomain, directoryRoot);
+                        else
+                            EnumerateUsers(newDomain, directoryRoot);
                     }
                 }
                 Domains.Add(newDomain);
@@ -98,19 +107,27 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateGroups(newDomain, directoryRoot, ignoreStructure);
+                        if (ignoreStructure)
+                            EnumerateOnlyGroups(newDomain, directoryRoot);
+                        else
+                            EnumerateGroups(newDomain, directoryRoot);
                     }
                 }
                 Domains.Add(newDomain);
             }
             return Domains;
         }
+        #endregion
 
+        #region Enumarate information from Domain Controller
         public static DomainInformation EnumerateComputersFromDomainController(string name, UserProfile options, bool ignoreStructure = false)
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateComputers(domainController, directoryRoot, ignoreStructure);
+            if (ignoreStructure)
+                EnumerateOnlyComputers(domainController, directoryRoot);
+            else
+                EnumerateComputers(domainController, directoryRoot);
             return domainController;
         }
 
@@ -118,7 +135,10 @@ namespace Gizmo.HardwareAudit
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateUsers(domainController, directoryRoot, ignoreStructure);
+            if (ignoreStructure)
+                EnumerateOnlyUsers(domainController, directoryRoot);
+            else
+                EnumerateUsers(domainController, directoryRoot);
             return domainController;
         }
 
@@ -126,11 +146,29 @@ namespace Gizmo.HardwareAudit
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateGroups(domainController, directoryRoot, ignoreStructure);
+            if (ignoreStructure)
+                EnumerateOnlyGroups(domainController, directoryRoot);
+            else
+                EnumerateGroups(domainController, directoryRoot);
             return domainController;
         }
+        #endregion
 
-        private static void EnumerateComputers(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
+        #region Items Enumeration
+        private static void EnumerateOnlyComputers(DomainInformation root, DirectoryEntry directory)
+        {
+            using (DirectorySearcher mySearcher = new DirectorySearcher(directory) { Filter = "(objectCategory=computer)" })
+            {
+                foreach (SearchResult node in mySearcher.FindAll())
+                {
+                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Computer, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseComputerInfo(node) };
+                    (item.Info as ActiveDirectoryComputerInfo).SourceName = root.Name;
+                    root.Childrens.Add(item);
+                }
+            }
+        }
+
+        private static void EnumerateComputers(DomainInformation root, DirectoryEntry directory)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -150,15 +188,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateComputers(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateComputers(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateComputers(item, child);
                                     }
                                     break;
                                 }
@@ -168,15 +199,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateComputers(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateComputers(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateComputers(item, child);
                                     }
                                     break;
                                 }
@@ -199,7 +223,20 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        private static void EnumerateUsers(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
+        private static void EnumerateOnlyUsers(DomainInformation root, DirectoryEntry directory)
+        {
+            using (DirectorySearcher mySearcher = new DirectorySearcher(directory) { Filter = "((&(objectCategory=Person)(objectClass=User)))" })
+            {
+                foreach (SearchResult node in mySearcher.FindAll())
+                {
+                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.User, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseUserInfo(node) };
+                    (item.Info as ActiveDirectoryUserInfo).SourceName = root.Name;
+                    root.Childrens.Add(item);
+                }
+            }
+        }
+
+        private static void EnumerateUsers(DomainInformation root, DirectoryEntry directory)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -219,15 +256,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateUsers(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateUsers(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateUsers(item, child);
                                     }
                                     break;
                                 }
@@ -237,15 +267,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateUsers(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateUsers(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateUsers(item, child);
                                     }
                                     break;
                                 }
@@ -268,7 +291,27 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        private static void EnumerateGroups(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
+        private static void EnumerateOnlyGroups(DomainInformation root, DirectoryEntry directory)
+        {
+            using (DirectorySearcher mySearcher = new DirectorySearcher(directory) { Filter = "(objectClass=group)" })
+            {
+                foreach (SearchResult node in mySearcher.FindAll())
+                {
+                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Group, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseGroupInfo(node) };
+                    if (node.Properties["member"] != null)
+                    {
+                        foreach (var member in node.Properties["member"])
+                        {
+                            (item.Info as ActiveDirectoryGroupInfo).Members.Add(member.ToString().Split(',')[0].Replace("CN=", ""));
+                        }
+                    }
+                        (item.Info as ActiveDirectoryGroupInfo).SourceName = root.Name;
+                    root.Childrens.Add(item);
+                }
+            }
+        }
+
+        private static void EnumerateGroups(DomainInformation root, DirectoryEntry directory)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -288,15 +331,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateGroups(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateGroups(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateGroups(item, child);
                                     }
                                     break;
                                 }
@@ -306,15 +342,8 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        if (!ignoreStructure)
-                                        {
-                                            root.Childrens.Add(item);
-                                            EnumerateGroups(item, child, ignoreStructure);
-                                        }
-                                        else
-                                        {
-                                            EnumerateGroups(root, child, ignoreStructure);
-                                        }
+                                        root.Childrens.Add(item);
+                                        EnumerateGroups(item, child);
                                     }
                                     break;
                                 }
@@ -343,7 +372,9 @@ namespace Gizmo.HardwareAudit
                     continue;
             }
         }
+        #endregion
 
+        #region Domain Information Enumeration
         public static List<DomainInformation> EnumerateComputersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode, bool ignoreStructure = false) => mode switch
         {
             DomainDiscoveryModeEnum.FromDomainName => EnumerateComputersFromDomain(name, options, ignoreStructure),
@@ -364,7 +395,9 @@ namespace Gizmo.HardwareAudit
             DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateGroupsFromDomainController(name, options, ignoreStructure) },
             _ => new List<DomainInformation>()
         };
+        #endregion
 
+        #region AD Info Parsing
         private static ActiveDirectoryComputerInfo ParseComputerInfo(DirectoryEntry directoryEntry)
         {
             return new ActiveDirectoryComputerInfo()
@@ -374,11 +407,11 @@ namespace Gizmo.HardwareAudit
                 Description = directoryEntry.Properties["description"].Value != null ? directoryEntry.Properties["description"].Value.ToString() : string.Empty,
                 DistinguishedName = directoryEntry.Properties["distinguishedName"].Value != null ? directoryEntry.Properties["distinguishedName"].Value.ToString() : string.Empty,
                 DNSHostName = directoryEntry.Properties["dNSHostName"].Value != null ? directoryEntry.Properties["dNSHostName"].Value.ToString().ToLower() : string.Empty,
-                WhenCreated = string.Empty,
-                WhenChanged = string.Empty,
+                WhenCreated = directoryEntry.Properties["whenCreated"].Value != null ? directoryEntry.Properties["whenCreated"].Value.ToString().ToLower() : string.Empty,
+                WhenChanged = directoryEntry.Properties["whenChanged"].Value != null ? directoryEntry.Properties["whenChanged"].Value.ToString().ToLower() : string.Empty,
                 Name = directoryEntry.Properties["name"].Value != null ? directoryEntry.Properties["name"].Value.ToString().ToLower() : string.Empty,
                 LastLogon = string.Empty,
-                OperatingSystem = string.Empty,
+                OperatingSystem = directoryEntry.Properties["operatingSystem"].Value != null ? directoryEntry.Properties["operatingSystem"].Value.ToString().ToLower() : string.Empty,
                 LastLogonTimestamp = string.Empty,
 
                 ExtensionAttribute1 = string.Empty,
@@ -469,5 +502,149 @@ namespace Gizmo.HardwareAudit
             return result;
         }
 
+        private static ActiveDirectoryComputerInfo ParseComputerInfo(SearchResult searchResult)
+        {
+            string LastLogon = string.Empty;
+            string LastLogonTimemStamp = string.Empty;
+            if (searchResult.Properties["lastLogon"].Count != 0)
+            {
+                try
+                {
+                    if (long.Parse(searchResult.Properties["lastLogon"][0].ToString()) != 0)
+                        LastLogon = DateTime.FromFileTime(long.Parse(searchResult.Properties["lastLogon"][0].ToString())).ToString().ToLower();
+                    else
+                        LastLogon = "Value was never set";
+                }
+                catch (Exception)
+                {
+                    LastLogon = "Value was never set";
+                }
+            }
+            else
+            {
+                LastLogon = "Value was never set";
+            }
+
+            if (searchResult.Properties["lastLogonTimestamp"].Count != 0)
+            {
+                try
+                {
+                    if (long.Parse(searchResult.Properties["lastLogonTimestamp"][0].ToString()) != 0)
+                        LastLogonTimemStamp = DateTime.FromFileTime(long.Parse(searchResult.Properties["lastLogonTimestamp"][0].ToString())).ToString().ToLower();
+                    else
+                        LastLogonTimemStamp = "Value was never set";
+                }
+                catch (Exception)
+                {
+                    LastLogonTimemStamp = "Value was never set";
+                }
+            }
+            else
+            {
+                LastLogonTimemStamp = "Value was never set";
+            }
+
+            return new ActiveDirectoryComputerInfo()
+            {
+                Id = Guid.NewGuid(),
+                CN = string.Empty,
+                Description = searchResult.GetDirectoryEntry().Properties["description"].Value != null ? searchResult.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty,
+                DistinguishedName = searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value != null ? searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value.ToString() : string.Empty,
+                DNSHostName = searchResult.GetDirectoryEntry().Properties["dNSHostName"].Value != null ? searchResult.GetDirectoryEntry().Properties["dNSHostName"].Value.ToString().ToLower() : string.Empty,
+                WhenCreated = searchResult.GetDirectoryEntry().Properties["whenCreated"].Value != null ? searchResult.GetDirectoryEntry().Properties["whenCreated"].Value.ToString().ToLower() : string.Empty,
+                WhenChanged = searchResult.GetDirectoryEntry().Properties["whenChanged"].Value != null ? searchResult.GetDirectoryEntry().Properties["whenChanged"].Value.ToString().ToLower() : string.Empty,
+                Name = searchResult.GetDirectoryEntry().Properties["name"].Value != null ? searchResult.GetDirectoryEntry().Properties["name"].Value.ToString().ToLower() : string.Empty,
+                LastLogon = LastLogon,
+                OperatingSystem = searchResult.GetDirectoryEntry().Properties["operatingSystem"].Value != null ? searchResult.GetDirectoryEntry().Properties["operatingSystem"].Value.ToString().ToLower() : string.Empty,
+                LastLogonTimestamp = LastLogonTimemStamp,
+
+                ExtensionAttribute1 = string.Empty,
+                ExtensionAttribute2 = string.Empty,
+                ExtensionAttribute4 = string.Empty,
+                ExtensionAttribute6 = string.Empty,
+                ExtensionAttribute7 = string.Empty,
+            };
+        }
+
+        private static ActiveDirectoryGroupInfo ParseGroupInfo(SearchResult searchResult)
+        {
+            return new ActiveDirectoryGroupInfo()
+            {
+                Id = Guid.NewGuid(),
+                Name = searchResult.GetDirectoryEntry().Properties["cn"].Value != null ? searchResult.GetDirectoryEntry().Properties["cn"].Value.ToString() : string.Empty,
+                Description = searchResult.GetDirectoryEntry().Properties["description"].Value != null ? searchResult.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty,
+                DistinguishedName = searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value != null ? searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value.ToString() : string.Empty,
+                Members = new List<string>()
+            };
+        }
+
+        private static ActiveDirectoryUserInfo ParseUserInfo(SearchResult searchResult)
+        {
+            var userAccountControl = searchResult.GetDirectoryEntry().Properties["userAccountControl"].Value != null ? searchResult.GetDirectoryEntry().Properties["userAccountControl"].Value.ToString() : string.Empty;
+
+            var result = new ActiveDirectoryUserInfo()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = searchResult.GetDirectoryEntry().Properties["givenName"].Value != null ? searchResult.GetDirectoryEntry().Properties["givenName"].Value.ToString() : string.Empty,
+                LastName = searchResult.GetDirectoryEntry().Properties["sn"].Value != null ? searchResult.GetDirectoryEntry().Properties["sn"].Value.ToString() : string.Empty,
+                MN = searchResult.GetDirectoryEntry().Properties["initials"].Value != null ? searchResult.GetDirectoryEntry().Properties["initials"].Value.ToString() : string.Empty,
+                ScreenName = searchResult.GetDirectoryEntry().Properties["displayName"].Value != null ? searchResult.GetDirectoryEntry().Properties["displayName"].Value.ToString() : string.Empty,
+                Description = searchResult.GetDirectoryEntry().Properties["description"].Value != null ? searchResult.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty,
+                Room = searchResult.GetDirectoryEntry().Properties["physicalDeliveryOfficeName"].Value != null ? searchResult.GetDirectoryEntry().Properties["physicalDeliveryOfficeName"].Value.ToString() : string.Empty,
+                Street = searchResult.GetDirectoryEntry().Properties["streetAddress"].Value != null ? searchResult.GetDirectoryEntry().Properties["streetAddress"].Value.ToString() : string.Empty,
+                PostCode = searchResult.GetDirectoryEntry().Properties["postalCode"].Value != null ? searchResult.GetDirectoryEntry().Properties["postalCode"].Value.ToString() : string.Empty,
+                PostBox = searchResult.GetDirectoryEntry().Properties["postOfficeBox"].Value != null ? searchResult.GetDirectoryEntry().Properties["postOfficeBox"].Value.ToString() : string.Empty,
+                Town = searchResult.GetDirectoryEntry().Properties["l"].Value != null ? searchResult.GetDirectoryEntry().Properties["l"].Value.ToString() : string.Empty,
+
+                Area = searchResult.GetDirectoryEntry().Properties["st"].Value != null ? searchResult.GetDirectoryEntry().Properties["st"].Value.ToString() : string.Empty,
+                Country = searchResult.GetDirectoryEntry().Properties["co"].Value != null ? searchResult.GetDirectoryEntry().Properties["co"].Value.ToString() : string.Empty,
+                PhoneNumber = searchResult.GetDirectoryEntry().Properties["telephoneNumber"].Value != null ? searchResult.GetDirectoryEntry().Properties["telephoneNumber"].Value.ToString() : string.Empty,
+                Email = searchResult.GetDirectoryEntry().Properties["mail"].Value != null ? searchResult.GetDirectoryEntry().Properties["mail"].Value.ToString() : string.Empty,
+                DistinguishedName = searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value != null ? searchResult.GetDirectoryEntry().Properties["distinguishedName"].Value.ToString() : string.Empty,
+                UserName = searchResult.GetDirectoryEntry().Properties["sAMAccountName"].Value != null ? searchResult.GetDirectoryEntry().Properties["sAMAccountName"].Value.ToString() : string.Empty,
+            };
+            /*
+             * This is a hex values for userAccountControl property
+            00000001	SCRIPT
+            00000002	ACCOUNTDISABLE
+            00000008	HOMEDIR_REQUIRED
+            00000010	LOCKOUT
+            00000020	PASSWD_NOTREQD
+            00000040	PASSWD_CANT_CHANGE
+            00000080	ENCRYPTED_TEXT_PWD_ALLOWED
+            00000100	TEMP_DUPLICATE_ACCOUNT
+            00000200	NORMAL_ACCOUNT
+            00000800	INTERDOMAIN_TRUST_ACCOUNT
+            00001000	WORKSTATION_TRUST_ACCOUNT
+            00002000	SERVER_TRUST_ACCOUNT
+            00010000	DONT_EXPIRE_PASSWORD
+            00020000	MNS_LOGON_ACCOUNT
+            00040000	SMARTCARD_REQUIRED
+            00080000	TRUSTED_FOR_DELEGATION
+            00100000	NOT_DELEGATED
+            00200000	USE_DES_KEY_ONLY
+            00400000	DONT_REQ_PREAUTH
+            00800000	PASSWORD_EXPIRED
+            01000000	TRUSTED_TO_AUTH_FOR_DELEGATION
+            04000000	PARTIAL_SECRETS_ACCOUNT
+             */
+            if (userAccountControl != string.Empty)
+            {
+                var heXvalue = int.Parse(userAccountControl).ToString("X8");
+                result.IsActive = heXvalue[7] == '2' ? false : true;
+                result.PasswordRequired = heXvalue[6] == '2' ? false : true;
+                result.PasswordChangeable = heXvalue[6] == '4' ? false : true;
+                result.PasswordExpires = heXvalue[3] == '1' ? false : true;
+            }
+            else
+            {
+                result.IsActive = false;
+                result.PasswordChangeable = false;
+                result.PasswordExpires = false;
+                result.PasswordRequired = false;
+            }
+            return result;
+        }
+        #endregion
     }
 }
