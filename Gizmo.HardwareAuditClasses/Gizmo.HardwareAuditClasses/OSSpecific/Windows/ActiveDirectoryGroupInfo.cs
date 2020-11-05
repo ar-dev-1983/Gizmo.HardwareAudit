@@ -14,23 +14,32 @@ namespace Gizmo.HardwareAuditClasses
         public Guid Id { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Имя группы")]
+        [Description("AD Source")]
+        public string SourceName { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Group Name")]
         public string Name { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Описание группы")]
+        [Description("Group Description")]
         public string Description { set; get; }
 
         [ReportVisibility(false)]
         public string DistinguishedName { set; get; }
 
-        [ReportVisibility(true)]
-        [Description("Члены группы")]
+        [ReportVisibility(false)]
         public List<string> Members { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Group Members")]
+        public string MembersInOneLine => Members != null ? Members.Count != 0 ? string.Join("\n", Members) : string.Empty : string.Empty;
 
         public ActiveDirectoryGroupInfo()
         {
             Id = Guid.NewGuid();
+            SourceName = string.Empty;
+
             Name = string.Empty;
             Description = string.Empty;
 

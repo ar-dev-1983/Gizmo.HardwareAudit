@@ -17,17 +17,14 @@ namespace Gizmo.HardwareAuditClasses
 
         [Description("Monitor Manufacturer")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Manufacturer { set; get; }
 
         [Description("Monitor Model")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string MonitorModel { set; get; }
 
         [Description("Monitor Serial Number")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string MonitorSerialNumber { set; get; }
 
         public Monitor()

@@ -10,7 +10,6 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
         public string PropertyKey { set; get; }
         public string PropertyBindingKey { set; get; }
         public string PropertyValueType { set; get; }
-        public FieldTypeEnum FieldType { set; get; }
 
         public ClassProperties()
         {
@@ -20,7 +19,6 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
             PropertyKey = string.Empty;
             PropertyBindingKey = string.Empty;
             PropertyValueType = string.Empty;
-            FieldType = FieldTypeEnum.None;
         }
     }
 }

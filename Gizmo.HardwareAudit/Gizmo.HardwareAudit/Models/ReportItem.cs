@@ -113,7 +113,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         [JsonIgnore]
         public bool IsSelected
         {
@@ -125,7 +125,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         [JsonIgnore]
         public bool IsExpanded
         {
@@ -159,7 +159,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         [JsonIgnore]
         public ReportItem SelectedReport
         {
@@ -168,7 +168,7 @@ namespace Gizmo.HardwareAudit.Models
                 return Traverse(this, node => node.Children).FirstOrDefault(m => m.IsSelected);
             }
         }
-        
+
         public ReportSettings Settings
         {
             get => settings;
@@ -179,7 +179,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        
+
         [JsonIgnore]
         public DataTable DataTable
         {
@@ -311,27 +311,22 @@ namespace Gizmo.HardwareAudit.Models
             if (Type == ReportItemTypeEnum.Report)
             {
                 DataTable = new DataTable();
-                DataTable.TableName = Name.Replace("  "," ").Replace("  ", " ").Replace("  ", " ").Replace(" ", "_");
+                DataTable.TableName = Name.Replace("  ", " ").Replace("  ", " ").Replace("  ", " ").Replace(" ", "_");
                 if (Settings != null)
                 {
                     if (Settings.Columns != null)
                     {
                         if (Settings.Columns.Count != 0)
                         {
-                            if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByContainer)
+                            if (Settings.ReportType == ReportTypeEnum.ComputerComponentsReport)
                             {
                                 DataTable.Columns.Add("#");
-                                if (Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryComputerInfo ||
-                                    Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryGroupInfo ||
-                                    Settings.ComponentItem != ComponentTypeEnum.ActiveDirectoryUserInfo)
-                                {
-                                    DataTable.Columns.Add("Computer Name");
-                                    DataTable.Columns.Add("Computer Description");
-                                    DataTable.Columns.Add("Computer FQDN");
-                                    DataTable.Columns.Add("Computer IP Address");
-                                }
+                                DataTable.Columns.Add("Computer Name");
+                                DataTable.Columns.Add("Computer Description");
+                                DataTable.Columns.Add("Computer FQDN");
+                                DataTable.Columns.Add("Computer IP Address");
                             }
-                            else if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByInstance)
+                            else if (Settings.ReportType == ReportTypeEnum.ComputerComponentsQuantityReport)
                             {
                                 DataTable.Columns.Add("#");
                             }
@@ -340,7 +335,7 @@ namespace Gizmo.HardwareAudit.Models
                                 if (column.IsSelected)
                                     DataTable.Columns.Add(column.PropertyDescription);
                             }
-                            if (Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByInstance)
+                            if (Settings.ReportType == ReportTypeEnum.ComputerComponentsQuantityReport)
                             {
                                 DataTable.Columns.Add("Quantity");
                             }
@@ -349,6 +344,6 @@ namespace Gizmo.HardwareAudit.Models
                 }
             }
         }
-
     }
 }
+

@@ -15,25 +15,29 @@ namespace Gizmo.HardwareAuditClasses
         public string CN { set; get; }
 
         [ReportVisibility(true)]
-        [Description("Описание")]
+        [Description("AD Source")]
+        public string SourceName { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Computer Name")]
+        public string Name { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Computer Description")]
         public string Description { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Computer FQDN")]
+        public string DNSHostName { set; get; }
 
         [ReportVisibility(false)]
         public string DistinguishedName { set; get; }
-
-        [ReportVisibility(true)]
-        [Description("FQDN Имя компьютера")]
-        public string DNSHostName { set; get; }
 
         [ReportVisibility(false)]
         public string WhenCreated { set; get; }
 
         [ReportVisibility(false)]
         public string WhenChanged { set; get; }
-
-        [ReportVisibility(true)]
-        [Description("Имя компьютера")]
-        public string Name { set; get; }
 
         [ReportVisibility(false)]
         public string LastLogon { set; get; }
@@ -62,6 +66,7 @@ namespace Gizmo.HardwareAuditClasses
         public ActiveDirectoryComputerInfo()
         {
             Id = Guid.NewGuid();
+            SourceName = string.Empty;
             CN = string.Empty;
             Description = string.Empty;
             DistinguishedName = string.Empty;

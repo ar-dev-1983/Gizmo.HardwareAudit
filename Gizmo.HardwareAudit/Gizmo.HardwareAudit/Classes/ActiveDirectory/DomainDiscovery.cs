@@ -43,7 +43,7 @@ namespace Gizmo.HardwareAudit
             return result;
         }
 
-        public static List<DomainInformation> EnumerateComputersFromDomain(string name, UserProfile options)
+        public static List<DomainInformation> EnumerateComputersFromDomain(string name, UserProfile options, bool ignoreStructure = false)
         {
             var dc = EnumerateDomains(name, options);
             List<DomainInformation> Domains = new List<DomainInformation>();
@@ -56,7 +56,7 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateComputers(newDomain, directoryRoot);
+                        EnumerateComputers(newDomain, directoryRoot, ignoreStructure);
                     }
                 }
                 Domains.Add(newDomain);
@@ -64,7 +64,7 @@ namespace Gizmo.HardwareAudit
             return Domains;
         }
 
-        public static List<DomainInformation> EnumerateUsersFromDomain(string name, UserProfile options)
+        public static List<DomainInformation> EnumerateUsersFromDomain(string name, UserProfile options, bool ignoreStructure = false)
         {
             var dc = EnumerateDomains(name, options);
             List<DomainInformation> Domains = new List<DomainInformation>();
@@ -77,7 +77,7 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateUsers(newDomain, directoryRoot);
+                        EnumerateUsers(newDomain, directoryRoot, ignoreStructure);
                     }
                 }
                 Domains.Add(newDomain);
@@ -85,7 +85,7 @@ namespace Gizmo.HardwareAudit
             return Domains;
         }
 
-        public static List<DomainInformation> EnumerateGroupsFromDomain(string name, UserProfile options)
+        public static List<DomainInformation> EnumerateGroupsFromDomain(string name, UserProfile options, bool ignoreStructure = false)
         {
             var dc = EnumerateDomains(name, options);
             List<DomainInformation> Domains = new List<DomainInformation>();
@@ -98,7 +98,7 @@ namespace Gizmo.HardwareAudit
                     if ((globalCatalog as GlobalCatalog).SiteName != string.Empty)
                     {
                         DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + (globalCatalog as GlobalCatalog).Name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-                        EnumerateGroups(newDomain, directoryRoot);
+                        EnumerateGroups(newDomain, directoryRoot, ignoreStructure);
                     }
                 }
                 Domains.Add(newDomain);
@@ -106,31 +106,31 @@ namespace Gizmo.HardwareAudit
             return Domains;
         }
 
-        public static DomainInformation EnumerateComputersFromDomainController(string name, UserProfile options)
+        public static DomainInformation EnumerateComputersFromDomainController(string name, UserProfile options, bool ignoreStructure = false)
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateComputers(domainController, directoryRoot);
+            EnumerateComputers(domainController, directoryRoot, ignoreStructure);
             return domainController;
         }
 
-        public static DomainInformation EnumerateUsersFromDomainController(string name, UserProfile options)
+        public static DomainInformation EnumerateUsersFromDomainController(string name, UserProfile options, bool ignoreStructure = false)
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateUsers(domainController, directoryRoot);
+            EnumerateUsers(domainController, directoryRoot, ignoreStructure);
             return domainController;
         }
 
-        public static DomainInformation EnumerateGroupsFromDomainController(string name, UserProfile options)
+        public static DomainInformation EnumerateGroupsFromDomainController(string name, UserProfile options, bool ignoreStructure = false)
         {
             DomainInformation domainController = new DomainInformation() { Type = DomainInformationTypeEnum.Root, Name = name };
             DirectoryEntry directoryRoot = new DirectoryEntry("LDAP://" + name, options.UserName, UserProfile.ToInsecureString(options.UserPassword));
-            EnumerateGroups(domainController, directoryRoot);
+            EnumerateGroups(domainController, directoryRoot, ignoreStructure);
             return domainController;
         }
 
-        private static void EnumerateComputers(DomainInformation root, DirectoryEntry directory)
+        private static void EnumerateComputers(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -150,8 +150,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateComputers(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateComputers(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateComputers(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -161,8 +168,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateComputers(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateComputers(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateComputers(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -185,7 +199,7 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        private static void EnumerateUsers(DomainInformation root, DirectoryEntry directory)
+        private static void EnumerateUsers(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -205,8 +219,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateUsers(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateUsers(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateUsers(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -216,8 +237,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateUsers(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateUsers(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateUsers(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -240,7 +268,7 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        private static void EnumerateGroups(DomainInformation root, DirectoryEntry directory)
+        private static void EnumerateGroups(DomainInformation root, DirectoryEntry directory, bool ignoreStructure = false)
         {
             foreach (DirectoryEntry child in directory.Children)
             {
@@ -260,8 +288,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("OU=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateGroups(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateGroups(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateGroups(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -271,8 +306,15 @@ namespace Gizmo.HardwareAudit
                                     var item = new DomainInformation() { Type = DomainInformationTypeEnum.OrganizationUnit, Name = child.Name.Replace("CN=", ""), Description = child.Properties["description"].Value != null ? child.Properties["description"].Value.ToString() : string.Empty };
                                     if (root.Childrens.Where(x => x.Name == item.Name && x.Description == item.Description).Count() == 0)
                                     {
-                                        root.Childrens.Add(item);
-                                        EnumerateGroups(item, child);
+                                        if (!ignoreStructure)
+                                        {
+                                            root.Childrens.Add(item);
+                                            EnumerateGroups(item, child, ignoreStructure);
+                                        }
+                                        else
+                                        {
+                                            EnumerateGroups(root, child, ignoreStructure);
+                                        }
                                     }
                                     break;
                                 }
@@ -302,24 +344,24 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        public static List<DomainInformation> EnumerateComputersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode) => mode switch
+        public static List<DomainInformation> EnumerateComputersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode, bool ignoreStructure = false) => mode switch
         {
-            DomainDiscoveryModeEnum.FromDomainName => EnumerateComputersFromDomain(name, options),
-            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateComputersFromDomainController(name, options) },
+            DomainDiscoveryModeEnum.FromDomainName => EnumerateComputersFromDomain(name, options, ignoreStructure),
+            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateComputersFromDomainController(name, options, ignoreStructure) },
             _ => new List<DomainInformation>()
         };
 
-        public static List<DomainInformation> EnumerateUsersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode) => mode switch
+        public static List<DomainInformation> EnumerateUsersInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode, bool ignoreStructure = false) => mode switch
         {
-            DomainDiscoveryModeEnum.FromDomainName => EnumerateUsersFromDomain(name, options),
-            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateUsersFromDomainController(name, options) },
+            DomainDiscoveryModeEnum.FromDomainName => EnumerateUsersFromDomain(name, options, ignoreStructure),
+            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateUsersFromDomainController(name, options, ignoreStructure) },
             _ => new List<DomainInformation>()
         };
 
-        public static List<DomainInformation> EnumerateGroupsInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode) => mode switch
+        public static List<DomainInformation> EnumerateGroupsInformation(string name, UserProfile options, DomainDiscoveryModeEnum mode, bool ignoreStructure = false) => mode switch
         {
-            DomainDiscoveryModeEnum.FromDomainName => EnumerateGroupsFromDomain(name, options),
-            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateGroupsFromDomainController(name, options) },
+            DomainDiscoveryModeEnum.FromDomainName => EnumerateGroupsFromDomain(name, options, ignoreStructure),
+            DomainDiscoveryModeEnum.FromDomainController => new List<DomainInformation>() { EnumerateGroupsFromDomainController(name, options, ignoreStructure) },
             _ => new List<DomainInformation>()
         };
 

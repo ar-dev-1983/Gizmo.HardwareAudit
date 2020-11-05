@@ -177,7 +177,7 @@ namespace Gizmo.HardwareAudit.Services
                         ReportSourceContainerId = (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer != null ? (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer.Id : new Guid(),
                         ReportTimeStamp = DateTime.Now,
                         Columns = (dialog.DataContext as ReportItemSettingsViewModel).Columns,
-                        ComponentGroupingItem = (ComponentGroupingTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentGroupingItem.Value,
+                        ReportType = (ReportTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedReportTypeItem.Value,
                         ComponentItem = (ComponentTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentItem.Value,
                         EachValueIsASepareteRow = (dialog.DataContext as ReportItemSettingsViewModel).EachValueIsASepareteRow
                     };
@@ -202,7 +202,7 @@ namespace Gizmo.HardwareAudit.Services
                         ReportSourceContainerId = (dialog.DataContext as ReportItemSettingsViewModel).SelectedContainer.Id,
                         ReportTimeStamp = DateTime.Now,
                         Columns = (dialog.DataContext as ReportItemSettingsViewModel).Columns,
-                        ComponentGroupingItem = (ComponentGroupingTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentGroupingItem.Value,
+                        ReportType = (ReportTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedReportTypeItem.Value,
                         ComponentItem = (ComponentTypeEnum)(dialog.DataContext as ReportItemSettingsViewModel).SelectedComponentItem.Value,
                         EachValueIsASepareteRow = (dialog.DataContext as ReportItemSettingsViewModel).EachValueIsASepareteRow
                     };

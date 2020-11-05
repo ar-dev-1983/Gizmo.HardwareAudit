@@ -9,27 +9,22 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("System Vendor")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ManufacturerName { set; get; }
 
         [Description("System Name")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ProductName { set; get; }
 
         [Description("System Version")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Version { set; get; }
 
         [Description("System Serial Number")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SerialNumber { set; get; }
 
         [Description("System Family")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Family { set; get; }
 
         public SystemInformation()

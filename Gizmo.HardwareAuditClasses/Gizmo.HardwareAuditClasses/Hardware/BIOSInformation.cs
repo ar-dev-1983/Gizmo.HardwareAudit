@@ -9,12 +9,10 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("BIOS Vendor")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Vendor { set; get; }
 
         [Description("BIOS Version")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Version { set; get; }
 
         public BIOSInformation()

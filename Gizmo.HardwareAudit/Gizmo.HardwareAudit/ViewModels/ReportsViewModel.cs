@@ -1,4 +1,7 @@
-﻿using Gizmo.HardwareAudit.Classes;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Gizmo.HardwareAudit.Classes;
 using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
@@ -11,9 +14,6 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {
@@ -278,7 +278,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                         item.ReportIsBusy = true;
                         item.ReportBuildIsDone = false;
                         SelectedReportItem.IsSelected = false;
-                        BuildDataGrid(item);
+                        BuildReport(item);
                         item.IsSelected = true;
                         item.ReportIsBusy = false;
                         item.ReportBuildIsDone = true;
@@ -545,7 +545,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        internal void BuildDataGrid(ReportItem Item)
+        internal void BuildReport(ReportItem Item)
         {
             if (Item.Type == ReportItemTypeEnum.Report)
             {
@@ -556,13 +556,32 @@ namespace Gizmo.HardwareAudit.ViewModels
                     {
                         if (Item.Settings.Columns.Count != 0)
                         {
-                            if (Item.Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByContainer)
+                            if (Item.Settings.ReportType == ReportTypeEnum.ComputerComponentsReport)
                             {
-                                FetchDataByContainer(Item);
+                                BuildComputerComponentsReport(Item);
                             }
-                            else if (Item.Settings.ComponentGroupingItem == ComponentGroupingTypeEnum.ByInstance)
+                            else if (Item.Settings.ReportType == ReportTypeEnum.ComputerComponentsQuantityReport)
                             {
-                                FetchDataByInstance(Item);
+                                BuildComputerComponentsQuantityReport(Item);
+                            }
+                            else if (Item.Settings.ReportType == ReportTypeEnum.ActiveDirectoryInformationReport)
+                            {
+                                switch (Item.Settings.ComponentItem)
+                                {
+                                    case ComponentTypeEnum.ActiveDirectoryComputerInfo:
+                                        BuildActiveDirectoryComputersInfoReport(Item);
+                                        break;
+                                    case ComponentTypeEnum.ActiveDirectoryGroupInfo:
+                                        BuildActiveDirectoryGroupsInfoReport(Item);
+                                        break;
+                                    case ComponentTypeEnum.ActiveDirectoryUserInfo:
+                                        BuildActiveDirectoryUsersInfoReport(Item);
+                                        break;
+                                }
+                            }
+                            else if (Item.Settings.ReportType == ReportTypeEnum.ComputerInformationReport)
+                            {
+
                             }
                         }
                     }
@@ -570,7 +589,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        internal void FetchDataByContainer(ReportItem reportItem)
+        internal void BuildComputerComponentsReport(ReportItem reportItem)
         {
             if (reportItem.Settings.ReportSourceContainerId != new Guid())
             {
@@ -671,57 +690,41 @@ namespace Gizmo.HardwareAudit.ViewModels
                         break;
                     case ComponentTypeEnum.WindowsInformation:
                         {
-                            foreach (var node in Items.Where(x => x.ScanAvailable))
+                            foreach (var node in Items.Where(x => x.ScanAvailable).Where(node => node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS))
                             {
-                                if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
-                                    FillDataFromSingleValue(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsInformation);
+                                FillDataFromSingleValue(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsInformation);
                             }
                         }
                         break;
                     case ComponentTypeEnum.WindowsLocalUser:
                         {
-                            foreach (var node in Items.Where(x => x.ScanAvailable))
+                            foreach (var node in Items.Where(x => x.ScanAvailable).Where(node => node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS))
                             {
-                                if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
-                                    FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsLocalUsers);
+                                FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsLocalUsers);
                             }
                         }
                         break;
                     case ComponentTypeEnum.WindowsLocalGroup:
                         {
-                            foreach (var node in Items.Where(x => x.ScanAvailable))
+                            foreach (var node in Items.Where(x => x.ScanAvailable).Where(node => node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS))
                             {
-                                if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
-                                    FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsLocalGroups);
+                                FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].WindowsLocalGroups);
                             }
                         }
                         break;
                     case ComponentTypeEnum.SoftwareLicensingProduct:
                         {
-                            foreach (var node in Items.Where(x => x.ScanAvailable))
+                            foreach (var node in Items.Where(x => x.ScanAvailable).Where(node => node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS))
                             {
-                                if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
-                                    FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].SoftwareLicensingProducts);
+                                FillDataFromListOfValues(reportItem, node, (reportItem.DataTable.Rows.Count + 1).ToString(), node.HardwareScans[0].SoftwareLicensingProducts);
                             }
                         }
                         break;
-                    case ComponentTypeEnum.ActiveDirectoryComputerInfo:
-                        break;
-                    case ComponentTypeEnum.ActiveDirectoryGroupInfo:
-                        break;
-                    case ComponentTypeEnum.ActiveDirectoryUserInfo:
-                        break;
-                        //case ComponentTypeEnum.LinuxInformation:
-                        //    break;
-                        //case ComponentTypeEnum.LinuxLocalUser:
-                        //    break;
-                        //case ComponentTypeEnum.LinuxLocalGroup:
-                        //    break;
                 }
             }
         }
 
-        internal void FetchDataByInstance(ReportItem reportItem)
+        internal void BuildComputerComponentsQuantityReport(ReportItem reportItem)
         {
             if (reportItem.Settings.ReportSourceContainerId != new Guid())
             {
@@ -740,7 +743,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                             }
                             break;
                         }
-
                     case ComponentTypeEnum.SystemInformation:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
@@ -749,17 +751,14 @@ namespace Gizmo.HardwareAudit.ViewModels
                             }
                             break;
                         }
-
                     case ComponentTypeEnum.MotherBoardInformation:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromSingleValue(reportItem, node.HardwareScans[0].MotherBoardInformation);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.WindowsInformation:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
@@ -767,60 +766,48 @@ namespace Gizmo.HardwareAudit.ViewModels
                                 if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
                                     CountAndFillDataFromSingleValue(reportItem, node.HardwareScans[0].WindowsInformation);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.CPUInformation:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].CPUs);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.MemoryDevice:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].MemoryDevices);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.Monitor:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].Monitors);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.NetworkAdapter:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].NetworkAdapters);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.PhysicalDrive:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].PhysicalDrives);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.SoftwareLicensingProduct:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
@@ -828,19 +815,262 @@ namespace Gizmo.HardwareAudit.ViewModels
                                 if (node.HardwareScans[0].ScanType == ScanTypeEnum.WindowsOS)
                                     CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].SoftwareLicensingProducts);
                             }
-
                             break;
                         }
-
                     case ComponentTypeEnum.VideoController:
                         {
                             foreach (var node in Items.Where(x => x.ScanAvailable))
                             {
                                 CountAndFillDataFromListOfValues(reportItem, node.HardwareScans[0].VideoControllers);
                             }
-
                             break;
                         }
+                }
+            }
+        }
+
+        internal void BuildActiveDirectoryComputersInfoReport(ReportItem reportItem)
+        {
+            if (reportItem.Settings.ReportSourceContainerId != new Guid())
+            {
+                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
+                var DomainInfos = new List<DomainInformation>();
+                switch (SourceTreeItem.Type)
+                {
+                    case ItemTypeEnum.Root:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ActiveDirectory:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ChildContainer:
+                        break;
+                    case ItemTypeEnum.DomainRoot:
+                        {
+                            DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
+                        }
+                        break;
+                }
+
+                if (!reportItem.Settings.EachValueIsASepareteRow)
+                {
+                    foreach (var domainNode in DomainInfos)
+                    {
+                        foreach (var inode in domainNode.Childrens)
+                        {
+                            DataRow newRow = reportItem.DataTable.NewRow();
+                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                            {
+                                var value = string.Empty;
+                                try
+                                {
+                                    value = (inode.Info as ActiveDirectoryComputerInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryComputerInfo, null) + string.Empty;
+                                }
+                                catch (Exception) { }
+                                newRow[column.PropertyDescription] = value;
+                            }
+                            reportItem.DataTable.Rows.Add(newRow);
+                        }
+                    }
+                }
+                else
+                {
+                    DataRow newRow = reportItem.DataTable.NewRow();
+                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                    {
+                        try
+                        {
+                            var value = string.Empty;
+                            foreach (var domainNode in DomainInfos)
+                            {
+                                foreach (var inode in domainNode.Childrens)
+                                {
+                                    value += (inode.Info as ActiveDirectoryComputerInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryComputerInfo, null) + "\n";
+                                }
+                            }
+                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
+                        }
+                        catch (Exception) { }
+                    }
+                    reportItem.DataTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        internal void BuildActiveDirectoryGroupsInfoReport(ReportItem reportItem)
+        {
+            if (reportItem.Settings.ReportSourceContainerId != new Guid())
+            {
+                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
+                var DomainInfos = new List<DomainInformation>();
+                switch (SourceTreeItem.Type)
+                {
+                    case ItemTypeEnum.Root:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ActiveDirectory:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ChildContainer:
+                        break;
+                    case ItemTypeEnum.DomainRoot:
+                        {
+                            DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
+                        }
+                        break;
+                }
+
+                if (!reportItem.Settings.EachValueIsASepareteRow)
+                {
+                    foreach (var domainNode in DomainInfos)
+                    {
+                        foreach (var inode in domainNode.Childrens)
+                        {
+                            DataRow newRow = reportItem.DataTable.NewRow();
+                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                            {
+                                var value = string.Empty;
+                                try
+                                {
+                                    value = (inode.Info as ActiveDirectoryGroupInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryGroupInfo, null) + string.Empty;
+                                }
+                                catch (Exception) { }
+                                newRow[column.PropertyDescription] = value;
+                            }
+                            reportItem.DataTable.Rows.Add(newRow);
+                        }
+                    }
+                }
+                else
+                {
+                    DataRow newRow = reportItem.DataTable.NewRow();
+                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                    {
+                        try
+                        {
+                            var value = string.Empty;
+                            foreach (var domainNode in DomainInfos)
+                            {
+                                foreach (var inode in domainNode.Childrens)
+                                {
+                                    value += (inode.Info as ActiveDirectoryGroupInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryGroupInfo, null) + "\n";
+                                }
+                            }
+                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
+                        }
+                        catch (Exception) { }
+                    }
+                    reportItem.DataTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        internal void BuildActiveDirectoryUsersInfoReport(ReportItem reportItem)
+        {
+            if (reportItem.Settings.ReportSourceContainerId != new Guid())
+            {
+                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
+                var DomainInfos = new List<DomainInformation>();
+                switch (SourceTreeItem.Type)
+                {
+                    case ItemTypeEnum.Root:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ActiveDirectory:
+                        {
+                            var DomainRootItems = new List<TreeItem>();
+                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
+                            foreach (var node in DomainRootItems)
+                            {
+                                DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
+                            }
+                        }
+                        break;
+                    case ItemTypeEnum.ChildContainer:
+                        break;
+                    case ItemTypeEnum.DomainRoot:
+                        {
+                            DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
+                        }
+                        break;
+                }
+
+                if (!reportItem.Settings.EachValueIsASepareteRow)
+                {
+                    foreach (var domainNode in DomainInfos)
+                    {
+                        foreach (var inode in domainNode.Childrens)
+                        {
+                            DataRow newRow = reportItem.DataTable.NewRow();
+                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                            {
+                                var value = string.Empty;
+                                try
+                                {
+                                    value = (inode.Info as ActiveDirectoryUserInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryUserInfo, null) + string.Empty;
+                                }
+                                catch (Exception) { }
+                                newRow[column.PropertyDescription] = value;
+                            }
+                            reportItem.DataTable.Rows.Add(newRow);
+                        }
+                    }
+                }
+                else
+                {
+                    DataRow newRow = reportItem.DataTable.NewRow();
+                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
+                    {
+                        try
+                        {
+                            var value = string.Empty;
+                            foreach (var domainNode in DomainInfos)
+                            {
+                                foreach (var inode in domainNode.Childrens)
+                                {
+                                    value += (inode.Info as ActiveDirectoryUserInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryUserInfo, null) + "\n";
+                                }
+                            }
+                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
+                        }
+                        catch (Exception) { }
+                    }
+                    reportItem.DataTable.Rows.Add(newRow);
                 }
             }
         }
@@ -975,7 +1205,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 reportItem.ReportIsBusy = true;
                 reportItem.ReportBuildIsDone = false;
-                BuildDataGrid(reportItem);
+                BuildReport(reportItem);
                 reportItem.ReportIsBusy = false;
                 reportItem.ReportBuildIsDone = true;
             }
@@ -1014,7 +1244,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 reportItem.ReportIsBusy = true;
                 reportItem.ReportBuildIsDone = false;
-                BuildDataGrid(reportItem);
+                BuildReport(reportItem);
                 reportItem.ReportIsBusy = false;
                 reportItem.ReportBuildIsDone = true;
             }
@@ -1035,7 +1265,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 reportItem.ReportIsBusy = true;
                 reportItem.ReportBuildIsDone = false;
-                BuildDataGrid(reportItem);
+                BuildReport(reportItem);
                 reportItem.ReportIsBusy = false;
                 reportItem.ReportBuildIsDone = true;
             }
@@ -1052,7 +1282,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 reportItem.ReportIsBusy = true;
                 reportItem.ReportBuildIsDone = false;
-                BuildDataGrid(reportItem);
+                BuildReport(reportItem);
                 reportItem.ReportIsBusy = false;
                 reportItem.ReportBuildIsDone = true;
             }
@@ -1098,7 +1328,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                     {
                         Cell cell = new Cell();
                         cell.DataType = CellValues.String;
-                        cell.CellValue = new CellValue(dsrow[col].ToString()); 
+                        cell.CellValue = new CellValue(dsrow[col].ToString());
                         newRow.AppendChild(cell);
                     }
                     sheetData.AppendChild(newRow);

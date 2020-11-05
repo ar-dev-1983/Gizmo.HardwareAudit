@@ -18,10 +18,10 @@ namespace Gizmo.HardwareAudit.ViewModels
         private GizmoIconEnum customIcon = GizmoIconEnum.None;
         private ContainerItem root;
         private ObservableCollection<ClassProperties> columns;
-        private EnumProperies selectedComponentGroupingItem;
+        private EnumProperies selectedReportTypeItem;
         private EnumProperies selectedComponentItem;
         private ObservableCollection<EnumProperies> componentTypeItems;
-        private ObservableCollection<EnumProperies> componentGroupingItems;
+        private ObservableCollection<EnumProperies> reportTypeItems;
         private bool eachValueIsASepareteRow = false;
         #endregion
 
@@ -88,14 +88,14 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
-        public EnumProperies SelectedComponentGroupingItem
+        public EnumProperies SelectedReportTypeItem
         {
-            get => selectedComponentGroupingItem;
+            get => selectedReportTypeItem;
             set
             {
-                if (selectedComponentGroupingItem == value) return;
-                selectedComponentGroupingItem = value;
-                ComponentTypeItems = selectedComponentGroupingItem != null ? AttributeWorkForEnums.Enumerate(typeof(ComponentTypeEnum), ComponentTypeEnum.None, selectedComponentGroupingItem.Value) : new ObservableCollection<EnumProperies>();
+                if (selectedReportTypeItem == value) return;
+                selectedReportTypeItem = value;
+                ComponentTypeItems = selectedReportTypeItem != null ? AttributeWorkForEnums.Enumerate(typeof(ComponentTypeEnum), ComponentTypeEnum.None, selectedReportTypeItem.Value) : new ObservableCollection<EnumProperies>();
                 OnPropertyChanged();
             }
         }
@@ -120,13 +120,13 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<EnumProperies> ComponentGroupingItems
+        public ObservableCollection<EnumProperies> ReportTypeItems
         {
-            get => componentGroupingItems;
+            get => reportTypeItems;
             set
             {
-                if (componentGroupingItems == value) return;
-                componentGroupingItems = value;
+                if (reportTypeItems == value) return;
+                reportTypeItems = value;
                 OnPropertyChanged();
             }
         }
@@ -165,12 +165,12 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 Root.PropertyChanged += SelectedItem_PropertyChanged;
             }
-            ComponentGroupingItems = AttributeWorkForEnums.Enumerate(typeof(ComponentGroupingTypeEnum), ComponentGroupingTypeEnum.None);
+            ReportTypeItems = AttributeWorkForEnums.Enumerate(typeof(ReportTypeEnum), ReportTypeEnum.None);
 
-            foreach (var node in ComponentGroupingItems)
+            foreach (var node in ReportTypeItems)
             {
-                if (Object.Equals(node.Value, reportSettings.ComponentGroupingItem))
-                    SelectedComponentGroupingItem = node;
+                if (Object.Equals(node.Value, reportSettings.ReportType))
+                    SelectedReportTypeItem = node;
             }
 
             foreach (var node in ComponentTypeItems)
@@ -212,7 +212,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 Root.PropertyChanged += SelectedItem_PropertyChanged;
             }
-            ComponentGroupingItems = AttributeWorkForEnums.Enumerate(typeof(ComponentGroupingTypeEnum), ComponentGroupingTypeEnum.None);
+            ReportTypeItems = AttributeWorkForEnums.Enumerate(typeof(ReportTypeEnum), ReportTypeEnum.None);
 
         }
 

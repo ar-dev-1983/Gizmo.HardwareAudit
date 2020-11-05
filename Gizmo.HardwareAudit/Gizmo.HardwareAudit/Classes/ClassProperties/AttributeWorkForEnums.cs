@@ -51,11 +51,11 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
                 {
                     if ((node as Enum).GetAttributeOfType<DescriptionAttribute>() != null)
                     {
-                        if ((node as Enum).GetAttributesOfType<ComponentGroupingTypeAttribute>() != null)
+                        if ((node as Enum).GetAttributesOfType<ReportTypeAttribute>() != null)
                         {
-                            if ((node as Enum).GetAttributesOfType<ComponentGroupingTypeAttribute>().Count != 0)
+                            if ((node as Enum).GetAttributesOfType<ReportTypeAttribute>().Count != 0)
                             {
-                                if ((node as Enum).GetAttributesOfType<ComponentGroupingTypeAttribute>().Where(x => Object.Equals(x.ComponentGroupingType, filterValue)).Count() != 0)
+                                if ((node as Enum).GetAttributesOfType<ReportTypeAttribute>().Where(x => Object.Equals(x.ReportType, filterValue)).Count() != 0)
                                 {
                                     result.Add(new EnumProperies() { Value = (Enum)node, Description = (node as Enum).GetAttributeOfType<DescriptionAttribute>().Description });
                                 }

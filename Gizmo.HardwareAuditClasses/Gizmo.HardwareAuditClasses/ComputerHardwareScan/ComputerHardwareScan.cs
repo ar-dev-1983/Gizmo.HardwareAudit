@@ -2,6 +2,7 @@
 using Gizmo.HardwareAuditClasses.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,60 +10,127 @@ using System.Text.Json.Serialization;
 
 namespace Gizmo.HardwareAuditClasses
 {
+    [ComponentType(ComponentTypeEnum.ComputerInformation)]
     public class ComputerHardwareScan
     {
+        [ReportVisibility(false)]
         public Guid Id { set; get; }
+
+        [ReportVisibility(false)]
         public ScanTypeEnum ScanType { set; get; }
+
+        [Description("Logged In User")]
+        [ReportVisibility(true)]
         public string LoggedInUser { set; get; }
+
+        [ReportVisibility(false)]
         public Version Version { set; get; }
+
+        [Description("ScanTime")]
+        [ReportVisibility(true)]
         public DateTime ScanTime { set; get; }
-        public BIOSInformation BIOSInformation { set; get; }
+
+        [Description("Windows Information")]
+        [ReportVisibility(true)]
+        public WindowsInformation WindowsInformation { set; get; }
+
+        [Description("System Information")]
+        [ReportVisibility(true)]
         public SystemInformation SystemInformation { set; get; }
+       
+        [Description("BIOS Information")]
+        [ReportVisibility(true)]
+        public BIOSInformation BIOSInformation { set; get; }
+
+        [Description("MotherBoard Information")]
+        [ReportVisibility(true)]
         public MotherBoardInformation MotherBoardInformation { set; get; }
 
+        [Description("CPUs")]
+        [ReportVisibility(true)]
         public List<CPUInformation> CPUs { set; get; }
+        
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsCPUsPresent => CPUs != null && (CPUs.Count > 0);
 
+        [Description("Memory Devices")]
+        [ReportVisibility(true)]
         public List<MemoryDevice> MemoryDevices { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsMemoryDevicesPresent => MemoryDevices != null && (MemoryDevices.Count > 0);
 
-        public WindowsInformation WindowsInformation { set; get; }
-
+        [Description("Monitors")]
+        [ReportVisibility(true)]
         public List<Monitor> Monitors { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsMonitorsPresent => Monitors != null && (Monitors.Count > 0);
 
-        public List<PhysicalDrive> PhysicalDrives { set; get; }
-        [JsonIgnore]
-        public bool IsPhysicalDrivesPresent => PhysicalDrives != null && (PhysicalDrives.Count > 0);
-
-        public List<LogicalDrive> LogicalDrives { set; get; }
-        [JsonIgnore]
-        public bool IsLogicalDrivesPresent => LogicalDrives != null && (LogicalDrives.Count > 0);
-
+        [Description("Video Controllers")]
+        [ReportVisibility(true)]
         public List<VideoController> VideoControllers { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsVideoControllersPresent => VideoControllers != null && (VideoControllers.Count > 0);
 
+        [Description("Network Adapters")]
+        [ReportVisibility(true)]
         public List<NetworkAdapter> NetworkAdapters { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsNetworkAdaptersPresent => NetworkAdapters != null && (NetworkAdapters.Count > 0);
 
+        [Description("Physical Drives")]
+        [ReportVisibility(true)]
+        public List<PhysicalDrive> PhysicalDrives { set; get; }
+
+        [ReportVisibility(false)]
+        [JsonIgnore]
+        public bool IsPhysicalDrivesPresent => PhysicalDrives != null && (PhysicalDrives.Count > 0);
+
+        [Description("Logical Drives")]
+        [ReportVisibility(true)]
+        public List<LogicalDrive> LogicalDrives { set; get; }
+
+        [ReportVisibility(false)]
+        [JsonIgnore]
+        public bool IsLogicalDrivesPresent => LogicalDrives != null && (LogicalDrives.Count > 0);
+
+        [Description("Printers")]
+        [ReportVisibility(true)]
         public List<Printer> Printers { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsPrintersPresent => Printers != null && (Printers.Count > 0);
 
+        [Description("Software Licensing Products")]
+        [ReportVisibility(true)]
         public List<SoftwareLicensingProduct> SoftwareLicensingProducts { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsSoftwareLicensingProductsPresent => SoftwareLicensingProducts != null && (SoftwareLicensingProducts.Count > 0);
 
+        [Description("Windows Local Users")]
+        [ReportVisibility(true)]
         public List<WindowsLocalUser> WindowsLocalUsers { set; get; }
+
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsWindowsLocalUsersPresent => WindowsLocalUsers != null && (WindowsLocalUsers.Count > 0);
 
+        [Description("Windows Local Groups")]
+        [ReportVisibility(true)]
         public List<WindowsLocalGroup> WindowsLocalGroups { set; get; }
+        
+        [ReportVisibility(false)]
         [JsonIgnore]
         public bool IsWindowsLocalGroupsPresent => WindowsLocalGroups != null && (WindowsLocalGroups.Count > 0);
 

@@ -1,5 +1,6 @@
 ﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Models;
+using Gizmo.HardwareAuditClasses.Enums;
 using Gizmo.WPF;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,7 +73,7 @@ namespace Gizmo.HardwareAudit.Controls
                         if (Item.DataTable != null)
                             ReportDataGrid.DataContext = Item.DataTable.DefaultView;
                     }
-                    if (Item.Settings.ComponentGroupingItem == HardwareAuditClasses.Enums.ComponentGroupingTypeEnum.ByContainer)
+                    if (Item.Settings.ReportType == ReportTypeEnum.ComputerComponentsReport)
                     {
                         if (ReportEachValueIsASepareteRow != null)
                         {

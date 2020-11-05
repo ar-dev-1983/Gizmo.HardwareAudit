@@ -12,17 +12,14 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("Video Controller Name")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Name { set; get; }
 
         [Description("Video Controller Processor")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string VideoProcessor { set; get; }
 
         [Description("Video Controller Mode Description")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string VideoModeDescription { set; get; }
 
         public VideoController()

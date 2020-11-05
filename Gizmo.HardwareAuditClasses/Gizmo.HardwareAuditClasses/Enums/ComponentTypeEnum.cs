@@ -6,102 +6,106 @@ namespace Gizmo.HardwareAuditClasses.Enums
     public enum ComponentTypeEnum
     {
         [Description("")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.None)]
+        [ReportType(ReportTypeEnum.None)]
         None = 0,
 
         [Description("BIOS Version")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         BIOSInformation = 1,
 
         [Description("CPU Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         CPUInformation = 2,
 
         [Description("Memory Device Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         MemoryDevice = 3,
 
         [Description("MotherBoard Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         MotherBoardInformation = 4,
 
         [Description("Network Adapter Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         NetworkAdapter = 5,
 
         [Description("Video Controller Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         VideoController = 6,
 
-        [Description("Physical Drice Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [Description("Physical Drive Information")]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         PhysicalDrive = 7,
 
         [Description("Partition Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
         LogicalDrive = 8,
 
         [Description("Monitor Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         Monitor = 9,
 
         [Description("Printer Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
         Printer = 10,
 
         [Description("System Enclosure Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         SystemInformation = 11,
 
         [Description("Windows OS Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         WindowsInformation = 12,
 
         [Description("Windows Local User Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
         WindowsLocalUser = 13,
 
         [Description("Windows Local Group Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
         WindowsLocalGroup = 14,
 
         [Description("Microsoft Product Licensing Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByInstance)]
+        [ReportType(ReportTypeEnum.ComputerComponentsReport)]
+        [ReportType(ReportTypeEnum.ComputerComponentsQuantityReport)]
         SoftwareLicensingProduct = 15,
 
         [Description("AD Computer Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
         ActiveDirectoryComputerInfo = 16,
 
         [Description("AD Security Group Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
         ActiveDirectoryGroupInfo = 17,
 
         [Description("AD User Information")]
-        [ComponentGroupingType(ComponentGroupingTypeEnum.ByContainer)]
+        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
         ActiveDirectoryUserInfo = 18,
 
-        //[Description("Linux OS Information")]
-        //[ComponentGroupingType(ComponentGroupingTypeEnum.None)]
-        //LinuxInformation = 19,
+        [Description("Linux OS Information")]
+        [ReportType(ReportTypeEnum.None)]
+        LinuxInformation = 19,
 
-        //[Description("Linux Local User Information")]
-        //[ComponentGroupingType(ComponentGroupingTypeEnum.None)]
-        //LinuxLocalUser = 20,
+        [Description("Linux Local User Information")]
+        [ReportType(ReportTypeEnum.None)]
+        LinuxLocalUser = 20,
 
-        //[Description("Linux Local Group Information")]
-        //[ComponentGroupingType(ComponentGroupingTypeEnum.None)]
-        //LinuxLocalGroup = 21
+        [Description("Linux Local Group Information")]
+        [ReportType(ReportTypeEnum.None)]
+        LinuxLocalGroup = 21,
+
+        [Description("Computer Information")]
+        [ReportType(ReportTypeEnum.ComputerInformationReport)]
+        ComputerInformation = 22
     }
 }

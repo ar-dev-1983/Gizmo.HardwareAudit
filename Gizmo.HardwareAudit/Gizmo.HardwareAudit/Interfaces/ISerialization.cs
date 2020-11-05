@@ -2,7 +2,6 @@
 using Gizmo.HardwareAuditClasses;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Documents;
 
 namespace Gizmo.HardwareAudit.Interfaces
 {
@@ -26,7 +25,7 @@ namespace Gizmo.HardwareAudit.Interfaces
         ReportItem OpenReportModel(string filename);
         void SaveReportModel(string filename, ReportItem item);
 
-        void ExportAsJson(string filename, List<Dictionary<string,object>> keyValuePairs);
+        void ExportAsJson(string filename, List<Dictionary<string, object>> keyValuePairs);
 
     }
 }

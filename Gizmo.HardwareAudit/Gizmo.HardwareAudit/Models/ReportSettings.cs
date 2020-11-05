@@ -14,7 +14,7 @@ namespace Gizmo.HardwareAudit.Models
         private Guid reportSourceContainerId = new Guid();
         private DateTime reportTimeStamp = new DateTime();
         private ObservableCollection<ClassProperties> columns;
-        private ComponentGroupingTypeEnum componentGroupingItem;
+        private ReportTypeEnum reportType;
         private ComponentTypeEnum componentItem;
         private bool eachValueIsASepareteRow = false;
         public Guid ReportSourceContainerId
@@ -48,13 +48,13 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
-        public ComponentGroupingTypeEnum ComponentGroupingItem
+        public ReportTypeEnum ReportType
         {
-            get => componentGroupingItem;
+            get => reportType;
             set
             {
-                if (componentGroupingItem == value) return;
-                componentGroupingItem = value;
+                if (reportType == value) return;
+                reportType = value;
                 OnPropertyChanged();
             }
         }

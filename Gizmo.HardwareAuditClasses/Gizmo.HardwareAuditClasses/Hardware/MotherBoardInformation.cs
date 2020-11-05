@@ -9,22 +9,18 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("MotherBoard Manufacturer")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ManufacturerName { set; get; }
 
         [Description("MotherBoard Product Name")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string ProductName { set; get; }
 
         [Description("MotherBoard Version")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Version { set; get; }
 
         [Description("MotherBoard Serial Number")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SerialNumber { set; get; }
 
         public MotherBoardInformation()

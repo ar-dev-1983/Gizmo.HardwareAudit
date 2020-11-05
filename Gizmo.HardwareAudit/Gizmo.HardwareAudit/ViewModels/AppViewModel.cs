@@ -688,6 +688,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
             return null;
         }
+
         internal ReportItem FindReportItemByGuid(Guid id)
         {
             if (ReportRoot.Children.Count != 0)
@@ -696,6 +697,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
             return null;
         }
+
         internal void ClearHardwareScansInChildrends(TreeItem Item, ItemTypeEnum Type)
         {
             if (Item.Children.Count != 0)

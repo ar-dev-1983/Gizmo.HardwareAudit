@@ -45,10 +45,6 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
                                         {
                                             property.PropertyDescription = anode.ConstructorArguments[0].Value.ToString();
                                         }
-                                        else if (anode.AttributeType == typeof(FieldTypeAttribute))
-                                        {
-                                            property.FieldType = (FieldTypeEnum)anode.ConstructorArguments[0].Value;
-                                        }
                                     }
                                     result.Add(property);
                                 }

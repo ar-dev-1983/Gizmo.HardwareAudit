@@ -12,17 +12,14 @@ namespace Gizmo.HardwareAuditClasses
     {
         [Description("Physical Drive Model")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToGroupAndSort)]
         public string Model { set; get; }
 
         [Description("Physical Drive Serial Number")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string SerialNumber { set; get; }
 
         [Description("Physical Drive Size")]
         [ReportVisibility(true)]
-        [FieldType(FieldTypeEnum.KeyToSort)]
         public string Size { set; get; }
 
         public PhysicalDrive()

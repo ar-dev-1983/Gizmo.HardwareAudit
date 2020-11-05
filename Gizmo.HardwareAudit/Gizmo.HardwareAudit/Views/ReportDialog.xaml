@@ -136,9 +136,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Data Representation:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UIComboBox Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ComponentGroupingItems, Mode=OneWay}" 
-                           SelectedItem="{Binding SelectedComponentGroupingItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Report Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <ui:UIComboBox Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ReportTypeItems, Mode=OneWay}" 
+                           SelectedItem="{Binding SelectedReportTypeItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
                            HorizontalAlignment="Left" Width="300"/>
             
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Data Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>

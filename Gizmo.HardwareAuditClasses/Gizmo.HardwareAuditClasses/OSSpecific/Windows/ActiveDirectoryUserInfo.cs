@@ -12,6 +12,10 @@ namespace Gizmo.HardwareAuditClasses
         public Guid Id { set; get; }
 
         [ReportVisibility(true)]
+        [Description("AD Source")]
+        public string SourceName { set; get; }
+
+        [ReportVisibility(true)]
         [Description("Учетная запись AD")]
         public string UserName { set; get; }
 
@@ -94,6 +98,7 @@ namespace Gizmo.HardwareAuditClasses
         public ActiveDirectoryUserInfo()
         {
             Id = Guid.NewGuid();
+            SourceName = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             MN = string.Empty;
