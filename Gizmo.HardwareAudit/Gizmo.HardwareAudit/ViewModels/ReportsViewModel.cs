@@ -564,25 +564,26 @@ namespace Gizmo.HardwareAudit.ViewModels
                             {
                                 BuildComputerComponentsQuantityReport(Item);
                             }
-                            else if (Item.Settings.ReportType == ReportTypeEnum.ActiveDirectoryInformationReport)
-                            {
-                                switch (Item.Settings.ComponentItem)
-                                {
-                                    case ComponentTypeEnum.ActiveDirectoryComputerInfo:
-                                        BuildActiveDirectoryComputersInfoReport(Item);
-                                        break;
-                                    case ComponentTypeEnum.ActiveDirectoryGroupInfo:
-                                        BuildActiveDirectoryGroupsInfoReport(Item);
-                                        break;
-                                    case ComponentTypeEnum.ActiveDirectoryUserInfo:
-                                        BuildActiveDirectoryUsersInfoReport(Item);
-                                        break;
-                                }
-                            }
-                            else if (Item.Settings.ReportType == ReportTypeEnum.ComputerInformationReport)
-                            {
+                            //I'm not sure if the active directory reports are needed here. Code was left commented out in case it is needed in the future
+                            //else if (Item.Settings.ReportType == ReportTypeEnum.ActiveDirectoryInformationReport)
+                            //{
+                            //    switch (Item.Settings.ComponentItem)
+                            //    {
+                            //        case ComponentTypeEnum.ActiveDirectoryComputerInfo:
+                            //            BuildActiveDirectoryComputersInfoReport(Item);
+                            //            break;
+                            //        case ComponentTypeEnum.ActiveDirectoryGroupInfo:
+                            //            BuildActiveDirectoryGroupsInfoReport(Item);
+                            //            break;
+                            //        case ComponentTypeEnum.ActiveDirectoryUserInfo:
+                            //            BuildActiveDirectoryUsersInfoReport(Item);
+                            //            break;
+                            //    }
+                            //}
+                            //else if (Item.Settings.ReportType == ReportTypeEnum.ComputerInformationReport)
+                            //{
 
-                            }
+                            //}
                         }
                     }
                 }
@@ -1332,6 +1333,61 @@ namespace Gizmo.HardwareAudit.ViewModels
                         newRow.AppendChild(cell);
                     }
                     sheetData.AppendChild(newRow);
+                }
+            }
+        }
+        
+        private void ExportAsExcelFile(DataSet dataSet, string fileName)
+        {
+            using (var workbook = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
+            {
+                var workbookPart = workbook.AddWorkbookPart();
+                workbook.WorkbookPart.Workbook = new Workbook();
+                workbook.WorkbookPart.Workbook.Sheets = new Sheets();
+                foreach (DataTable table in dataSet.Tables)
+                {
+                    var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
+                    var sheetData = new SheetData();
+                    sheetPart.Worksheet = new Worksheet(sheetData);
+
+                    Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<Sheets>();
+                    string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
+
+                    uint sheetId = 1;
+                    if (sheets.Elements<Sheet>().Count() > 0)
+                    {
+                        sheetId = sheets.Elements<Sheet>().Select(s => s.SheetId.Value).Max() + 1;
+                    }
+
+                    Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = table.TableName };
+                    sheets.Append(sheet);
+
+                    Row headerRow = new Row();
+
+                    var columns = new List<string>();
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        columns.Add(column.ColumnName);
+                        Cell cell = new Cell();
+                        cell.DataType = CellValues.String;
+                        cell.CellValue = new CellValue(column.ColumnName);
+                        headerRow.AppendChild(cell);
+                    }
+
+                    sheetData.AppendChild(headerRow);
+
+                    foreach (DataRow dsrow in table.Rows)
+                    {
+                        Row newRow = new Row();
+                        foreach (var col in columns)
+                        {
+                            Cell cell = new Cell();
+                            cell.DataType = CellValues.String;
+                            cell.CellValue = new CellValue(dsrow[col].ToString());
+                            newRow.AppendChild(cell);
+                        }
+                        sheetData.AppendChild(newRow);
+                    }
                 }
             }
         }

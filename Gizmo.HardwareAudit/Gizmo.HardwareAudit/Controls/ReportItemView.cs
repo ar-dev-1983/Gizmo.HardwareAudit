@@ -88,6 +88,13 @@ namespace Gizmo.HardwareAudit.Controls
                         }
                     }
                 }
+                else
+                {
+                    if (ReportEachValueIsASepareteRow != null)
+                    {
+                        ReportEachValueIsASepareteRow.Visibility = Visibility.Collapsed;
+                    }
+                }
             }
         }
     }

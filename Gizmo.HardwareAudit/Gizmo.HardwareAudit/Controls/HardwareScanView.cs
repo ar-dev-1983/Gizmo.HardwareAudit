@@ -443,7 +443,7 @@ namespace Gizmo.HardwareAudit.Controls
                                             Value03 = node.Description,
                                             Value04 = node.IsLocal.ToString(),
                                             Value05 = node.Status,
-                                            Value06 = String.Join("\n", node.Childrens.ToArray()),
+                                            Value06 =node.MembersInOneLine,
                                             ShowSeparator = Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList().IndexOf(node) != Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList().Count() - 1
                                         });
                                     }

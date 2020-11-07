@@ -81,15 +81,15 @@ namespace Gizmo.HardwareAuditClasses.Enums
         SoftwareLicensingProduct = 15,
 
         [Description("AD Computer Information")]
-        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
+        [ReportType(ReportTypeEnum.None)]
         ActiveDirectoryComputerInfo = 16,
 
         [Description("AD Security Group Information")]
-        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
+        [ReportType(ReportTypeEnum.None)]
         ActiveDirectoryGroupInfo = 17,
 
         [Description("AD User Information")]
-        [ReportType(ReportTypeEnum.ActiveDirectoryInformationReport)]
+        [ReportType(ReportTypeEnum.None)]
         ActiveDirectoryUserInfo = 18,
 
         [Description("Linux OS Information")]
@@ -105,7 +105,7 @@ namespace Gizmo.HardwareAuditClasses.Enums
         LinuxLocalGroup = 21,
 
         [Description("Computer Information")]
-        [ReportType(ReportTypeEnum.ComputerInformationReport)]
+        [ReportType(ReportTypeEnum.None)]
         ComputerInformation = 22
     }
 }

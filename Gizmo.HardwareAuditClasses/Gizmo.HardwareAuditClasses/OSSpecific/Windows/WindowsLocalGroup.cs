@@ -42,9 +42,12 @@ namespace Gizmo.HardwareAuditClasses
         [ReportVisibility(true)]
         public string SIDType { set; get; }
 
-        [Description("Local Group Members")]
-        [ReportVisibility(true)]
+        [ReportVisibility(false)]
         public List<string> Childrens { set; get; }
+
+        [ReportVisibility(true)]
+        [Description("Local Group Members")]
+        public string MembersInOneLine => Childrens != null ? Childrens.Count != 0 ? string.Join("\n", Childrens) : string.Empty : string.Empty;
 
         public WindowsLocalGroup()
         {

@@ -1,12 +1,15 @@
 ﻿using Gizmo.HardwareAudit.Classes;
+using Gizmo.HardwareAudit.Classes.Helpers;
 using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAuditClasses;
+using Gizmo.HardwareAuditClasses.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -420,6 +423,97 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
+        private WorkCommand buildActiveDirectoryReportsCommand;
+        public WorkCommand BuildActiveDirectoryReportsCommand
+        {
+            get
+            {
+                return buildActiveDirectoryReportsCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        var argumens = new List<object>() { SelectedTreeItem.DomainSettings, true, true, true };
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).DoWork += GetInformationFromAD_DoWork;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerCompleted += GetInformationFromAD_RunWorkerCompleted;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerAsync(argument: argumens);
+                        SelectedTreeItem.ProbeInUse = true;
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "BuildActiveDirectoryReportsCommand");
+                    }
+                }, (obj) => SelectedTreeItem != null ? !SelectedTreeItem.ProbeInUse : false);
+            }
+        }
+
+        private WorkCommand buildActiveDirectoryComputersReportCommand;
+        public WorkCommand BuildActiveDirectoryComputersReportCommand
+        {
+            get
+            {
+                return buildActiveDirectoryComputersReportCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        var argumens = new List<object>() { SelectedTreeItem.DomainSettings, true, false, false };
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).DoWork += GetInformationFromAD_DoWork;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerCompleted += GetInformationFromAD_RunWorkerCompleted;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerAsync(argument: argumens);
+                        SelectedTreeItem.ProbeInUse = true;
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "BuildActiveDirectoryComputersReportCommand");
+                    }
+                }, (obj) => SelectedTreeItem != null ? !SelectedTreeItem.ProbeInUse : false);
+            }
+        }
+
+        private WorkCommand buildActiveDirectoryGroupsReportCommand;
+        public WorkCommand BuildActiveDirectoryGroupsReportCommand
+        {
+            get
+            {
+                return buildActiveDirectoryGroupsReportCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        var argumens = new List<object>() { SelectedTreeItem.DomainSettings, false, true, false };
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).DoWork += GetInformationFromAD_DoWork;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerCompleted += GetInformationFromAD_RunWorkerCompleted;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerAsync(argument: argumens);
+                        SelectedTreeItem.ProbeInUse = true;
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "BuildActiveDirectoryGroupsReportCommand");
+                    }
+                }, (obj) => SelectedTreeItem != null ? !SelectedTreeItem.ProbeInUse : false);
+            }
+        }
+
+        private WorkCommand buildActiveDirectoryUsersReportCommand;
+        public WorkCommand BuildActiveDirectoryUsersReportCommand
+        {
+            get
+            {
+                return buildActiveDirectoryUsersReportCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        var argumens = new List<object>() { SelectedTreeItem.DomainSettings, false, false, true };
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).DoWork += GetInformationFromAD_DoWork;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerCompleted += GetInformationFromAD_RunWorkerCompleted;
+                        NetProbes.Find(x => x.Id == SelectedTreeItem.Id).RunWorkerAsync(argument: argumens);
+                        SelectedTreeItem.ProbeInUse = true;
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "BuildActiveDirectoryUsersReportCommand");
+                    }
+                }, (obj) => SelectedTreeItem != null ? !SelectedTreeItem.ProbeInUse : false);
+            }
+        }
 
         private WorkCommand pingContainerCommand;
         public WorkCommand PingContainerCommand
@@ -871,6 +965,197 @@ namespace Gizmo.HardwareAudit.ViewModels
         }
 
         #endregion
+
+        #endregion
+        #region Browse from Active Directory
+        private void GetInformationFromAD_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<object> arguments = e.Argument as List<object>;
+
+            DomainDiscoverySettings discoverySettings = arguments[0] as DomainDiscoverySettings;
+            bool exportComputers = (bool)arguments[1];
+            bool exportGroups = (bool)arguments[2];
+            bool exportUsers = (bool)arguments[3];
+
+            List<object> result = new List<object>() { discoverySettings, null, null, null };
+            try
+            {
+                if (exportComputers)
+                    result[1] = DomainDiscovery.EnumerateComputersInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode, true);
+            }
+            catch (Exception ex)
+            {
+                result[1] = ex;
+            }
+            try
+            {
+                if (exportGroups)
+                    result[2] = DomainDiscovery.EnumerateGroupsInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode, true);
+            }
+            catch (Exception ex)
+            {
+                result[2] = ex;
+            }
+            try
+            {
+                if (exportUsers)
+                    result[3] = DomainDiscovery.EnumerateUsersInformation(discoverySettings.Name, Settings.UserProfiles.Where(x => x.Id == discoverySettings.UserProfileId).First(), discoverySettings.Mode, true);
+            }
+            catch (Exception ex)
+            {
+                result[3] = ex;
+            }
+            e.Result = result;
+        }
+
+        private void GetInformationFromAD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var RootNode = FindTreeItemByGuid((sender as BackgroundWorkerWithId).Id);
+            RootNode.DomainSettings = (e.Result as List<object>)[0] as DomainDiscoverySettings;
+            RootNode.UseParentUserProfile = false;
+            RootNode.UserProfileId = RootNode.DomainSettings.UserProfileId;
+            DataSet dataSet = new DataSet() { DataSetName = RootNode.Name };
+
+            if (e.Result != null)
+            {
+                if (e.Result is List<object>)
+                {
+                    if (CheckDomainInformation((e.Result as List<object>)[1]))
+                    {
+                        BuildComputersTable((e.Result as List<object>)[1] as List<DomainInformation>, dataSet);
+                    }
+                    if (CheckDomainInformation((e.Result as List<object>)[2]))
+                    {
+                        BuildGroupsTable((e.Result as List<object>)[2] as List<DomainInformation>, dataSet);
+                    }
+                    if (CheckDomainInformation((e.Result as List<object>)[3]))
+                    {
+                        BuildUsersTable((e.Result as List<object>)[3] as List<DomainInformation>, dataSet);
+                    }
+                }
+            }
+            if (dataSet.Tables.Count != 0)
+            {
+                if (dialogService.SaveFileDialog(RootNode.Name.Replace(" ", "_") + ".xlsx", "Excel files|*.xlsx") == true)
+                {
+                    ExportAsExcelFile(dataSet, dialogService.FilePath);
+                }
+            }
+            RootNode.ProbeInUse = false;
+            NetProbes.Find(x => x.Id == (sender as BackgroundWorkerWithId).Id).DoWork -= GetInformationFromAD_DoWork;
+            NetProbes.Find(x => x.Id == (sender as BackgroundWorkerWithId).Id).RunWorkerCompleted -= GetInformationFromAD_RunWorkerCompleted;
+            GC.Collect();
+        }
+        private static void BuildComputersTable(List<DomainInformation> domainInformation, DataSet dataSet)
+        {
+            dataSet.Tables.Add(new DataTable("Computers"));
+            foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryComputerInfo))
+            {
+                dataSet.Tables["Computers"].Columns.Add(new DataColumn(column.PropertyDescription));
+            }
+            foreach (var domainNode in domainInformation)
+            {
+                foreach (var inode in domainNode.Childrens)
+                {
+                    DataRow newRow = dataSet.Tables["Computers"].NewRow();
+                    foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryComputerInfo))
+                    {
+                        var value = string.Empty;
+                        try
+                        {
+                            value = (inode.Info as ActiveDirectoryComputerInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryComputerInfo, null) + string.Empty;
+                        }
+                        catch (Exception) { }
+                        newRow[column.PropertyDescription] = value;
+                    }
+                    dataSet.Tables["Computers"].Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void BuildGroupsTable(List<DomainInformation> domainInformation, DataSet dataSet)
+        {
+            dataSet.Tables.Add(new DataTable("Groups"));
+            foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryGroupInfo))
+            {
+                dataSet.Tables["Groups"].Columns.Add(new DataColumn(column.PropertyDescription));
+            }
+            foreach (var domainNode in domainInformation)
+            {
+                foreach (var inode in domainNode.Childrens)
+                {
+                    DataRow newRow = dataSet.Tables["Groups"].NewRow();
+                    foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryGroupInfo))
+                    {
+                        var value = string.Empty;
+                        try
+                        {
+                            value = (inode.Info as ActiveDirectoryGroupInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryGroupInfo, null) + string.Empty;
+                        }
+                        catch (Exception) { }
+                        newRow[column.PropertyDescription] = value;
+                    }
+                    dataSet.Tables["Groups"].Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void BuildUsersTable(List<DomainInformation> domainInformation, DataSet dataSet)
+        {
+            dataSet.Tables.Add(new DataTable("Users"));
+            foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryUserInfo))
+            {
+                dataSet.Tables["Users"].Columns.Add(new DataColumn(column.PropertyDescription));
+            }
+            foreach (var domainNode in domainInformation)
+            {
+                foreach (var inode in domainNode.Childrens)
+                {
+                    DataRow newRow = dataSet.Tables["Users"].NewRow();
+                    foreach (var column in AttributeWorkForClass.Enumerate(ComponentTypeEnum.ActiveDirectoryUserInfo))
+                    {
+                        var value = string.Empty;
+                        try
+                        {
+                            value = (inode.Info as ActiveDirectoryUserInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryUserInfo, null) + string.Empty;
+                        }
+                        catch (Exception) { }
+                        newRow[column.PropertyDescription] = value;
+                    }
+                    dataSet.Tables["Users"].Rows.Add(newRow);
+                }
+            }
+        }
+
+        private bool CheckDomainInformation(object inputValue)
+        {
+            var result = false;
+            if (inputValue != null)
+            {
+                if (inputValue is List<DomainInformation> domainInformation)
+                {
+                    if (domainInformation.Count != 0)
+                    {
+                        result = true;
+                    }
+                    else
+                        AddLogItem(DateTime.Now, "No items was found!", "Error", LogItemTypeEnum.Error, "GetInformationFromAD_RunWorkerCompleted");
+
+                }
+                else if (inputValue is Exception)
+                {
+                    AddLogItem(DateTime.Now, (inputValue as Exception).Message, "Exception", LogItemTypeEnum.Error, "GetInformationFromAD_RunWorkerCompleted");
+                }
+            }
+            else if (inputValue is Exception)
+            {
+                AddLogItem(DateTime.Now, (inputValue as Exception).Message, "Exception", LogItemTypeEnum.Error, "GetInformationFromAD_RunWorkerCompleted");
+            }
+            else
+                AddLogItem(DateTime.Now, "No items was found!", "Error", LogItemTypeEnum.Error, "GetInformationFromAD_RunWorkerCompleted");
+
+            return result;
+        }
 
         #endregion
 
