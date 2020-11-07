@@ -1,6 +1,4 @@
-﻿using Gizmo.HardwareAuditClasses.Enums;
-
-namespace Gizmo.HardwareAudit.Classes.Helpers
+﻿namespace Gizmo.HardwareAudit.Classes.Helpers
 {
     public class ClassProperties
     {

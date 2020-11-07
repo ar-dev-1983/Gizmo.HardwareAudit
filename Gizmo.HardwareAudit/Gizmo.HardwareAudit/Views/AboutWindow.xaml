@@ -23,7 +23,7 @@
         </Image>
         <TextBlock Grid.Row="1" Text="Gizmo Computer Hardware Audit" FontSize="20" TextAlignment="Center" Margin="5"/>
         <StackPanel Grid.Row="2">
-            <TextBlock Text="Version: 1.0.0.3" FontSize="14" TextAlignment="Left" Margin="5"/>
+            <TextBlock Text="Version: 1.0.0.4" FontSize="14" TextAlignment="Left" Margin="5"/>
             <TextBlock Text="License: MIT License" FontSize="14" TextAlignment="Left" Margin="5"/>
             <TextBlock Text="Author: Anton Rossikhin aka ar-dev-1983" FontSize="14" TextAlignment="Left" Margin="5"/>
             <StackPanel Orientation="Horizontal">

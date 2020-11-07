@@ -5,7 +5,6 @@ using Gizmo.HardwareAudit.Classes;
 using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
-using Gizmo.HardwareAuditClasses;
 using Gizmo.HardwareAuditClasses.Enums;
 using System;
 using System.Collections;
@@ -85,18 +84,18 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.QueryYesNoAnswer("Save existing Report Model before creating new one?"))
+                        if (dialogService.QueryYesNoAnswer("Save existing Reports file before creating new one?"))
                         {
-                            if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                            if (dialogService.SaveFileDialog("", "Reports files|*.rdat") == true)
                             {
                                 serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
                                 Settings.LastReportFile = dialogService.FilePath;
-                                AddLogItem(DateTime.Now, "Report Model File: \"" + dialogService.FilePath + "\"", "Saved", LogItemTypeEnum.Information, "NewReportModelCommand");
+                                AddLogItem(DateTime.Now, "Reports file: \"" + dialogService.FilePath + "\"", "Saved", LogItemTypeEnum.Information, "NewReportModelCommand");
                             }
                         }
 
                         ReportRoot = new ReportItem() { Children = { ReportItem.CreateRoot() } };
-                        AddLogItem(DateTime.Now, "New Report Model created", "Successful", LogItemTypeEnum.Information, "NewReportModelCommand");
+                        AddLogItem(DateTime.Now, "New Reports file created", "Successful", LogItemTypeEnum.Information, "NewReportModelCommand");
                     }
                     catch (Exception e)
                     {
@@ -121,13 +120,13 @@ namespace Gizmo.HardwareAudit.ViewModels
                         }
                         else
                         {
-                            if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                            if (dialogService.SaveFileDialog("", "Reports files|*.rdat") == true)
                             {
                                 Settings.LastReportFile = dialogService.FilePath;
                                 serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
                             }
                         }
-                        AddLogItem(DateTime.Now, "Report Model File: \"" + Settings.LastReportFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveReportModelCommand");
+                        AddLogItem(DateTime.Now, "Reports file: \"" + Settings.LastReportFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveReportModelCommand");
                     }
                     catch (Exception e)
                     {
@@ -146,11 +145,11 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.SaveFileDialog("", "Report Model files|*.rdat") == true)
+                        if (dialogService.SaveFileDialog("", "Reports files|*.rdat") == true)
                         {
                             serializationService.SaveReportModel(dialogService.FilePath, ReportRoot);
                             Settings.LastReportFile = dialogService.FilePath;
-                            AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastReportFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveAsReportModelCommand");
+                            AddLogItem(DateTime.Now, "Reports file: \"" + Settings.LastReportFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveAsReportModelCommand");
                         }
                     }
                     catch (Exception e)
@@ -170,7 +169,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.OpenFileDialog("Report Model files|*.rdat") == true)
+                        if (dialogService.OpenFileDialog("Reports files|*.rdat") == true)
                         {
                             ReportRoot = serializationService.OpenReportModel(dialogService.FilePath);
                             InitReports();
@@ -182,7 +181,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                             }
                             Settings.LastReportFile = dialogService.FilePath;
 
-                            AddLogItem(DateTime.Now, "Report Model File: \"" + Settings.LastReportFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenReportModelCommand");
+                            AddLogItem(DateTime.Now, "Reports file: \"" + Settings.LastReportFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenReportModelCommand");
                         }
                     }
                     catch (Exception e)
@@ -564,26 +563,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                             {
                                 BuildComputerComponentsQuantityReport(Item);
                             }
-                            //I'm not sure if the active directory reports are needed here. Code was left commented out in case it is needed in the future
-                            //else if (Item.Settings.ReportType == ReportTypeEnum.ActiveDirectoryInformationReport)
-                            //{
-                            //    switch (Item.Settings.ComponentItem)
-                            //    {
-                            //        case ComponentTypeEnum.ActiveDirectoryComputerInfo:
-                            //            BuildActiveDirectoryComputersInfoReport(Item);
-                            //            break;
-                            //        case ComponentTypeEnum.ActiveDirectoryGroupInfo:
-                            //            BuildActiveDirectoryGroupsInfoReport(Item);
-                            //            break;
-                            //        case ComponentTypeEnum.ActiveDirectoryUserInfo:
-                            //            BuildActiveDirectoryUsersInfoReport(Item);
-                            //            break;
-                            //    }
-                            //}
-                            //else if (Item.Settings.ReportType == ReportTypeEnum.ComputerInformationReport)
-                            //{
-
-                            //}
                         }
                     }
                 }
@@ -826,252 +805,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                             }
                             break;
                         }
-                }
-            }
-        }
-
-        internal void BuildActiveDirectoryComputersInfoReport(ReportItem reportItem)
-        {
-            if (reportItem.Settings.ReportSourceContainerId != new Guid())
-            {
-                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
-                var DomainInfos = new List<DomainInformation>();
-                switch (SourceTreeItem.Type)
-                {
-                    case ItemTypeEnum.Root:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ActiveDirectory:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ChildContainer:
-                        break;
-                    case ItemTypeEnum.DomainRoot:
-                        {
-                            DomainInfos.AddRange(DomainDiscovery.EnumerateComputersInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
-                        }
-                        break;
-                }
-
-                if (!reportItem.Settings.EachValueIsASepareteRow)
-                {
-                    foreach (var domainNode in DomainInfos)
-                    {
-                        foreach (var inode in domainNode.Childrens)
-                        {
-                            DataRow newRow = reportItem.DataTable.NewRow();
-                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                            {
-                                var value = string.Empty;
-                                try
-                                {
-                                    value = (inode.Info as ActiveDirectoryComputerInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryComputerInfo, null) + string.Empty;
-                                }
-                                catch (Exception) { }
-                                newRow[column.PropertyDescription] = value;
-                            }
-                            reportItem.DataTable.Rows.Add(newRow);
-                        }
-                    }
-                }
-                else
-                {
-                    DataRow newRow = reportItem.DataTable.NewRow();
-                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                    {
-                        try
-                        {
-                            var value = string.Empty;
-                            foreach (var domainNode in DomainInfos)
-                            {
-                                foreach (var inode in domainNode.Childrens)
-                                {
-                                    value += (inode.Info as ActiveDirectoryComputerInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryComputerInfo, null) + "\n";
-                                }
-                            }
-                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
-                        }
-                        catch (Exception) { }
-                    }
-                    reportItem.DataTable.Rows.Add(newRow);
-                }
-            }
-        }
-
-        internal void BuildActiveDirectoryGroupsInfoReport(ReportItem reportItem)
-        {
-            if (reportItem.Settings.ReportSourceContainerId != new Guid())
-            {
-                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
-                var DomainInfos = new List<DomainInformation>();
-                switch (SourceTreeItem.Type)
-                {
-                    case ItemTypeEnum.Root:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ActiveDirectory:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ChildContainer:
-                        break;
-                    case ItemTypeEnum.DomainRoot:
-                        {
-                            DomainInfos.AddRange(DomainDiscovery.EnumerateGroupsInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
-                        }
-                        break;
-                }
-
-                if (!reportItem.Settings.EachValueIsASepareteRow)
-                {
-                    foreach (var domainNode in DomainInfos)
-                    {
-                        foreach (var inode in domainNode.Childrens)
-                        {
-                            DataRow newRow = reportItem.DataTable.NewRow();
-                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                            {
-                                var value = string.Empty;
-                                try
-                                {
-                                    value = (inode.Info as ActiveDirectoryGroupInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryGroupInfo, null) + string.Empty;
-                                }
-                                catch (Exception) { }
-                                newRow[column.PropertyDescription] = value;
-                            }
-                            reportItem.DataTable.Rows.Add(newRow);
-                        }
-                    }
-                }
-                else
-                {
-                    DataRow newRow = reportItem.DataTable.NewRow();
-                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                    {
-                        try
-                        {
-                            var value = string.Empty;
-                            foreach (var domainNode in DomainInfos)
-                            {
-                                foreach (var inode in domainNode.Childrens)
-                                {
-                                    value += (inode.Info as ActiveDirectoryGroupInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryGroupInfo, null) + "\n";
-                                }
-                            }
-                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
-                        }
-                        catch (Exception) { }
-                    }
-                    reportItem.DataTable.Rows.Add(newRow);
-                }
-            }
-        }
-
-        internal void BuildActiveDirectoryUsersInfoReport(ReportItem reportItem)
-        {
-            if (reportItem.Settings.ReportSourceContainerId != new Guid())
-            {
-                var SourceTreeItem = FindTreeItemByGuid(reportItem.Settings.ReportSourceContainerId);
-                var DomainInfos = new List<DomainInformation>();
-                switch (SourceTreeItem.Type)
-                {
-                    case ItemTypeEnum.Root:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(Root, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ActiveDirectory:
-                        {
-                            var DomainRootItems = new List<TreeItem>();
-                            FindAllChilderenByType(SourceTreeItem, ItemTypeEnum.DomainRoot, DomainRootItems);
-                            foreach (var node in DomainRootItems)
-                            {
-                                DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(node.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == node.DomainSettings.UserProfileId).First(), node.DomainSettings.Mode, true));
-                            }
-                        }
-                        break;
-                    case ItemTypeEnum.ChildContainer:
-                        break;
-                    case ItemTypeEnum.DomainRoot:
-                        {
-                            DomainInfos.AddRange(DomainDiscovery.EnumerateUsersInformation(SourceTreeItem.DomainSettings.Name, Settings.UserProfiles.Where(x => x.Id == SourceTreeItem.DomainSettings.UserProfileId).First(), SourceTreeItem.DomainSettings.Mode, true));
-                        }
-                        break;
-                }
-
-                if (!reportItem.Settings.EachValueIsASepareteRow)
-                {
-                    foreach (var domainNode in DomainInfos)
-                    {
-                        foreach (var inode in domainNode.Childrens)
-                        {
-                            DataRow newRow = reportItem.DataTable.NewRow();
-                            foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                            {
-                                var value = string.Empty;
-                                try
-                                {
-                                    value = (inode.Info as ActiveDirectoryUserInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryUserInfo, null) + string.Empty;
-                                }
-                                catch (Exception) { }
-                                newRow[column.PropertyDescription] = value;
-                            }
-                            reportItem.DataTable.Rows.Add(newRow);
-                        }
-                    }
-                }
-                else
-                {
-                    DataRow newRow = reportItem.DataTable.NewRow();
-                    foreach (var column in reportItem.Settings.Columns.Where(x => x.IsSelected))
-                    {
-                        try
-                        {
-                            var value = string.Empty;
-                            foreach (var domainNode in DomainInfos)
-                            {
-                                foreach (var inode in domainNode.Childrens)
-                                {
-                                    value += (inode.Info as ActiveDirectoryUserInfo).GetType().GetProperty(column.PropertyKey).GetValue(inode.Info as ActiveDirectoryUserInfo, null) + "\n";
-                                }
-                            }
-                            newRow[column.PropertyDescription] = value.TrimEnd('\n').TrimEnd('\r');
-                        }
-                        catch (Exception) { }
-                    }
-                    reportItem.DataTable.Rows.Add(newRow);
                 }
             }
         }
@@ -1336,7 +1069,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 }
             }
         }
-        
+
         private void ExportAsExcelFile(DataSet dataSet, string fileName)
         {
             using (var workbook = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))

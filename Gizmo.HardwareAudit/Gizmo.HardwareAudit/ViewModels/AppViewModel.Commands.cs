@@ -71,13 +71,13 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.QueryYesNoAnswer("Save existing Model before creating new one?"))
+                        if (dialogService.QueryYesNoAnswer("Save existing Computers file before creating new one?"))
                         {
-                            if (dialogService.SaveFileDialog("", "Model files|*.mdat") == true)
+                            if (dialogService.SaveFileDialog("", "Computers files|*.mdat") == true)
                             {
                                 serializationService.SaveModel(dialogService.FilePath, Root);
                                 Settings.LastFile = dialogService.FilePath;
-                                AddLogItem(DateTime.Now, "Model File: \"" + dialogService.FilePath + "\"", "Saved", LogItemTypeEnum.Information, "NewModelCommand");
+                                AddLogItem(DateTime.Now, "Computers file: \"" + dialogService.FilePath + "\"", "Saved", LogItemTypeEnum.Information, "NewModelCommand");
                             }
                         }
 
@@ -85,7 +85,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                         Settings.LastFile = string.Empty;
                         InitLog();
                         InitProbes();
-                        AddLogItem(DateTime.Now, "New Model created", "Successful", LogItemTypeEnum.Information, "NewModelCommand");
+                        AddLogItem(DateTime.Now, "New Computers file created", "Successful", LogItemTypeEnum.Information, "NewModelCommand");
                     }
                     catch (Exception e)
                     {
@@ -110,13 +110,13 @@ namespace Gizmo.HardwareAudit.ViewModels
                         }
                         else
                         {
-                            if (dialogService.SaveFileDialog("", "Model files|*.mdat") == true)
+                            if (dialogService.SaveFileDialog("", "Computers files|*.mdat") == true)
                             {
                                 serializationService.SaveModel(dialogService.FilePath, Root);
                                 Settings.LastFile = dialogService.FilePath;
                             }
                         }
-                        AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveModelCommand");
+                        AddLogItem(DateTime.Now, "Computers file: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveModelCommand");
                     }
                     catch (Exception e)
                     {
@@ -135,11 +135,11 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.SaveFileDialog("", "Model files|*.mdat") == true)
+                        if (dialogService.SaveFileDialog("", "Computers files|*.mdat") == true)
                         {
                             serializationService.SaveModel(dialogService.FilePath, Root);
                             Settings.LastFile = dialogService.FilePath;
-                            AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveAsModelCommand");
+                            AddLogItem(DateTime.Now, "Computers file: \"" + Settings.LastFile + "\"", "Saved", LogItemTypeEnum.Information, "SaveAsModelCommand");
                         }
                     }
                     catch (Exception e)
@@ -159,7 +159,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        if (dialogService.OpenFileDialog("Model files|*.mdat") == true)
+                        if (dialogService.OpenFileDialog("Computers files|*.mdat") == true)
                         {
                             Root = serializationService.OpenModel(dialogService.FilePath);
                             Settings.LastFile = dialogService.FilePath;
@@ -171,7 +171,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                                 Root.PropertyChanged -= SelectedItem_PropertyChanged;
                                 Root.PropertyChanged += SelectedItem_PropertyChanged;
                             }
-                            AddLogItem(DateTime.Now, "Model File: \"" + Settings.LastFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenModelCommand");
+                            AddLogItem(DateTime.Now, "Computers file: \"" + Settings.LastFile + "\"", "Opened", LogItemTypeEnum.Information, "OpenModelCommand");
                         }
                     }
                     catch (Exception e)
@@ -967,6 +967,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         #endregion
 
         #endregion
+        
         #region Browse from Active Directory
         private void GetInformationFromAD_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -1046,6 +1047,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             NetProbes.Find(x => x.Id == (sender as BackgroundWorkerWithId).Id).RunWorkerCompleted -= GetInformationFromAD_RunWorkerCompleted;
             GC.Collect();
         }
+
         private static void BuildComputersTable(List<DomainInformation> domainInformation, DataSet dataSet)
         {
             dataSet.Tables.Add(new DataTable("Computers"));
