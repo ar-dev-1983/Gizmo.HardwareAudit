@@ -1585,7 +1585,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 string Name = treeItem.FQDN != string.Empty ? treeItem.FQDN : treeItem.Address != string.Empty ? treeItem.Address : treeItem.Name;
                 try
                 {
-                    e.Result = ComputerHardwareScan.Scan(Name, treeItemConnectionOptions ?? new ConnectionOptions(), treeItem.Name.ToLower() == Environment.MachineName.ToLower());
+                    e.Result = ComputerHardwareScan.ScanUsingWMI(Name, treeItemConnectionOptions ?? new ConnectionOptions(), treeItem.Name.ToLower() == Environment.MachineName.ToLower());
                 }
                 catch (Exception ex)
                 {

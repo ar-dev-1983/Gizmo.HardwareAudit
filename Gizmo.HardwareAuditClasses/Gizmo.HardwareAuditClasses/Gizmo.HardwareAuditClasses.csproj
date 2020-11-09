@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net471;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net45;net471;netcoreapp3.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <PackageProjectUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</PackageProjectUrl>
     <Authors>ar-dev-1983</Authors>
@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="4.7.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,10 +21,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="OSSpecific\Linux\" />
   </ItemGroup>
   
 </Project>

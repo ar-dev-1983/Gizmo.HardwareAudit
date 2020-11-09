@@ -8,11 +8,8 @@ using System.Linq;
 
 namespace Gizmo.HardwareAudit
 {
-    public class DomainDiscovery
+    public static class DomainDiscovery
     {
-        public DomainDiscovery()
-        { }
-
         #region Domain Methods
         public static DomainCollection EnumerateDomains(string forestName, UserProfile options)
         {
@@ -161,7 +158,13 @@ namespace Gizmo.HardwareAudit
             {
                 foreach (SearchResult node in mySearcher.FindAll())
                 {
-                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Computer, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseComputerInfo(node) };
+                    var item = new DomainInformation()
+                    { 
+                        Type = DomainInformationTypeEnum.Computer,
+                        Name = node.GetDirectoryEntry().Name.Replace("CN=", ""),
+                        Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty,
+                        Info = ParseComputerInfo(node) 
+                    };
                     (item.Info as ActiveDirectoryComputerInfo).SourceName = root.Name;
                     root.Childrens.Add(item);
                 }
@@ -229,7 +232,13 @@ namespace Gizmo.HardwareAudit
             {
                 foreach (SearchResult node in mySearcher.FindAll())
                 {
-                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.User, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseUserInfo(node) };
+                    var item = new DomainInformation()
+                    { 
+                        Type = DomainInformationTypeEnum.User,
+                        Name = node.GetDirectoryEntry().Name.Replace("CN=", ""),
+                        Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty,
+                        Info = ParseUserInfo(node) 
+                    };
                     (item.Info as ActiveDirectoryUserInfo).SourceName = root.Name;
                     root.Childrens.Add(item);
                 }
@@ -297,7 +306,13 @@ namespace Gizmo.HardwareAudit
             {
                 foreach (SearchResult node in mySearcher.FindAll())
                 {
-                    var item = new DomainInformation() { Type = DomainInformationTypeEnum.Group, Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, Info = ParseGroupInfo(node) };
+                    var item = new DomainInformation()
+                    { 
+                        Type = DomainInformationTypeEnum.Group,
+                        Name = node.GetDirectoryEntry().Name.Replace("CN=", ""), 
+                        Description = node.GetDirectoryEntry().Properties["description"].Value != null ? node.GetDirectoryEntry().Properties["description"].Value.ToString() : string.Empty, 
+                        Info = ParseGroupInfo(node) 
+                    };
                     if (node.Properties["member"] != null)
                     {
                         foreach (var member in node.Properties["member"])

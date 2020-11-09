@@ -61,10 +61,4 @@
     </None>
   </ItemGroup>
       
-  <ItemGroup>
-    <Page Update="Views\ReportDialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
 </Project>
