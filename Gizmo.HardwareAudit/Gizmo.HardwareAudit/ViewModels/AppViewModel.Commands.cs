@@ -317,7 +317,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                     {
                         FindTreeItemAndDelete(SelectedTreeItem.Id);
                         AddLogItem(DateTime.Now, "Container \"" + SelectedTreeItem.Name + "\"", "Deleted", LogItemTypeEnum.Information, "DeleteContainerCommand");
-                        //SelectedTreeItem = null;
                     }
                     catch (Exception e)
                     {
@@ -524,7 +523,9 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        foreach (var node in SelectedTreeItem.Children.Where(x => x.Type == ItemTypeEnum.ChildComputer))
+                        var computers = new List<TreeItem>();
+                        FindAllChilderenByType(SelectedTreeItem, ItemTypeEnum.ChildComputer, computers);
+                        foreach (var node in computers)
                         {
                             if (RunProbe(node.Id, false, ProbeTypeEnum.Ping))
                             {
@@ -550,7 +551,9 @@ namespace Gizmo.HardwareAudit.ViewModels
                 {
                     try
                     {
-                        foreach (var node in SelectedTreeItem.Children.Where(x => x.Type == ItemTypeEnum.ChildComputer))
+                        var computers = new List<TreeItem>();
+                        FindAllChilderenByType(SelectedTreeItem, ItemTypeEnum.ChildComputer, computers);
+                        foreach (var node in computers)
                         {
                             if (RunProbe(node.Id, true, ProbeTypeEnum.Ping))
                             {
@@ -967,7 +970,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         #endregion
 
         #endregion
-        
+
         #region Browse from Active Directory
         private void GetInformationFromAD_DoWork(object sender, DoWorkEventArgs e)
         {

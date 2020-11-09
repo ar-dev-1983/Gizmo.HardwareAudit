@@ -420,6 +420,7 @@ namespace Gizmo.HardwareAuditClasses
         public static ComputerHardwareScan ScanUsingLinuxAgent(string Name, ConnectionOptions User, bool IsLocal)
         {
             ComputerHardwareScan result = new ComputerHardwareScan() { ScanType = ScanTypeEnum.LinuxOS };
+
             return result;
         }
     }

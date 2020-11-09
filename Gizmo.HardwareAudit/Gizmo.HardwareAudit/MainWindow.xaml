@@ -647,6 +647,12 @@
                                    VirtualizingPanel.IsContainerVirtualizable="True">
                         <ui:UITreeList.Resources>
                             <ContextMenu x:Key="ReportsRootMenu">
+                                <MenuItem Header="Build Reports" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildReportsInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <controls:GizmoIcon Icon="Reports" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
                                         <controls:GizmoIcon Icon="Container" FontSize="16"/>
@@ -668,6 +674,11 @@
                                 <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportContainerCommand}">
                                     <MenuItem.Icon>
                                         <controls:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Build Reports" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildReportsInContainerCommand}">
+                                    <MenuItem.Icon>
+                                        <controls:GizmoIcon Icon="Reports" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -1286,6 +1297,12 @@
                 <MenuItem x:Name="EditReportsMenu" Header="Edit" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}">
                     <MenuItem.Resources>
                         <CompositeCollection x:Key="EditReportsMenu">
+                            <MenuItem Header="Build Reports" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildReportsInContainerCommand}">
+                                <MenuItem.Icon>
+                                    <controls:GizmoIcon Icon="Reports" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
                             <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                 <MenuItem.Icon>
                                     <controls:GizmoIcon Icon="Container" FontSize="16"/>
@@ -1307,6 +1324,11 @@
                             <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditReportContainerCommand}">
                                 <MenuItem.Icon>
                                     <controls:GizmoIcon Icon="SettingsAlternative" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Build Reports" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildReportsInContainerCommand}">
+                                <MenuItem.Icon>
+                                    <controls:GizmoIcon Icon="Reports" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>

@@ -519,6 +519,31 @@ namespace Gizmo.HardwareAudit.ViewModels
                 }, (obj) => SelectedReportItem != null);
             }
         }
+
+        private WorkCommand buildReportsInContainerCommand;
+        public WorkCommand BuildReportsInContainerCommand
+        {
+            get
+            {
+                return buildReportsInContainerCommand ??= new WorkCommand(obj =>
+                {
+                    try
+                    {
+                        var reportItems = new List<ReportItem>();
+                        FindAllChilderenByType(SelectedReportItem, ReportItemTypeEnum.Report, reportItems);
+                        foreach (var node in reportItems)
+                        {
+                            BuildReport(node);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        AddLogItem(DateTime.Now, e.Message, "Exception", LogItemTypeEnum.Error, "buildReportsInContainerCommand");
+                    }
+                }, (obj) => SelectedReportItem != null);
+            }
+        }
+
         #endregion
 
         internal void InitReports()

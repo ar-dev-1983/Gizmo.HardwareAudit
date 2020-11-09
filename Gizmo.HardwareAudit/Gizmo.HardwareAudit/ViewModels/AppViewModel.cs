@@ -764,6 +764,14 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
+        internal void FindAllChilderenByType(ReportItem Item, ReportItemTypeEnum Type, List<ReportItem> List)
+        {
+            if (Item.Children.Count != 0)
+            {
+                List.AddRange(Traverse(Item, node => node.Children).Where(m => m.Type == Type));
+            }
+        }
+
         internal TreeItem FindTreeItemByName(string Name)
         {
             if (Root.Children.Count != 0)
