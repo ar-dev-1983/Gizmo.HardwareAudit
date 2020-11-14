@@ -6,6 +6,7 @@
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF" 
         xmlns:local="clr-namespace:Gizmo.HardwareAudit"
         xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
+        xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Title="Report Settings" MinHeight="480" MinWidth="640" Height="480" Width="640" Icon="/Resources/Images/Settings.png" SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
@@ -27,7 +28,7 @@
                     <ui:UITabPanelItem x:Name="tbReportSettings" Orientation="Top">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <controls:GizmoIcon Icon="Settings" FontSize="16"/>
+                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Settings}" FontSize="16"/>
                                 <TextBlock Text="Settings" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -35,7 +36,7 @@
                     <ui:UITabPanelItem x:Name="tbDataSource" Orientation="Top">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <controls:GizmoIcon Icon="Container" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                 <TextBlock Text="Data Source" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -43,7 +44,7 @@
                     <ui:UITabPanelItem x:Name="tbDataSettings" Orientation="Top">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <controls:GizmoIcon Icon="Report" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                 <TextBlock Text="Report Settings" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>

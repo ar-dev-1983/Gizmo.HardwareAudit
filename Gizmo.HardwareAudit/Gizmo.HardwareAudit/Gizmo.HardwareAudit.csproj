@@ -16,6 +16,10 @@
     <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.0.4</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\Gizmo.ComputerHardwareIconFont.ttf" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
@@ -34,8 +38,10 @@
     <Reference Include="Gizmo.HardwareAuditClasses">
       <HintPath>..\..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\net471\Gizmo.HardwareAuditClasses.dll</HintPath>
     </Reference>
+    <Reference Include="Gizmo.HardwareAuditWPF">
+      <HintPath>..\..\Gizmo.HardwareAuditWPF\bin\Release\net471\Gizmo.HardwareAuditWPF.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
-
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
@@ -45,10 +51,15 @@
     <Reference Include="Gizmo.HardwareAuditClasses">
       <HintPath>..\..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
     </Reference>
+    <Reference Include="Gizmo.HardwareAuditWPF">
+      <HintPath>..\..\Gizmo.HardwareAuditWPF\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditWPF.dll</HintPath>
+    </Reference>
   </ItemGroup>
       
   <ItemGroup>
-    <Resource Include="Resources\Fonts\Gizmo.IconFont.ttf" />
+    <Resource Include="Resources\Fonts\Gizmo.ComputerHardwareIconFont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Icons\AppIcon.ico" />
     <Resource Include="Resources\Images\AppIcon_128.png" />
     <Resource Include="Resources\Images\Settings.png" />

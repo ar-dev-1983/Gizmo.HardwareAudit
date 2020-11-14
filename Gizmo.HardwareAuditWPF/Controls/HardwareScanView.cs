@@ -1,11 +1,12 @@
-﻿using Gizmo.HardwareAudit.Enums;
-using Gizmo.HardwareAuditClasses;
+﻿using Gizmo.HardwareAuditClasses;
+using Gizmo.WPF;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
-namespace Gizmo.HardwareAudit.Controls
+namespace Gizmo.HardwareAuditWPF
 {
     public class HardwareScanView : Control
     {
@@ -34,8 +35,14 @@ namespace Gizmo.HardwareAudit.Controls
             get => (UIViewModeEnum)GetValue(ViewModeProperty);
             set => SetValue(ViewModeProperty, value);
         }
+        public FontFamily IconFontFamily
+        {
+            get => (FontFamily)GetValue(IconFontFamilyProperty);
+            set => SetValue(IconFontFamilyProperty, value);
+        }
         public static readonly DependencyProperty ItemProperty = DependencyProperty.Register("Item", typeof(ComputerHardwareScan), typeof(HardwareScanView), new UIPropertyMetadata(null, new PropertyChangedCallback(OnItemPropertyChanged)));
         public static readonly DependencyProperty ViewModeProperty = DependencyProperty.Register("ViewMode", typeof(UIViewModeEnum), typeof(HardwareScanView), new UIPropertyMetadata(UIViewModeEnum.All, new PropertyChangedCallback(OnViewModePropertyChanged)));
+        public static readonly DependencyProperty IconFontFamilyProperty = DependencyProperty.Register("IconFontFamily", typeof(FontFamily), typeof(HardwareScanView), new UIPropertyMetadata(null));
 
         private static void OnItemPropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
@@ -126,7 +133,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.CPU, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.CPU, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.CPU, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.CPU,
                                             Header01 = node.SlotLocator,
                                             Header02 = "Model",
@@ -155,7 +162,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.MemoryDevice, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.MemoryDevice, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.MemoryDevice, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MemoryDevice,
                                             Header02 = "Vendor",
                                             Header03 = "Part Number",
@@ -184,7 +191,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.VideoAdapter, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.VideoAdapter, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.VideoAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.VideoController,
                                             Header01 = "Product",
                                             Header02 = "CPU",
@@ -211,7 +218,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Monitor, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Monitor, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Monitor, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Monitor,
                                             Header01 = "Vendor",
                                             Header02 = "Product",
@@ -238,7 +245,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.NetworkAdapter, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.NetworkAdapter, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.NetworkAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.NetworkAdapter,
                                             Header01 = "Product",
                                             Header02 = "IP",
@@ -274,7 +281,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.PhysicalDisk, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.PhysicalDisk, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.PhysicalDisk, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.PhysicalDrive,
                                             Header01 = "Product",
                                             Header02 = "Serial Number",
@@ -301,7 +308,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Partition, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Partition, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Partition, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Partition,
                                             Header01 = node.Letter,
                                             Header02 = "Aviailable Size",
@@ -326,7 +333,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Windows, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Windows, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Windows, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MicrosoftLicenseInformation,
                                             Header01 = "Name",
                                             Header02 = "Channel",
@@ -360,7 +367,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.Printer, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Printer, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Printer, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Printer,
                                             Header01 = "Name",
                                             Header02 = "Port",
@@ -392,7 +399,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.User, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Users, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Users, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.WindowsLocalUser,
                                             Header01 = "Name",
                                             Header02 = "Caption",
@@ -430,7 +437,7 @@ namespace Gizmo.HardwareAudit.Controls
                                     {
                                         _ = partHardwareScan.Children.Add(new UIItemView()
                                         {
-                                            Icon = new GizmoIcon() { Icon = GizmoIconEnum.UserGroup, FontSize = 16 },
+                                            Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.UserGroup, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.UserGroup, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.WindowsLocalGroup,
                                             Header01 = "Name",
                                             Header02 = "Caption",

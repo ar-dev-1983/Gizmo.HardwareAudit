@@ -1,5 +1,5 @@
-﻿using Gizmo.HardwareAudit.Enums;
-using Gizmo.HardwareAudit.Interfaces;
+﻿using Gizmo.HardwareAudit.Interfaces;
+using Gizmo.HardwareAuditWPF;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {
@@ -10,7 +10,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         private string containerName;
         private string containerDescription;
         private bool useCustomIcon = false;
-        private GizmoIconEnum customIcon = GizmoIconEnum.None;
+        private GizmiComputerHardwareIconsEnum customIcon = GizmiComputerHardwareIconsEnum.None;
         #endregion
 
         #region Public Properties
@@ -46,7 +46,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        public GizmoIconEnum CustomIcon
+        public GizmiComputerHardwareIconsEnum CustomIcon
         {
             get => customIcon;
             set
@@ -68,7 +68,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             ContainerDescription = description;
             ContainerName = name;
         }
-        public ReportContainerSettingsViewModel(string name, string description, bool useCustomIcon, GizmoIconEnum customIcon)
+        public ReportContainerSettingsViewModel(string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
         {
             ContainerDescription = description;
             ContainerName = name;

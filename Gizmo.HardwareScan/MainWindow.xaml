@@ -1,0 +1,201 @@
+﻿<Window x:Class="Gizmo.HardwareScan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
+        xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
+        xmlns:local="clr-namespace:Gizmo.HardwareScan"
+        mc:Ignorable="d"  WindowStartupLocation="CenterScreen"
+        Title="Gizmo Hardware Scan" Height="720" Width="1280" MinHeight="600" MinWidth="800"
+        Style="{DynamicResource {ComponentResourceKey ResourceId=DefaultWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
+        Icon="/Resources/Icons/AppIcon.ico">
+    <Window.Resources>
+        <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
+        <local:BoolToVisivilityInvertedConverter x:Key="BoolToVisivilityInvertedConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid x:Name="grScanLogo" Visibility="{Binding ScanFinished, Converter={StaticResource BoolToVisivilityInvertedConverter}}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid>
+                    <ui:GizmoIcon x:Name="ProgressIcon" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" FontSize="172">
+                        <ui:GizmoIcon.Effect>
+                            <DropShadowEffect x:Name="ProgressIcon_Shadow" Color="{DynamicResource {ComponentResourceKey ui:UITheme, GlowColor}}" ShadowDepth="0" BlurRadius="5"/>
+                        </ui:GizmoIcon.Effect>
+                        <ui:GizmoIcon.Triggers>
+                            <EventTrigger RoutedEvent="Window.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="3x" >
+                                        <DoubleAnimation Storyboard.TargetName="ProgressIcon_Shadow" Storyboard.TargetProperty="BlurRadius" From="5" To="20" Duration="0:0:2" BeginTime="0:0:0"/>
+                                        <DoubleAnimation Storyboard.TargetName="ProgressIcon_Shadow" Storyboard.TargetProperty="BlurRadius" From="20" To="5" Duration="0:0:2" BeginTime="0:0:2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ui:GizmoIcon.Triggers>
+                    </ui:GizmoIcon>
+                </Grid>
+                <TextBlock x:Name="InfoTextBlock" Margin="5" FontSize="18" Text="Gathering the data" TextAlignment="Left" Visibility="{Binding IsAnyErrors, Converter={StaticResource BoolToVisivilityInvertedConverter}}">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="1x" >
+                                    <StringAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Text)" Duration="0:0:6" FillBehavior="HoldEnd">
+                                        <DiscreteStringKeyFrame Value="Gathering the data." KeyTime="0:0:0" />
+                                        <DiscreteStringKeyFrame Value="Gathering the data.." KeyTime="0:0:1" />
+                                        <DiscreteStringKeyFrame Value="Gathering the data..." KeyTime="0:0:2" />
+                                        <DiscreteStringKeyFrame Value="Gathering the data." KeyTime="0:0:3" />
+                                        <DiscreteStringKeyFrame Value="Gathering the data.." KeyTime="0:0:4" />
+                                        <DiscreteStringKeyFrame Value="Gathering the data..." KeyTime="0:0:5" />
+                                    </StringAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+                <TextBlock x:Name="InfoErrorTextBlock" TextWrapping="Wrap" Margin="5" FontSize="18" Text="" TextAlignment="Center" Visibility="{Binding IsAnyErrors, Converter={StaticResource BoolToVisivilityConverter}}" />
+            </StackPanel>
+
+        </Grid>
+        <Grid x:Name="grData" Visibility="{Binding ScanFinished, Converter={StaticResource BoolToVisivilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="0,-28,0,0" WindowChrome.IsHitTestVisibleInChrome="True">
+                <ui:UIEnumSwitch x:Name="ESViewMode" Margin="3,0,4,0" Height="24" CornerRadius="0" SelectedIndex="0" Width="24">
+                    <ui:UIEnumSwitch.Items>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.All}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.SystemEnclosure}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.SystemEnclosure}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.CPUs}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.CPU}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.MemoryDevices}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.MemoryDevice}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.VideoControllers}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.VideoAdapter}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.NetworkAdapters}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.NetworkAdapter}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.PhysicalDrives}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.PhysicalDisk}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Partitions}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Partition}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Displays}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Monitor}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Printers}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Printer}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Licenses}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Windows}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.LocalUsers}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Users}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.LocalGroups}">
+                            <ui:UIEnumSwitchItem.Icon>
+                                <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.UserGroup}" FontSize="16"/>
+                            </ui:UIEnumSwitchItem.Icon>
+                        </ui:UIEnumSwitchItem>
+                    </ui:UIEnumSwitch.Items>
+                </ui:UIEnumSwitch>
+                <ui:UIControlGroup x:Name="cgSettings" CornerRadius="0" Height="24" Width="30">
+                    <ui:UIButton Width="30" Command="{Binding ExecuteScanCommand}">
+                        <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Refresh}" FontSize="16"/>
+                    </ui:UIButton>
+                    <ui:UIPopupButton Width="48">
+                        <ui:UIPopupButton.Content>
+                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
+                        </ui:UIPopupButton.Content>
+                        <ui:UIPopupButton.Items>
+                            <MenuItem Header="Export Full Scan for Gizmo.HardwareAudit" Command="{Binding ExportScanCommand}">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Export Scan as Excel file" Command="{Binding ExportExcelCommand}">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileExcel}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Export current view as png file" Click="SaveAsPNGFile_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileImage}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Export current view as html file" Click="SaveAsHTMLFile_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileHtml}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ui:UIPopupButton.Items>
+                    </ui:UIPopupButton>
+                    <ui:UIPopupButton Width="48">
+                        <ui:UIPopupButton.Content>
+                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Theme}" FontSize="16"/>
+                        </ui:UIPopupButton.Content>
+                        <ui:UIPopupButton.Items>
+                            <MenuItem Header="Blue Dark theme" Click="MiBlueDark_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Theme}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Blue Light theme" Click="MiBlueLight_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Theme}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Purple Dark theme" Click="MiPurpleDark_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Theme}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Purple Light theme" Click="MiPurpleLight_Click">
+                                <MenuItem.Icon>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Theme}" FontSize="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ui:UIPopupButton.Items>
+                    </ui:UIPopupButton>
+                </ui:UIControlGroup>
+            </StackPanel>
+            <ScrollViewer x:Name="svCurrentScan" Grid.Row="1" Margin="3,1,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True" Visibility="Hidden">
+                <haui:HardwareScanView x:Name="hsvCurrentScan" VerticalAlignment="Top" Height="Auto" Item="{Binding Scan, Mode=OneWay}" ViewMode="{Binding ElementName=ESViewMode, Path=SelectedValue, Mode=TwoWay}"  IconFontFamily="{StaticResource GizmoIcon}"/>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

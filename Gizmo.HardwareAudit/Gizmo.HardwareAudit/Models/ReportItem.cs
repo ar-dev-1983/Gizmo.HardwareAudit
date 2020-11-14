@@ -1,6 +1,7 @@
 ﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditWPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +29,7 @@ namespace Gizmo.HardwareAudit.Models
         private bool isSelected = false;
         private bool isExpanded = false;
         private bool useCustomIcon = false;
-        private GizmoIconEnum customIcon = GizmoIconEnum.None;
+        private GizmiComputerHardwareIconsEnum customIcon = GizmiComputerHardwareIconsEnum.None;
         private ReportSettings settings = null;
         public DataTable dataTable = null;
         private bool reportIsBusy = false;
@@ -149,7 +150,7 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
-        public GizmoIconEnum CustomIcon
+        public GizmiComputerHardwareIconsEnum CustomIcon
         {
             get => customIcon;
             set

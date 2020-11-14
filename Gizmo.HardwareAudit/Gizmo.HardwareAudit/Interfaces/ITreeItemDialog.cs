@@ -1,5 +1,5 @@
-﻿using Gizmo.HardwareAudit.Enums;
-using Gizmo.HardwareAudit.Models;
+﻿using Gizmo.HardwareAudit.Models;
+using Gizmo.HardwareAuditWPF;
 using System;
 
 namespace Gizmo.HardwareAudit.Interfaces
@@ -26,13 +26,13 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem, bool useSelectedParentId);
 
         bool UseCustomIcon { get; set; }
-        GizmoIconEnum CustomIcon { set; get; }
+        GizmiComputerHardwareIconsEnum CustomIcon { set; get; }
 
         bool ReportContainerSettingsDialog(AppSettings settings);
-        bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon);
+        bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon);
 
         bool ReportItemSettingsDialog(AppSettings settings, TreeItem root);
-        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings);
+        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon, TreeItem root, ReportSettings reportSettings);
 
     }
 }

@@ -1,7 +1,8 @@
-﻿using Gizmo.HardwareAudit.Controls;
-using Gizmo.HardwareAudit.Enums;
+﻿using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
+using Gizmo.HardwareAuditWPF;
+using Gizmo.WPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,9 @@ using System.Linq;
 using System.Management;
 using System.Security;
 using System.Security.Cryptography;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Gizmo.HardwareAudit.ViewModels
 {
@@ -31,6 +34,9 @@ namespace Gizmo.HardwareAudit.ViewModels
         public ObservableCollection<CheckTPCPortSetting> defaultCheckPorts;
         private ObservableCollection<LogItem> log;
         private AppSettings settings = new AppSettings();
+        private ObservableCollection<TreeItem> resultList = new ObservableCollection<TreeItem>();
+        private string searchText = string.Empty;
+        private bool searchEnabled = false;
         #endregion
 
         #region Public Properties
@@ -94,6 +100,52 @@ namespace Gizmo.HardwareAudit.ViewModels
         public TreeItem SelectedTreeItem => Root.SelectedItem;
         public ObservableCollection<MenuItem> SelectedTreeItemSharedFoldersMenuList => BuildSharedFoldersMenuItems();
         public ObservableCollection<MenuItem> SelectedTreeItemTCPPortsMenuList => BuildCheckPortResultsMenuItems();
+
+        public ObservableCollection<TreeItem> ResultList
+        {
+            get => resultList;
+            set
+            {
+                if (resultList == value) return;
+                resultList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                if (searchText == value) return;
+                searchText = value;
+                if (SearchEnabled && searchText != string.Empty)
+                {
+                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(15));
+                }
+                else
+                {
+                    ResultList.Clear();
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SearchEnabled
+        {
+            get => searchEnabled;
+            set
+            {
+                if (searchEnabled == value) return;
+                searchEnabled = value;
+                if (!searchEnabled)
+                {
+                    SearchText = string.Empty;
+                    ResultList.Clear();
+                }
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region AppViewModel
@@ -800,7 +852,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 if (SelectedTreeItem.SharedFolders.Count > 0)
                 {
                     foreach (var node in SelectedTreeItem.SharedFolders)
-                        result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenSharedFolder, FontSize = 16 } });
+                        result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.OpenSharedFolder, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
                 }
             }
             return result;
@@ -817,7 +869,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                         if (node.IsOpened)
                             foreach (var port in Settings.DefaultCheckPorts)
                                 if (node.Id == port.Id)
-                                    result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmoIconEnum.OpenConnection, FontSize = 16 } });
+                                    result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.OpenConnection, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
                 }
             }
             return result;

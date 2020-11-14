@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF" 
-        xmlns:local="clr-namespace:Gizmo.HardwareAudit" 
         xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Height="450" Width="350" Title="Select Container" Icon="/Resources/Images/Settings.png" SnapsToDevicePixels="True" UseLayoutRounding="True" 

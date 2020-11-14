@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net45;net471</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <LangVersion>8.0</LangVersion>
+    <PackageProjectUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</PackageProjectUrl>
+    <Authors>ar-dev-1983</Authors>
+    <Description>WPF UI Library for Gizmo.HardwareAudit Projects</Description>
+    <Copyright>ar-dev-1983</Copyright>
+    <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <Version>1.0.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\netcoreapp3.1\Gizmo.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\net45\Gizmo.WPF.dll</HintPath>
+    </Reference>
+        <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\net45\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\net471\Gizmo.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\net471\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+</Project>

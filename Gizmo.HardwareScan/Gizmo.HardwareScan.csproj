@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net5-windows;netcoreapp3.1;net45</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Icons\AppIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  
+   <ItemGroup Condition=" '$(TargetFramework)' == 'net5-windows' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\netcoreapp3.1\Gizmo.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditWPF">
+      <HintPath>..\Gizmo.HardwareAuditWPF\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+    <PackageReference Include="System.Management" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\netcoreapp3.1\Gizmo.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditWPF">
+      <HintPath>..\Gizmo.HardwareAuditWPF\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+    <PackageReference Include="System.Management" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="Gizmo.WPF">
+      <HintPath>..\..\Gizmo.WPF\Gizmo.WPF\bin\Release\net45\Gizmo.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditWPF">
+      <HintPath>..\Gizmo.HardwareAuditWPF\bin\Release\net45\Gizmo.HardwareAuditWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmo.HardwareAuditClasses">
+      <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\net45\Gizmo.HardwareAuditClasses.dll</HintPath>
+    </Reference>
+    <PackageReference Include="System.Management" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Resources\Icons\AppIcon.ico" />
+    <None Remove="Resources\Images\AppIcon_128.png" />
+    <None Remove="Resources\Images\Settings.png" />
+  </ItemGroup>
+      
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\Gizmo.ComputerHardwareIconFont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\AppIcon.ico" />
+    <Resource Include="Resources\Images\AppIcon_128.png" />
+    <Resource Include="Resources\Images\Settings.png" />
+  </ItemGroup>
+  
+</Project>

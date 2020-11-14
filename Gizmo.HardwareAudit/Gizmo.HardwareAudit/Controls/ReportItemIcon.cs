@@ -1,4 +1,5 @@
 ﻿using Gizmo.HardwareAudit.Enums;
+using Gizmo.HardwareAuditWPF;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,13 +30,13 @@ namespace Gizmo.HardwareAudit.Controls
             get => (bool)GetValue(UseCustomIconProperty);
             set => SetValue(UseCustomIconProperty, value);
         }
-        public GizmoIconEnum CustomIcon
+        public GizmiComputerHardwareIconsEnum CustomIcon
         {
-            get => (GizmoIconEnum)GetValue(CustomIconProperty);
+            get => (GizmiComputerHardwareIconsEnum)GetValue(CustomIconProperty);
             set => SetValue(CustomIconProperty, value);
         }
         public static readonly DependencyProperty ItemTypeProperty = DependencyProperty.Register("ItemType", typeof(ReportItemTypeEnum), typeof(ReportItemIcon), new UIPropertyMetadata(ReportItemTypeEnum.None));
         public static readonly DependencyProperty UseCustomIconProperty = DependencyProperty.Register("UseCustomIcon", typeof(bool), typeof(ReportItemIcon), new UIPropertyMetadata(false));
-        public static readonly DependencyProperty CustomIconProperty = DependencyProperty.Register("CustomIcon", typeof(GizmoIconEnum), typeof(ReportItemIcon), new UIPropertyMetadata(GizmoIconEnum.None));
+        public static readonly DependencyProperty CustomIconProperty = DependencyProperty.Register("CustomIcon", typeof(GizmiComputerHardwareIconsEnum), typeof(ReportItemIcon), new UIPropertyMetadata(GizmiComputerHardwareIconsEnum.None));
     }
 }

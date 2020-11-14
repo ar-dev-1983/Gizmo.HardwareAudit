@@ -296,7 +296,11 @@ namespace Gizmo.HardwareAudit
             if (tpTabPanelLeft != null)
                 tpTabPanelLeft.SelectedIndex = 0;
         }
-
+        private void Reports_Click(object sender, RoutedEventArgs e)
+        {
+            if (tpTabPanelLeft != null)
+                tpTabPanelLeft.SelectedIndex = 1;
+        }
         private void Log_Click(object sender, RoutedEventArgs e)
         {
             if (tpTabPanelLeft != null)
@@ -310,5 +314,16 @@ namespace Gizmo.HardwareAudit
             new AboutWindow(appvm.Settings).ShowDialog();
         }
         #endregion
+
+        private void sbTreeItemsSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender != null)
+            {
+                if ((sender as UISearchBox).SelectedValue != null)
+                {
+                    MessageBox.Show(((sender as UISearchBox).SelectedValue as TreeItem).Name);
+                }
+            }
+        }
     }
 }

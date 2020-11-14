@@ -6,8 +6,8 @@
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
         xmlns:local="clr-namespace:Gizmo.HardwareAudit"
         xmlns:Behaviors="clr-namespace:Gizmo.HardwareAudit.Behaviors" 
-        xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
-         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Title="Application Settings" Height="480" Icon="/Resources/Images/Settings.png" Width="1200"
         SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Style="{DynamicResource {ComponentResourceKey ResourceId=DialogWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
@@ -33,7 +33,7 @@
                     <ui:UITabPanelItem x:Name="PortsTab" IsSelected="True">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <controls:GizmoIcon Icon="OpenConnection" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
                                 <TextBlock Text="TCP Ports" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -41,7 +41,7 @@
                     <ui:UITabPanelItem x:Name="UsersTab">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <controls:GizmoIcon Icon="User" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.User}" FontSize="16"/>
                                 <TextBlock Text="User Profiles" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -56,22 +56,22 @@
             </Grid.RowDefinitions>
             <ui:UIControlGroup CornerRadius="0" x:Name="btgCheckPorts" Margin="5,5,5,0" Height="24" IsEnabled="{Binding ElementName=cbCheckPortsThenScanning, Path=IsChecked,TargetNullValue=false, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left">
                 <ui:UIButton CornerRadius="0" x:Name="btCheckPortsAdd" Width="24" Command="{Binding AddCheckPortCommand}">
-                    <controls:GizmoIcon Icon="Add" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Add}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btCheckPortsDelete" Width="24" Command="{Binding DeleteCheckPortCommand}">
-                    <controls:GizmoIcon Icon="Delete" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Delete}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btCheckPortsUpSelected" Width="24" Command="{Binding UpCheckPortCommand}">
-                    <controls:GizmoIcon Icon="Up" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Up}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btCheckPortsDownSelected" Width="24" Command="{Binding DownCheckPortCommand}">
-                    <controls:GizmoIcon Icon="Down" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Down}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btExport" Width="24" Command="{Binding ExportChekPortsListCommand}">
-                    <controls:GizmoIcon Icon="Export" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btImport" Width="24" Command="{Binding ImportChekPortsListCommand}">
-                    <controls:GizmoIcon Icon="Import" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Import}" FontSize="16"/>
                 </ui:UIButton>
             </ui:UIControlGroup>
             <DataGrid Grid.Row="1" Margin="5" IsEnabled="{Binding ElementName=cbCheckPortsThenScanning, Path=IsChecked,TargetNullValue=false, Mode=TwoWay}" x:Name="dgCheckPortsList" 
@@ -82,7 +82,7 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <controls:GizmoIcon Icon="OpenConnection" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -172,16 +172,16 @@
             </Grid.RowDefinitions>
             <ui:UIControlGroup CornerRadius="0" x:Name="btgUserProfiles" Margin="5,5,5,0" Height="24" VerticalAlignment="Center" HorizontalAlignment="Left">
                 <ui:UIButton CornerRadius="0" x:Name="btUserProfileAdd" Width="24" Command="{Binding AddUserProfileCommand}">
-                    <controls:GizmoIcon Icon="Add" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Add}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btUserProfileDelete" Width="24"  Command="{Binding DeleteUserProfileCommand}">
-                    <controls:GizmoIcon Icon="Delete" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Delete}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btUserProfileUpSelected" Width="24"  Command="{Binding UpUserProfileCommand}">
-                    <controls:GizmoIcon Icon="Up" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Up}" FontSize="16"/>
                 </ui:UIButton>
                 <ui:UIButton CornerRadius="0" x:Name="btUserProfileDownSelected" Width="24"  Command="{Binding DownUserProfileCommand}">
-                    <controls:GizmoIcon Icon="Down" FontSize="16"/>
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Down}" FontSize="16"/>
                 </ui:UIButton>
             </ui:UIControlGroup>
             <Grid Grid.Row="1">
@@ -203,7 +203,7 @@
                                     <GridViewColumnHeader></GridViewColumnHeader>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <controls:GizmoIcon Icon="User" FontSize="16"/>
+                                            <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.User}" FontSize="16"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

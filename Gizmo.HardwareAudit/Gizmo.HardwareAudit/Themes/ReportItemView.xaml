@@ -4,8 +4,9 @@
     xmlns:local="clr-namespace:Gizmo.HardwareAudit.Controls"
     xmlns:converters="clr-namespace:Gizmo.HardwareAudit"
     xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
-    xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums">
+    xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF">
     <converters:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
+    <FontFamily x:Key="HAIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
 
     <Style TargetType="{x:Type local:ReportItemView}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
@@ -25,44 +26,44 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <local:UIItemView Grid.ColumnSpan="2" ViewType="OneSmallValue" Flat="False"
+                        <haui:UIItemView Grid.ColumnSpan="2" ViewType="OneSmallValue" Flat="False"
                                           Header01="Name"
                                           Value01="{Binding Item.Name, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <local:UIItemView Grid.Row="1" Grid.ColumnSpan="2" Flat="False"
+                        <haui:UIItemView Grid.Row="1" Grid.ColumnSpan="2" Flat="False"
                                           Header01="Description" 
                                           Value01="{Binding Item.Description, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <local:UIItemView  Grid.Row="2" Grid.ColumnSpan="2" ViewType="OneSmallValue" Flat="False"
+                        <haui:UIItemView  Grid.Row="2" Grid.ColumnSpan="2" ViewType="OneSmallValue" Flat="False"
                                           Header01="Report TimeStamp" Visibility="{TemplateBinding IsReport}"
                                           Value01="{Binding Item.Settings.ReportTimeStamp, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ui:UISwitch Margin="5" Grid.Row="3" Grid.ColumnSpan="2" x:Name="PART_EachValueIsASepareteRow" Header=" Separate each value by row" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding Item.Settings.EachValueIsASepareteRow, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Visibility="Collapsed"/>
 
                         <ui:UIControlGroup Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,3" Visibility="{TemplateBinding IsReport}" CornerRadius="0" Height="25">
                             <ui:UIButton Width="30" Command="{Binding BuildReportCommand}">
-                                <local:GizmoIcon Icon="Report" FontSize="16"/>
+                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Refresh}" FontSize="16"/>
                             </ui:UIButton>
                             <ui:UIPopupButton Width="48">
                                 <ui:UIPopupButton.Content>
-                                    <local:GizmoIcon Icon="Export" FontSize="16"/>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
                                 </ui:UIPopupButton.Content>
                                 <ui:UIPopupButton.Items>
                                     <MenuItem Header="Export as CSV File" Command="{Binding ExportAsCSVReportCommand}">
                                         <MenuItem.Icon>
-                                            <local:GizmoIcon Icon="Export" FontSize="16"/>
+                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="Export as XML File" Command="{Binding ExportAsXMLReportCommand}">
                                         <MenuItem.Icon>
-                                            <local:GizmoIcon Icon="Export" FontSize="16"/>
+                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileHtml}" FontSize="16"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="Export as JSON File" Command="{Binding ExportAsJSONReportCommand}">
                                         <MenuItem.Icon>
-                                            <local:GizmoIcon Icon="Export" FontSize="16"/>
+                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="Export as Excel File" Command="{Binding ExportAsExcelReportCommand}">
                                         <MenuItem.Icon>
-                                            <local:GizmoIcon Icon="Export" FontSize="16"/>
+                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileExcel}" FontSize="16"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </ui:UIPopupButton.Items>

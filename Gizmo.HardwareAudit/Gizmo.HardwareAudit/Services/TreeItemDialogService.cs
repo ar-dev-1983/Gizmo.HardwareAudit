@@ -1,8 +1,8 @@
-﻿using Gizmo.HardwareAudit.Enums;
-using Gizmo.HardwareAudit.Interfaces;
+﻿using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
 using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditWPF;
 using System;
 
 namespace Gizmo.HardwareAudit.Services
@@ -128,7 +128,7 @@ namespace Gizmo.HardwareAudit.Services
         }
 
         public bool UseCustomIcon { get; set; }
-        public GizmoIconEnum CustomIcon { set; get; }
+        public GizmiComputerHardwareIconsEnum CustomIcon { set; get; }
 
         public bool ReportContainerSettingsDialog(AppSettings settings)
         {
@@ -146,7 +146,7 @@ namespace Gizmo.HardwareAudit.Services
             }
         }
 
-        public bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon)
+        public bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
         {
             ReportContainerDialog dialog = new ReportContainerDialog(settings, name, desc, useCustomIcon, customIcon);
             switch (dialog.ShowDialog())
@@ -187,7 +187,7 @@ namespace Gizmo.HardwareAudit.Services
             }
         }
 
-        public bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings)
+        public bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon, TreeItem root, ReportSettings reportSettings)
         {
             ReportDialog dialog = new ReportDialog(settings, name, desc, useCustomIcon, customIcon, root, reportSettings);
             switch (dialog.ShowDialog())

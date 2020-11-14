@@ -1,20 +1,21 @@
 ﻿using Gizmo.HardwareAudit.Classes.Helpers;
-using Gizmo.HardwareAudit.Controls;
-using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
+using Gizmo.HardwareAuditWPF;
 using Gizmo.WPF;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+
 namespace Gizmo.HardwareAudit
 {
     public partial class ReportDialog : Window
     {
-        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmoIconEnum customIcon)
+        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
         {
             foreach (var node in GizmoIconHelper.GetIconsByCategory("Item Icons"))
             {
-                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmoIconEnum.Report ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16 } };
+                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmiComputerHardwareIconsEnum.Report ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16, IconFontFamily= Application.Current.Resources["GizmoIcon"] as FontFamily } };
                 btn.Click += Btn_Click;
                 wpIconList.Children.Add(btn);
             }
@@ -26,10 +27,10 @@ namespace Gizmo.HardwareAudit
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
             DataContext = new ReportItemSettingsViewModel(root);
-            FillWrapPanelWithIcons(false, GizmoIconEnum.None);
+            FillWrapPanelWithIcons(false, GizmiComputerHardwareIconsEnum.None);
         }
 
-        public ReportDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmoIconEnum customIcon, TreeItem root, ReportSettings reportSettings)
+        public ReportDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon, TreeItem root, ReportSettings reportSettings)
         {
             Owner = Application.Current.MainWindow;
             InitializeComponent();
@@ -42,9 +43,9 @@ namespace Gizmo.HardwareAudit
         {
             if (TbReportName.Text != string.Empty)
             {
-                if ((DataContext as ReportItemSettingsViewModel).UseCustomIcon && (DataContext as ReportItemSettingsViewModel).CustomIcon == GizmoIconEnum.None)
+                if ((DataContext as ReportItemSettingsViewModel).UseCustomIcon && (DataContext as ReportItemSettingsViewModel).CustomIcon == GizmiComputerHardwareIconsEnum.None)
                 {
-                    (DataContext as ReportItemSettingsViewModel).CustomIcon = GizmoIconEnum.Report;
+                    (DataContext as ReportItemSettingsViewModel).CustomIcon = GizmiComputerHardwareIconsEnum.Report;
                 }
                 DialogResult = true;
             }
@@ -80,7 +81,7 @@ namespace Gizmo.HardwareAudit
                 }
             }
             (sender as UIButton).Flat = false;
-            (DataContext as ReportItemSettingsViewModel).CustomIcon = (GizmoIconEnum)(sender as UIButton).Tag;
+            (DataContext as ReportItemSettingsViewModel).CustomIcon = (GizmiComputerHardwareIconsEnum)(sender as UIButton).Tag;
         }
     }
 }

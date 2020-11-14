@@ -6,6 +6,7 @@ using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditWPF;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         #endregion
 
         #region Adding Elements
-        internal void AddReportContainer(string name, string description, ReportItem Parent, bool useCustomIcom, GizmoIconEnum customIcon)
+        internal void AddReportContainer(string name, string description, ReportItem Parent, bool useCustomIcom, GizmiComputerHardwareIconsEnum customIcon)
         {
             if (Parent != null)
             {
@@ -48,13 +49,13 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        internal ReportItem NewReportContainer(string name, string description, ReportItem Parent, bool useCustomIcom, GizmoIconEnum customIcon)
+        internal ReportItem NewReportContainer(string name, string description, ReportItem Parent, bool useCustomIcom, GizmiComputerHardwareIconsEnum customIcon)
         {
             AddLogItem(DateTime.Now, "Container \"" + name + "\" added", string.Empty, LogItemTypeEnum.Information, "NewReportContainer");
             return new ReportItem() { ParentId = Parent.Id, Name = name, Description = description, UseCustomIcon = useCustomIcom, CustomIcon = customIcon, ParentType = Parent.Type == ReportItemTypeEnum.Container ? Parent.ParentType : Parent.Type, Type = ReportItemTypeEnum.Container };
         }
 
-        internal void AddReportItem(string name, string description, ReportItem Parent, bool useCustomIcom, GizmoIconEnum customIcon, ReportSettings reportSettings)
+        internal void AddReportItem(string name, string description, ReportItem Parent, bool useCustomIcom, GizmiComputerHardwareIconsEnum customIcon, ReportSettings reportSettings)
         {
             if (Parent != null)
             {
@@ -65,7 +66,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        internal ReportItem NewReportItem(string name, string description, ReportItem Parent, bool useCustomIcom, GizmoIconEnum customIcon, ReportSettings reportSettings)
+        internal ReportItem NewReportItem(string name, string description, ReportItem Parent, bool useCustomIcom, GizmiComputerHardwareIconsEnum customIcon, ReportSettings reportSettings)
         {
             var Child = new ReportItem() { ParentId = Parent.Id, Name = name, Description = description, UseCustomIcon = useCustomIcom, CustomIcon = customIcon, ParentType = Parent.Type == ReportItemTypeEnum.Container ? Parent.ParentType : Parent.Type, Type = ReportItemTypeEnum.Report, Settings = reportSettings };
             Child.InitialiseDataGrid();

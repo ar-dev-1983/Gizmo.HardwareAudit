@@ -1,4 +1,4 @@
-﻿using Gizmo.HardwareAudit.Enums;
+﻿using Gizmo.HardwareAuditWPF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,14 +7,14 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
 {
     public class GizmoIconHelper
     {
-        public static List<GizmoIconEnum> GetIconsByCategory(string categoryName)
+        public static List<GizmiComputerHardwareIconsEnum> GetIconsByCategory(string categoryName)
         {
-            var result = new List<GizmoIconEnum>();
-            foreach (var node in Enum.GetValues(typeof(GizmoIconEnum)))
+            var result = new List<GizmiComputerHardwareIconsEnum>();
+            foreach (var node in Enum.GetValues(typeof(GizmiComputerHardwareIconsEnum)))
             {
-                if (((GizmoIconEnum)node).GetAttributeOfType<CategoryAttribute>().Category == categoryName)
+                if (((GizmiComputerHardwareIconsEnum)node).GetAttributeOfType<CategoryAttribute>().Category == categoryName)
                 {
-                    result.Add((GizmoIconEnum)node);
+                    result.Add((GizmiComputerHardwareIconsEnum)node);
                 }
             }
             return result;

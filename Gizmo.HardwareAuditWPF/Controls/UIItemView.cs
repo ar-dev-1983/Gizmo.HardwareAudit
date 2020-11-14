@@ -1,8 +1,7 @@
-﻿using Gizmo.HardwareAudit.Enums;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Gizmo.HardwareAudit.Controls
+namespace Gizmo.HardwareAuditWPF
 {
     public class UIItemView : ContentControl
     {

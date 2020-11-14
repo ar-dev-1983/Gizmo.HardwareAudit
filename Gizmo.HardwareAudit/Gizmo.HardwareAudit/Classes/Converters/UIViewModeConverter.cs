@@ -1,4 +1,4 @@
-﻿using Gizmo.HardwareAudit.Enums;
+﻿using Gizmo.HardwareAuditWPF;
 using System;
 using System.Globalization;
 using System.Windows;

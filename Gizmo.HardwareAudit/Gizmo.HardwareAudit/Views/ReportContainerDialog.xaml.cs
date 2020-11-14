@@ -1,20 +1,22 @@
 ﻿using Gizmo.HardwareAudit.Classes.Helpers;
-using Gizmo.HardwareAudit.Controls;
-using Gizmo.HardwareAudit.Enums;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
+using Gizmo.HardwareAuditWPF;
 using Gizmo.WPF;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+
 namespace Gizmo.HardwareAudit
 {
     public partial class ReportContainerDialog : Window
     {
-        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmoIconEnum customIcon)
+
+        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
         {
             foreach (var node in GizmoIconHelper.GetIconsByCategory("Container Icons"))
             {
-                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmoIconEnum.Container ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16 } };
+                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmiComputerHardwareIconsEnum.Container ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } };
                 btn.Click += Btn_Click;
                 wpIconList.Children.Add(btn);
             }
@@ -26,11 +28,11 @@ namespace Gizmo.HardwareAudit
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
             DataContext = new ReportContainerSettingsViewModel();
-            FillWrapPanelWithIcons(false, GizmoIconEnum.None);
+            FillWrapPanelWithIcons(false, GizmiComputerHardwareIconsEnum.None);
 
         }
 
-        public ReportContainerDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmoIconEnum customIcon)
+        public ReportContainerDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
         {
             Owner = Application.Current.MainWindow;
             InitializeComponent();
@@ -43,9 +45,9 @@ namespace Gizmo.HardwareAudit
         {
             if (TbContainerName.Text != string.Empty)
             {
-                if ((DataContext as ReportContainerSettingsViewModel).UseCustomIcon && (DataContext as ReportContainerSettingsViewModel).CustomIcon == GizmoIconEnum.None)
+                if ((DataContext as ReportContainerSettingsViewModel).UseCustomIcon && (DataContext as ReportContainerSettingsViewModel).CustomIcon == GizmiComputerHardwareIconsEnum.None)
                 {
-                    (DataContext as ReportContainerSettingsViewModel).CustomIcon = GizmoIconEnum.Container;
+                    (DataContext as ReportContainerSettingsViewModel).CustomIcon = GizmiComputerHardwareIconsEnum.Container;
                 }
                 DialogResult = true;
             }
@@ -81,7 +83,7 @@ namespace Gizmo.HardwareAudit
                 }
             }
             (sender as UIButton).Flat = false;
-            (DataContext as ReportContainerSettingsViewModel).CustomIcon = (GizmoIconEnum)(sender as UIButton).Tag;
+            (DataContext as ReportContainerSettingsViewModel).CustomIcon = (GizmiComputerHardwareIconsEnum)(sender as UIButton).Tag;
         }
     }
 }
