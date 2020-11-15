@@ -7,6 +7,7 @@ using System.Management;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Drawing;
+using System.Collections.Generic;
 
 #if NET45
 using Newtonsoft.Json;
@@ -20,9 +21,11 @@ namespace Gizmo.HardwareScan
 {
     public class AppViewModel : UIBaseViewModel
     {
+        #region Event Handlers
         public delegate void AppViewModelEventHandler(AppViewModel appViewModel);
         public event AppViewModelEventHandler OnScanIsFinished;
         public event AppViewModelEventHandler OnErrorCatch;
+        #endregion
 
         #region Private Properties
         private bool scanFinished = false;
@@ -116,10 +119,9 @@ namespace Gizmo.HardwareScan
                 {
                     try
                     {
+                        RunProbe(true);
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch (Exception) { }
                 }, (obj) => Scan != null ? ScanFinished && !IsAnyErrors : false);
             }
         }
@@ -139,30 +141,7 @@ namespace Gizmo.HardwareScan
                             ExportScan(filePath);
                         }
                     }
-                    catch (Exception)
-                    {
-                    }
-                }, (obj) => Scan != null ? ScanFinished && !IsAnyErrors : false);
-            }
-        }
-
-        private WorkCommand exportExcelCommand;
-        public WorkCommand ExportExcelCommand
-        {
-            get
-            {
-                return exportExcelCommand ??= new WorkCommand(obj =>
-                {
-                    try
-                    {
-                        var ScanTime = DateTime.Now;
-                        if (SaveFileDialog(HostName + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "Excel files|*.xlsx") == true)
-                        {
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    catch (Exception) { }
                 }, (obj) => Scan != null ? ScanFinished && !IsAnyErrors : false);
             }
         }
@@ -175,11 +154,15 @@ namespace Gizmo.HardwareScan
             RunProbe();
         }
 
-        private void RunProbe()
+        #region Probe Methods
+        private void RunProbe(bool refresh = false)
         {
             Probe.DoWork += ProbeScan_DoWork;
             Probe.RunWorkerCompleted += ProbeScan_RunWorkerCompleted;
-            Probe.RunWorkerAsync();
+            if (refresh)
+                Probe.RunWorkerAsync(true);
+            else
+                Probe.RunWorkerAsync(false);
         }
 
         private void ReleaseProbe()
@@ -191,44 +174,63 @@ namespace Gizmo.HardwareScan
 
         private void ProbeScan_DoWork(object sender, DoWorkEventArgs e)
         {
+            var result = new List<object>() { (bool)e.Argument, null };
             try
             {
-                e.Result = ComputerHardwareScan.ScanUsingWMI(HostName, new ConnectionOptions(), true);
+                result[1] = ComputerHardwareScan.ScanUsingWMI(HostName, new ConnectionOptions(), true);
             }
             catch (Exception ex)
             {
-                e.Result = ex;
+                result[1] = ex;
             }
+            e.Result = result;
         }
 
         private void ProbeScan_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Result != null && e.Result is ComputerHardwareScan)
+            if (e.Result != null)
             {
-                ReleaseProbe();
-                Scan = e.Result as ComputerHardwareScan;
-                IsAnyErrors = false;
-                ScanFinished = true;
-            }
-            else if (e.Result != null && e.Result is Exception)
-            {
-                ReleaseProbe();
-                Error = e.Result as Exception;
-                IsAnyErrors = true;
-                ScanFinished = false;
+                if (e.Result is List<object>)
+                {
+                    if ((e.Result as List<object>)[1] != null)
+                    {
+                        if ((e.Result as List<object>)[1] is ComputerHardwareScan)
+                        {
+                            ReleaseProbe();
+                            Scan = (e.Result as List<object>)[1] as ComputerHardwareScan;
+                            if (!(bool)(e.Result as List<object>)[0])
+                            {
+                                IsAnyErrors = false;
+                                ScanFinished = true;
+                            }
+                        }
+                        else if ((e.Result as List<object>)[1] is Exception)
+                        {
+                            ReleaseProbe();
+                            if (!(bool)(e.Result as List<object>)[0])
+                            {
+                                Error = (e.Result as List<object>)[1] as Exception;
+                                IsAnyErrors = true;
+                                ScanFinished = false;
+                            }
+                        }
+                    }
+                }
             }
         }
+        #endregion
 
+        #region Working with files Methods
         public void ExportScan(string filename)
         {
 #if NET45
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Formatting.Indented;
-            using (StreamWriter sw = new StreamWriter(filename))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, Scan);
-            }
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Formatting = Formatting.Indented;
+                using (StreamWriter sw = new StreamWriter(filename))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, Scan);
+                }
 #else
             var options = new JsonSerializerOptions
             {
@@ -268,11 +270,9 @@ namespace Gizmo.HardwareScan
                     image.Save(filePath);
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
-        
+
         public void SaveAsHtmlFile(string fileContent)
         {
             try
@@ -283,9 +283,8 @@ namespace Gizmo.HardwareScan
                     File.WriteAllText(filePath, fileContent);
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
+        #endregion    
     }
 }

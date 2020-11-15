@@ -1450,17 +1450,38 @@
                 </Menu>
                 <ui:UISearchBox x:Name="sbTreeItemsSearch" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,-1,0,0" HoldSearchTextAfterHide="False"
                                 Visibility="{Binding ElementName=ProjectTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}"
-                                SearchText="{Binding SearchText, Mode=TwoWay}" IsPressed="{Binding SearchEnabled, Mode=TwoWay}" ItemsSource="{Binding ResultList, Mode=OneWay}" SelectionChanged="sbTreeItemsSearch_SelectionChanged">
+                                SearchText="{Binding SearchText, Mode=TwoWay}" IsPressed="{Binding SearchEnabled, Mode=TwoWay}" 
+                                ItemsSource="{Binding ResultList, Mode=OneWay}" 
+                                SelectionChanged="sbTreeItemsSearch_SelectionChanged" ShowOptions="True">
+                    <ui:UISearchBox.OptionsContent>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ui:UISwitch Grid.Row="0" Margin="74,5,5,5" IsChecked="{Binding FilterItems, Mode=TwoWay}"  HeaderPlacement="Right" Header="  Exclude containers from search" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                <ui:UIComboBox Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False">
+                                  
+                                </ui:UIComboBox>
+                                <TextBlock Margin="5" Text="Show this amaunt of search results" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </ui:UISearchBox.OptionsContent>
                     <ui:UISearchBox.ItemTemplate>
                         <DataTemplate>
-                            <ui:UISearchBoxItem Margin="2" Tag="{Binding Path=Id, Mode=OneWay}">
-                                <ui:UISearchBoxItem.Header>
-                                    <TextBlock Text="{Binding Path=Name, Mode=OneWay}" TextAlignment="Left" HorizontalAlignment="Left" FontWeight="Black"/>
-                                </ui:UISearchBoxItem.Header>
-                                <ui:UISearchBoxItem.Description>
-                                    <TextBlock Text="{Binding Path=Description, Mode=OneWay}" TextAlignment="Left" HorizontalAlignment="Left" FontStyle="Italic"/>
-                                </ui:UISearchBoxItem.Description>
-                            </ui:UISearchBoxItem>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:TreeItemIcon Grid.Column="0"  Margin="5,0" Focusable="False" ItemType="{Binding Path=Type, Mode=OneWay}" ItemStatus="{Binding Path=Status, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" UserProfileSpecified="{Binding Path=UseParentUserProfile, Mode=OneWay}" UserProfileIdSpecified="{Binding Path=UserProfileId, Mode=OneWay}"/>
+                                <TextBlock Grid.Column="1" Margin="5,0" Text="{Binding Path=Name, Mode=OneWay}" FontWeight="Black" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Margin="5,0" Text="{Binding Path=Description, Mode=OneWay}" FontStyle="Italic" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
                         </DataTemplate>
                     </ui:UISearchBox.ItemTemplate>
                 </ui:UISearchBox>

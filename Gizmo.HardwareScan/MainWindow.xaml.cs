@@ -14,18 +14,7 @@ namespace Gizmo.HardwareScan
     /// </summary>
     public partial class MainWindow : Window
     {
-        AppViewModel appvm;
-        Dictionary<string, SolidColorBrush> BrushList = new Dictionary<string, SolidColorBrush>();
-        UIThemeEnum AppTheme = UIThemeEnum.BlueDark;
-        public MainWindow()
-        {
-            InitializeComponent();
-            appvm = new AppViewModel(Environment.MachineName);
-            appvm.OnScanIsFinished += Appvm_OnScanIsFinished;
-            appvm.OnErrorCatch += Appvm_OnErrorCatch;
-            DataContext = appvm;
-        }
-
+        #region Private Methods
         private void Pupulate()
         {
             BrushList.Clear();
@@ -33,7 +22,36 @@ namespace Gizmo.HardwareScan
             BrushList.Add("Text", ThemeManager.GetResource(AppTheme, "WindowForegroundBrush") as SolidColorBrush);
             BrushList.Add("Header", ThemeManager.GetResource(AppTheme, "RowHighlightBrush") as SolidColorBrush);
         }
+        #endregion
 
+        #region Private Properties
+        private AppViewModel appvm;
+        private Dictionary<string, SolidColorBrush> BrushList = new Dictionary<string, SolidColorBrush>();
+        private UIThemeEnum AppTheme = UIThemeEnum.BlueDark;
+        private DoubleAnimation ShowControls0Animation;
+        private DoubleAnimation ShowControls1Animation;
+        private DoubleAnimation ShowControls2Animation;
+        private DoubleAnimation ShowControls3Animation; 
+        #endregion
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            ShowControls0Animation = new DoubleAnimation(0, TimeSpan.FromMilliseconds(150));
+            ShowControls1Animation = new DoubleAnimation(312, TimeSpan.FromMilliseconds(900));
+            ShowControls2Animation = new DoubleAnimation(126, TimeSpan.FromMilliseconds(300));
+            ShowControls3Animation = new DoubleAnimation(1, TimeSpan.FromMilliseconds(150));
+            ShowControls0Animation.Completed += ShowControls0Animation_Completed;
+            ShowControls1Animation.Completed += ShowControls1Animation_Completed;
+            ShowControls2Animation.Completed += ShowControls2Animation_Completed;
+
+            appvm = new AppViewModel(Environment.MachineName);
+            appvm.OnScanIsFinished += Appvm_OnScanIsFinished;
+            appvm.OnErrorCatch += Appvm_OnErrorCatch;
+            DataContext = appvm;
+        }
+
+        #region Event Handlers
         private void Appvm_OnErrorCatch(AppViewModel appViewModel)
         {
             ProgressIcon.Foreground = Brushes.Red;
@@ -42,26 +60,26 @@ namespace Gizmo.HardwareScan
 
         private void Appvm_OnScanIsFinished(AppViewModel appViewModel)
         {
-            var ESViewMode_animation = new DoubleAnimation(312, TimeSpan.FromMilliseconds(1000));
-            ESViewMode_animation.Completed += ESViewMode_animation_Completed;
-            ESViewMode.BeginAnimation(UIEnumSwitch.WidthProperty, ESViewMode_animation);
+            grScanLogo.BeginAnimation(OpacityProperty, ShowControls0Animation);
         }
 
-        private void ESViewMode_animation_Completed(object sender, EventArgs e)
+        private void ShowControls0Animation_Completed(object sender, EventArgs e)
         {
-            var cgSettings_animation = new DoubleAnimation(126, TimeSpan.FromMilliseconds(403));
-            cgSettings_animation.Completed += CgSettings_animation_Completed;
-            cgSettings.BeginAnimation(UIControlGroup.WidthProperty, cgSettings_animation);
+            grScanLogo.Visibility = Visibility.Collapsed;
+            grData.Visibility = Visibility.Visible;
+            ESViewMode.BeginAnimation(WidthProperty, ShowControls1Animation);
         }
-
-        private void CgSettings_animation_Completed(object sender, EventArgs e)
+        private void ShowControls1Animation_Completed(object sender, EventArgs e)
         {
-            var hsvCurrentScan_animation = new DoubleAnimation(hsvCurrentScan.ActualHeight, TimeSpan.FromMilliseconds(1500));
-            hsvCurrentScan.Height = 0;
+            cgSettings.BeginAnimation(WidthProperty, ShowControls2Animation);
+        }
+        private void ShowControls2Animation_Completed(object sender, EventArgs e)
+        {
+            hsvCurrentScan.Opacity = 0;
             svCurrentScan.Visibility = Visibility.Visible;
-
-            hsvCurrentScan.BeginAnimation(HardwareScanView.HeightProperty, hsvCurrentScan_animation);
+            hsvCurrentScan.BeginAnimation(OpacityProperty, ShowControls3Animation);
         }
+        #endregion
 
         #region Theme Changing Events
 
@@ -89,6 +107,7 @@ namespace Gizmo.HardwareScan
 
         #endregion
 
+        #region Save as.. Events
         private void SaveAsPNGFile_Click(object sender, RoutedEventArgs e)
         {
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)hsvCurrentScan.ActualWidth, (int)hsvCurrentScan.ActualHeight, 96, 96, PixelFormats.Pbgra32);
@@ -102,5 +121,6 @@ namespace Gizmo.HardwareScan
             appvm.SaveAsHtmlFile(htmlSerializer.Serialize(appvm.HostName, appvm.Scan, BrushList, (UIViewModeEnum)ESViewMode.SelectedValue));
 
         }
+        #endregion    
     }
 }

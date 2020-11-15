@@ -8,8 +8,11 @@ using System.Windows.Media;
 
 namespace Gizmo.HardwareAuditWPF
 {
+    [TemplatePart(Name = partHardwareScan)]
     public class HardwareScanView : Control
     {
+        const string partHardwareScan = "PART_HardwareScan";
+        private StackPanel HardwareScanContainer;
         public HardwareScanView()
 : base()
         {
@@ -22,6 +25,7 @@ namespace Gizmo.HardwareAuditWPF
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            HardwareScanContainer = GetTemplateChild(partHardwareScan) as StackPanel;
             Refresh();
         }
 
@@ -57,19 +61,18 @@ namespace Gizmo.HardwareAuditWPF
 
         private void Refresh()
         {
-            if (GetTemplateChild("PART_HardwareScan") is StackPanel partHardwareScan)
+            if (HardwareScanContainer!=null)
             {
-                partHardwareScan.Children.Clear();
+                HardwareScanContainer.Children.Clear();
                 UpdateLayout();
-                GC.Collect();
                 if (Item != null)
                 {
                     switch (ViewMode)
                     {
                         case UIViewModeEnum.All:
                         case UIViewModeEnum.SystemEnclosure:
-                            _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "SYSTEM" });
-                            _ = partHardwareScan.Children.Add(new UIItemView()
+                            _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "SYSTEM" });
+                            _ = HardwareScanContainer.Children.Add(new UIItemView()
                             {
                                 ViewType = UIItemViewTypeEnum.FourValues,
                                 Header01 = "System Enclosure",
@@ -81,7 +84,7 @@ namespace Gizmo.HardwareAuditWPF
                                 Value03 = Item.SystemInformation.SerialNumber,
                                 Value04 = Item.SystemInformation.Version,
                             });
-                            _ = partHardwareScan.Children.Add(new UIItemView()
+                            _ = HardwareScanContainer.Children.Add(new UIItemView()
                             {
                                 ViewType = UIItemViewTypeEnum.FourValues,
                                 Header01 = "Motherboard",
@@ -93,8 +96,8 @@ namespace Gizmo.HardwareAuditWPF
                                 Value03 = Item.MotherBoardInformation.SerialNumber,
                                 Value04 = Item.MotherBoardInformation.Version
                             });
-                            _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "OS" });
-                            _ = partHardwareScan.Children.Add(new UIItemView()
+                            _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "OS" });
+                            _ = HardwareScanContainer.Children.Add(new UIItemView()
                             {
                                 ViewType = UIItemViewTypeEnum.FourValues,
                                 Header01 = "Manufacturer",
@@ -106,7 +109,7 @@ namespace Gizmo.HardwareAuditWPF
                                 Value03 = Item.WindowsInformation.Version,
                                 Value04 = Item.WindowsInformation.OSArchitecture,
                             });
-                            _ = partHardwareScan.Children.Add(new UIItemView()
+                            _ = HardwareScanContainer.Children.Add(new UIItemView()
                             {
                                 ViewType = UIItemViewTypeEnum.FourValues,
                                 Header01 = "Install Date",
@@ -118,7 +121,7 @@ namespace Gizmo.HardwareAuditWPF
                                 Value03 = Item.WindowsInformation.TotalMemory,
                                 Value04 = Item.WindowsInformation.AviailableMemory
                             });
-                            _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.OneSmallValue, Header01 = "LoggedInUser", Value01 = Item.LoggedInUser });
+                            _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.OneSmallValue, Header01 = "LoggedInUser", Value01 = Item.LoggedInUser });
                             break;
                     }
                     switch (ViewMode)
@@ -128,10 +131,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsCPUsPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "CPU" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "CPU" });
                                     foreach (var node in Item.CPUs)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.CPU, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.CPU, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.CPU,
@@ -157,10 +160,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsMemoryDevicesPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "MEMORY DEVICES" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "MEMORY DEVICES" });
                                     foreach (var node in Item.MemoryDevices)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.MemoryDevice, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.MemoryDevice, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MemoryDevice,
@@ -186,10 +189,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsVideoControllersPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "VIDEO CARDS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "VIDEO CARDS" });
                                     foreach (var node in Item.VideoControllers)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.VideoAdapter, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.VideoAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.VideoController,
@@ -213,10 +216,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsMonitorsPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "DISPLAYS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "DISPLAYS" });
                                     foreach (var node in Item.Monitors)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Monitor, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Monitor, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Monitor,
@@ -240,10 +243,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsNetworkAdaptersPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "NETWORK CARDS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "NETWORK CARDS" });
                                     foreach (var node in Item.NetworkAdapters)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.NetworkAdapter, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.NetworkAdapter, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.NetworkAdapter,
@@ -276,10 +279,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsPhysicalDrivesPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PHYSICAL DRIVES" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PHYSICAL DRIVES" });
                                     foreach (var node in Item.PhysicalDrives)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.PhysicalDisk, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.PhysicalDisk, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.PhysicalDrive,
@@ -303,10 +306,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsLogicalDrivesPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PARTITIONS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PARTITIONS" });
                                     foreach (var node in Item.LogicalDrives)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Partition, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Partition, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Partition,
@@ -328,10 +331,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsSoftwareLicensingProductsPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LICENSES" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LICENSES" });
                                     foreach (var node in Item.SoftwareLicensingProducts)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Windows, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Windows, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.MicrosoftLicenseInformation,
@@ -362,10 +365,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsPrintersPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PRINTERS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "PRINTERS" });
                                     foreach (var node in Item.Printers)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Printer, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Printer, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.Printer,
@@ -394,10 +397,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsWindowsLocalUsersPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL USERS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL USERS" });
                                     foreach (var node in Item.WindowsLocalUsers)
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Users, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.Users, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.WindowsLocalUser,
@@ -432,10 +435,10 @@ namespace Gizmo.HardwareAuditWPF
                             {
                                 if (Item.IsWindowsLocalGroupsPresent)
                                 {
-                                    _ = partHardwareScan.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL GROUPS" });
+                                    _ = HardwareScanContainer.Children.Add(new UIItemView() { ViewType = UIItemViewTypeEnum.Header, Header01 = "LOCAL GROUPS" });
                                     foreach (var node in Item.WindowsLocalGroups.Where(x => x.Childrens.Count != 0).ToList())
                                     {
-                                        _ = partHardwareScan.Children.Add(new UIItemView()
+                                        _ = HardwareScanContainer.Children.Add(new UIItemView()
                                         {
                                             Icon = IconFontFamily != null ? new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.UserGroup, FontSize = 16, IconFontFamily = IconFontFamily } : new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.UserGroup, FontSize = 16 },
                                             ViewType = UIItemViewTypeEnum.WindowsLocalGroup,
@@ -460,6 +463,7 @@ namespace Gizmo.HardwareAuditWPF
                             }
                     }
                 }
+                GC.Collect();
             }
         }
     }

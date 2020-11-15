@@ -6,6 +6,14 @@
     <LangVersion>8.0</LangVersion>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\Icons\AppIcon.ico</ApplicationIcon>
+    <PackageProjectUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</PackageProjectUrl>
+    <Authors>ar-dev-1983</Authors>
+    <Description>Gizmo Hardware Scan</Description>
+    <Copyright>ar-dev-1983</Copyright>
+    <RepositoryUrl>https://github.com/ar-dev-1983/Gizmo.HardwareAudit</RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <Version>1.0.0.0</Version>
+
   </PropertyGroup>
   
    <ItemGroup Condition=" '$(TargetFramework)' == 'net5-windows' ">

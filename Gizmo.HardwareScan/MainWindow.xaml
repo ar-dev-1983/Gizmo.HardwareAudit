@@ -17,7 +17,7 @@
         <local:BoolToVisivilityInvertedConverter x:Key="BoolToVisivilityInvertedConverter" />
     </Window.Resources>
     <Grid>
-        <Grid x:Name="grScanLogo" Visibility="{Binding ScanFinished, Converter={StaticResource BoolToVisivilityInvertedConverter}}">
+        <Grid x:Name="grScanLogo">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid>
                     <ui:GizmoIcon x:Name="ProgressIcon" Icon="{x:Static ui:GizmoIconEnum.AppIcon}" FontSize="172">
@@ -27,9 +27,10 @@
                         <ui:GizmoIcon.Triggers>
                             <EventTrigger RoutedEvent="Window.Loaded">
                                 <BeginStoryboard>
-                                    <Storyboard RepeatBehavior="3x" >
+                                    <Storyboard RepeatBehavior="1x" >
                                         <DoubleAnimation Storyboard.TargetName="ProgressIcon_Shadow" Storyboard.TargetProperty="BlurRadius" From="5" To="20" Duration="0:0:2" BeginTime="0:0:0"/>
                                         <DoubleAnimation Storyboard.TargetName="ProgressIcon_Shadow" Storyboard.TargetProperty="BlurRadius" From="20" To="5" Duration="0:0:2" BeginTime="0:0:2"/>
+                                        <DoubleAnimation Storyboard.TargetName="ProgressIcon_Shadow" Storyboard.TargetProperty="BlurRadius" From="5" To="20" Duration="0:0:2" BeginTime="0:0:4"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -58,7 +59,7 @@
             </StackPanel>
 
         </Grid>
-        <Grid x:Name="grData" Visibility="{Binding ScanFinished, Converter={StaticResource BoolToVisivilityConverter}}">
+        <Grid x:Name="grData" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -145,11 +146,6 @@
                             <MenuItem Header="Export Full Scan for Gizmo.HardwareAudit" Command="{Binding ExportScanCommand}">
                                 <MenuItem.Icon>
                                     <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Export Scan as Excel file" Command="{Binding ExportExcelCommand}">
-                                <MenuItem.Icon>
-                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileExcel}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="Export current view as png file" Click="SaveAsPNGFile_Click">

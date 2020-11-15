@@ -37,6 +37,9 @@ namespace Gizmo.HardwareAudit.ViewModels
         private ObservableCollection<TreeItem> resultList = new ObservableCollection<TreeItem>();
         private string searchText = string.Empty;
         private bool searchEnabled = false;
+        private bool filterItems = false;
+        private int itemsCountToShow = 15;
+
         #endregion
 
         #region Public Properties
@@ -121,7 +124,14 @@ namespace Gizmo.HardwareAudit.ViewModels
                 searchText = value;
                 if (SearchEnabled && searchText != string.Empty)
                 {
-                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(15));
+                    if (FilterItems)
+                    {
+                        ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(t => t.Type == ItemTypeEnum.ChildComputer).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                    }
+                    else
+                    {
+                        ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                    }
                 }
                 else
                 {
@@ -143,6 +153,28 @@ namespace Gizmo.HardwareAudit.ViewModels
                     SearchText = string.Empty;
                     ResultList.Clear();
                 }
+                OnPropertyChanged();
+            }
+        }
+
+        public bool FilterItems
+        {
+            get => filterItems;
+            set
+            {
+                if (filterItems == value) return;
+                filterItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ItemsCountToShow
+        {
+            get => itemsCountToShow;
+            set
+            {
+                if (itemsCountToShow == value) return;
+                itemsCountToShow = value;
                 OnPropertyChanged();
             }
         }

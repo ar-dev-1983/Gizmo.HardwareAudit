@@ -319,9 +319,12 @@ namespace Gizmo.HardwareAudit
         {
             if (sender != null)
             {
-                if ((sender as UISearchBox).SelectedValue != null)
+                if ((sender as UISearchBox).SelectedItem != null)
                 {
-                    MessageBox.Show(((sender as UISearchBox).SelectedValue as TreeItem).Name);
+                    if (appvm.SelectedTreeItem != null)
+                        appvm.SelectedTreeItem.IsSelected = false;
+                    var item = appvm.FindTreeItemByGuid(((sender as UISearchBox).SelectedItem as TreeItem).Id);
+                    item.IsSelected = true;
                 }
             }
         }
