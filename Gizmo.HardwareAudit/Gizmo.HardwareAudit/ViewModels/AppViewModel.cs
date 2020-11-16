@@ -19,6 +19,10 @@ namespace Gizmo.HardwareAudit.ViewModels
 {
     public partial class AppViewModel : BaseViewModel
     {
+        #region Event Handlers
+        public delegate void AppViewModelEventHandler(AppViewModel appViewModel);
+        #endregion
+
         #region Private Properties
         readonly IDialog dialogService;
         readonly ITreeItemDialog treeItemDialogService;
@@ -39,7 +43,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         private bool searchEnabled = false;
         private bool filterItems = false;
         private int itemsCountToShow = 15;
-
+        private ObservableCollection<int> itemsToShow;
         #endregion
 
         #region Public Properties
@@ -122,21 +126,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 if (searchText == value) return;
                 searchText = value;
-                if (SearchEnabled && searchText != string.Empty)
-                {
-                    if (FilterItems)
-                    {
-                        ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(t => t.Type == ItemTypeEnum.ChildComputer).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
-                    }
-                    else
-                    {
-                        ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
-                    }
-                }
-                else
-                {
-                    ResultList.Clear();
-                }
+                Search();
                 OnPropertyChanged();
             }
         }
@@ -164,6 +154,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 if (filterItems == value) return;
                 filterItems = value;
+                Search();
                 OnPropertyChanged();
             }
         }
@@ -175,6 +166,17 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 if (itemsCountToShow == value) return;
                 itemsCountToShow = value;
+                Search();
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<int> ItemsToShow
+        {
+            get => itemsToShow;
+            set
+            {
+                if (itemsToShow == value) return;
+                itemsToShow = value;
                 OnPropertyChanged();
             }
         }
@@ -183,6 +185,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         #region AppViewModel
         public AppViewModel(IDialog defaultDialogService, ITreeItemDialog treeItemService, ISerialization jsonService, IAppSettingsDialog appSettingsDialog)
         {
+            ItemsToShow = new ObservableCollection<int>() { 5, 10, 15, 20, 25, 50 };
             appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Gizmo\\HardwareAudit");
             if (!Directory.Exists(appPath))
             {
@@ -906,6 +909,45 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
             return result;
         }
+        #endregion
+
+        #region TreeItems Search
+
+        internal void Search()
+        {
+            if (SearchEnabled && searchText != string.Empty)
+            {
+                if (FilterItems)
+                {
+                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(t => t.Type == ItemTypeEnum.ChildComputer).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                }
+                else
+                {
+                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                }
+            }
+            else
+            {
+                ResultList.Clear();
+            }
+        }
+
+        internal void NavigateTo(Guid id)
+        {
+            if (SelectedTreeItem != null)
+                SelectedTreeItem.IsSelected = false;
+            var item = FindTreeItemByGuid(id);
+            item.IsSelected = true;
+        }
+
+        internal void ExpandAllTreeItems()
+        {
+            foreach (var node in Traverse<TreeItem>(Root, item => item.Children).Where(t => t.Type != ItemTypeEnum.None || t.Type != ItemTypeEnum.ChildComputer || t.Type != ItemTypeEnum.ChildDevice).Where(exp => exp.IsExpanded != true))
+            {
+                node.IsExpanded = true;
+            }
+        }
+
         #endregion
 
         #endregion

@@ -1462,9 +1462,7 @@
                             <ui:UISwitch Grid.Row="0" Margin="74,5,5,5" IsChecked="{Binding FilterItems, Mode=TwoWay}"  HeaderPlacement="Right" Header="  Exclude containers from search" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-                                <ui:UIComboBox Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False">
-                                  
-                                </ui:UIComboBox>
+                                <ui:UIComboBox Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False" ItemsSource="{Binding ItemsToShow, Mode=OneWay}"/>
                                 <TextBlock Margin="5" Text="Show this amaunt of search results" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
 

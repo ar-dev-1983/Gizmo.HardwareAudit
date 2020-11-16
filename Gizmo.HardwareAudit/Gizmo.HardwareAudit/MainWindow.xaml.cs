@@ -37,6 +37,7 @@ namespace Gizmo.HardwareAudit
                 tbUnlockPassword.Focus();
             }
         }
+
         private void Window_Closed(object sender, EventArgs e)
         {
             appvm.Close();
@@ -315,18 +316,17 @@ namespace Gizmo.HardwareAudit
         }
         #endregion
 
+        #region Search Event
         private void sbTreeItemsSearch_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (sender != null)
             {
                 if ((sender as UISearchBox).SelectedItem != null)
                 {
-                    if (appvm.SelectedTreeItem != null)
-                        appvm.SelectedTreeItem.IsSelected = false;
-                    var item = appvm.FindTreeItemByGuid(((sender as UISearchBox).SelectedItem as TreeItem).Id);
-                    item.IsSelected = true;
+                    appvm.NavigateTo(((sender as UISearchBox).SelectedItem as TreeItem).Id);
                 }
             }
         }
+        #endregion   
     }
 }
