@@ -26,8 +26,8 @@
     <Reference Include="Gizmo.HardwareAuditClasses">
       <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
     </Reference>
-    <PackageReference Include="System.Management" Version="4.7.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+    <PackageReference Include="System.Management" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
@@ -40,8 +40,8 @@
     <Reference Include="Gizmo.HardwareAuditClasses">
       <HintPath>..\Gizmo.HardwareAuditClasses\Gizmo.HardwareAuditClasses\bin\Release\netcoreapp3.1\Gizmo.HardwareAuditClasses.dll</HintPath>
     </Reference>
-    <PackageReference Include="System.Management" Version="4.7.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+    <PackageReference Include="System.Management" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">

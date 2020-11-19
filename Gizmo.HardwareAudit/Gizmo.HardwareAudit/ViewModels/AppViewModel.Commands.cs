@@ -47,7 +47,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                                 node.Password = UserProfile.EncryptString(node.UserPassword, Settings.USl, Settings.Scope);
                             }
                             serializationService.SaveSettings(Path.Combine(appPath, "Settings.dat"), Settings);
-
+                            InvokeAppSettingsChanged();
                             AddLogItem(DateTime.Now, "Settings File", "Saved", LogItemTypeEnum.Information, "EditSettingsCommand");
                         }
                     }
@@ -803,8 +803,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                     {
                         if (dialogService.OpenFileDialog("Scan files|*.scan") == true)
                         {
-                            SelectedTreeItem.HardwareScans.Add(serializationService.ImportScan(dialogService.FilePath));
-                            SelectedTreeItem.HardwareScans = new ObservableCollection<ComputerHardwareScan>(SelectedTreeItem.HardwareScans.OrderBy(x => x.ScanTime).ToList());
+                            SelectedTreeItem.AddScanAndSort(serializationService.ImportScan(dialogService.FilePath));
                             AddLogItem(DateTime.Now, "Scan file \"" + dialogService.FilePath + "\"", "Imported", LogItemTypeEnum.Information, "ImportScanCommand");
                             OnPropertyChanged("SelectedTreeItem");
                         }

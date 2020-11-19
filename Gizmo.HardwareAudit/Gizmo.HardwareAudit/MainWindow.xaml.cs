@@ -3,8 +3,11 @@ using Gizmo.HardwareAudit.Services;
 using Gizmo.HardwareAudit.ViewModels;
 using Gizmo.WPF;
 using System;
+using System.ComponentModel;
+using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
+
 using System.Windows.Input;
 
 namespace Gizmo.HardwareAudit
@@ -14,18 +17,53 @@ namespace Gizmo.HardwareAudit
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
-        #region Variables
-
+        #region Properties
+        private bool baloonShow = true;
+        private bool IsRealyClosingApp = true;
         private readonly AppViewModel appvm;
+        private System.Windows.Forms.NotifyIcon m_notifyIcon;
+        private WindowState m_storedWindowState = WindowState.Normal;
+        #endregion
 
+        #region NotifyIcon
+        private void CreateTrayNotifyIcon()
+        {
+            m_notifyIcon = new System.Windows.Forms.NotifyIcon();
+            m_notifyIcon.BalloonTipText = "The app has been minimised. Click the tray icon to show.";
+            m_notifyIcon.BalloonTipTitle = "Gizmo Hardware Audit";
+            m_notifyIcon.Text = "Gizmo Hardware Audit";
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Gizmo.HardwareAudit;component/Resources/Icons/AppIcon.ico")).Stream;
+            m_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+            m_notifyIcon.MouseClick += NotifyIcon_MouseClick;
+            m_notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
+        }
+
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            Show();
+            WindowState = m_storedWindowState;
+            if (m_notifyIcon != null)
+            {
+                m_notifyIcon.Visible = false;
+            }
+        }
+
+        private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+
+            }
+        }
         #endregion
 
         #region MainWindow Events
-
         public MainWindow()
         {
             InitializeComponent();
             appvm = new AppViewModel(new DefaultDialogService(), new TreeItemDialogService(), new SerializationService(), new AppSettingsDialogService());
+            appvm.OnUnlocked += Appvm_OnUnlocked;
+            appvm.OnAppSettingsChanged += Appvm_OnAppSettingsChanged;
             DataContext = appvm;
             ThemeManager.ApplyThemeToWindow(this, appvm.Settings.Theme);
             if (appvm.IsFirstRun)
@@ -38,12 +76,47 @@ namespace Gizmo.HardwareAudit
             }
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Appvm_OnUnlocked(AppViewModel appViewModel)
         {
-            appvm.Close();
+            CreateTrayNotifyIcon();
+            IsRealyClosingApp = !appvm.Settings.MinimizeToTray;
         }
+
+        private void Appvm_OnAppSettingsChanged(AppViewModel appViewModel)
+        {
+            IsRealyClosingApp = !appvm.Settings.MinimizeToTray;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (IsRealyClosingApp)
+            {
+                appvm.Close();
+            }
+            else
+            {
+                if (appvm.IsUnlocked)
+                {
+                    e.Cancel = true;
+                    m_storedWindowState = WindowState;
+                    Hide();
+                    if (m_notifyIcon != null)
+                    {
+                        m_notifyIcon.Visible = true;
+                        if (baloonShow)
+                        {
+                            baloonShow = false;
+                            m_notifyIcon.ShowBalloonTip(2000);
+                        }
+                    }
+                }
+            }
+            base.OnClosing(e);
+        }
+
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            IsRealyClosingApp = true;
             Close();
         }
 
@@ -55,8 +128,12 @@ namespace Gizmo.HardwareAudit
                     appvm.Dispose();
             }
         }
+
         public void Dispose()
         {
+            m_notifyIcon.Dispose();
+            m_notifyIcon = null;
+
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -161,6 +238,10 @@ namespace Gizmo.HardwareAudit
                     tbUnlockTip.Foreground = tbUnlock.Foreground;
                     tbUnlockTip.Text = "* incorrect master password, try again";
                 }
+                else
+                {
+                    appvm.InvokeUnlocked();
+                }
             }
         }
 
@@ -173,6 +254,10 @@ namespace Gizmo.HardwareAudit
                 {
                     tbSetUnlockTip.Foreground = tbSetUnlock.Foreground;
                     tbSetUnlockTip.Text = "* master password is empty";
+                }
+                else
+                {
+                    appvm.InvokeUnlocked();
                 }
             }
         }
@@ -190,6 +275,10 @@ namespace Gizmo.HardwareAudit
                         {
                             tbUnlockTip.Foreground = tbUnlock.Foreground;
                             tbUnlockTip.Text = "* incorrect master password, try again";
+                        }
+                        else
+                        {
+                            appvm.InvokeUnlocked();
                         }
                     }
                     else
@@ -211,6 +300,10 @@ namespace Gizmo.HardwareAudit
                     {
                         tbSetUnlockTip.Foreground = tbSetUnlock.Foreground;
                         tbSetUnlockTip.Text = "* master password is empty";
+                    }
+                    else
+                    {
+                        appvm.InvokeUnlocked();
                     }
                 }
             }
@@ -244,6 +337,10 @@ namespace Gizmo.HardwareAudit
                     {
                         tbUnlockTip.Foreground = tbUnlock.Foreground;
                         tbUnlockTip.Text = "* incorrect old master password or new master password, try again";
+                    }
+                    else
+                    {
+                        appvm.InvokeUnlocked();
                     }
                 }
                 else
@@ -327,6 +424,6 @@ namespace Gizmo.HardwareAudit
                 }
             }
         }
-        #endregion   
+        #endregion
     }
 }

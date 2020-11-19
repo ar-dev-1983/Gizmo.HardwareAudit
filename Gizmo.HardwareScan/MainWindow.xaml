@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
         xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
+        xmlns:haen="clr-namespace:Gizmo.HardwareAuditClasses.Enums;assembly=Gizmo.HardwareAuditClasses"
         xmlns:local="clr-namespace:Gizmo.HardwareScan"
         mc:Ignorable="d"  WindowStartupLocation="CenterScreen"
         Title="Gizmo Hardware Scan" Height="720" Width="1280" MinHeight="600" MinWidth="800"
@@ -67,67 +68,67 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="0,-28,0,0" WindowChrome.IsHitTestVisibleInChrome="True">
                 <ui:UIEnumSwitch x:Name="ESViewMode" Margin="3,0,4,0" Height="24" CornerRadius="0" SelectedIndex="0" Width="24">
                     <ui:UIEnumSwitch.Items>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.All}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.All}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.SystemEnclosure}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.SystemEnclosure}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.SystemEnclosure}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.CPUs}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.CPUs}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.CPU}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.MemoryDevices}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.MemoryDevices}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.MemoryDevice}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.VideoControllers}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.VideoControllers}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.VideoAdapter}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.NetworkAdapters}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.NetworkAdapters}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.NetworkAdapter}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.PhysicalDrives}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.PhysicalDrives}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.PhysicalDisk}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Partitions}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.Partitions}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Partition}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Displays}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.Displays}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Monitor}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Printers}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.Printers}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Printer}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.Licenses}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.Licenses}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Windows}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.LocalUsers}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.LocalUsers}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Users}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
                         </ui:UIEnumSwitchItem>
-                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haui:UIViewModeEnum.LocalGroups}">
+                        <ui:UIEnumSwitchItem Width="24" Value="{x:Static haen:UIViewModeEnum.LocalGroups}">
                             <ui:UIEnumSwitchItem.Icon>
                                 <ui:GizmoIcon  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.UserGroup}" FontSize="16"/>
                             </ui:UIEnumSwitchItem.Icon>
@@ -188,9 +189,12 @@
                         </ui:UIPopupButton.Items>
                     </ui:UIPopupButton>
                 </ui:UIControlGroup>
+                <ui:UIButton Margin="4,0,0,0" Width="24" Click="About_Click" Height="24" CornerRadius="0" IsDefault="True">
+                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.AppIcon}" FontSize="16"/>
+                </ui:UIButton>
             </StackPanel>
             <ScrollViewer x:Name="svCurrentScan" Grid.Row="1" Margin="3,1,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True" Visibility="Hidden">
-                <haui:HardwareScanView x:Name="hsvCurrentScan" VerticalAlignment="Top" Height="Auto" Item="{Binding Scan, Mode=OneWay}" ViewMode="{Binding ElementName=ESViewMode, Path=SelectedValue, Mode=TwoWay}"  IconFontFamily="{StaticResource GizmoIcon}"/>
+                <haui:ComputerHardwareScanView x:Name="hsvCurrentScan" VerticalAlignment="Top" Height="Auto" Item="{Binding Scan, Mode=OneWay}" ViewMode="{Binding ElementName=ESViewMode, Path=SelectedValue, Mode=TwoWay}"  Icons="{StaticResource GizmoIcon}"/>
             </ScrollViewer>
         </Grid>
     </Grid>

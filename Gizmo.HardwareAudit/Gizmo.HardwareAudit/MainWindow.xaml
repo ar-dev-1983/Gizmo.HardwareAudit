@@ -6,12 +6,14 @@
         xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
         xmlns:local="clr-namespace:Gizmo.HardwareAudit" 
         xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
+        xmlns:bhv="clr-namespace:Gizmo.HardwareAudit.Behaviors" 
         xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums"
-        xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls"
+        xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls" 
+        d:DataContext="{d:DesignInstance Type=local:UserProfile}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Gizmo ITK" 
         Width="1132" Height="650" MinWidth="800" MinHeight="600" d:DesignHeight="650" d:DesignWidth="1132" 
-        SnapsToDevicePixels="True" UseLayoutRounding="True" Closed="Window_Closed"
+        SnapsToDevicePixels="True" UseLayoutRounding="True"
         Style="{DynamicResource {ComponentResourceKey ResourceId=DefaultWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
         Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
         Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
@@ -136,7 +138,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="5" Margin="-1,0,-1,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" />
-                    <ui:UITreeList Grid.Column="0" x:Name="TvMainList" BorderThickness="1" Margin="-1,0,-1,0" ItemsSource="{Binding Root.Children}"
+                    <ui:UITreeList Grid.Column="0" x:Name="TvMainList" BorderThickness="1" Margin="-1,0,-1,-1" ItemsSource="{Binding Root.Children}" VerticalAlignment="Stretch"
                                    VirtualizingPanel.IsVirtualizing="True"
                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                    VirtualizingPanel.ScrollUnit="Item"
@@ -524,10 +526,13 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
                         </ui:UITreeList.ItemTemplate>
                         <ui:UITreeList.ItemContainerStyle>
-                            <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemStyle}">
+                            <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemVEnabledStyle}">
                                 <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnPreviewMouseRightButtonDown" />
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+                                <Setter Property="bhv:UITreeListItemBehavior.BringSelectedItemIntoView" Value="True" />
+                                <Setter Property="bhv:UITreeListItemBehavior.BringExpandedChildrenIntoView" Value="True" />
+
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static enums:ItemTypeEnum.None}">
@@ -630,7 +635,7 @@
                             </GridViewColumn>
                         </ui:UITreeList.Columns>
                     </ui:UITreeList>
-                    <controls:TreeItemView Grid.Column="2" Margin="0,26,0,0" Item="{Binding SelectedTreeItem}"/>
+                    <controls:TreeItemView Grid.Column="2" Margin="0,26,0,0" Item="{Binding SelectedTreeItem}" Theme="{Binding Path=Settings.Theme, Mode=OneWay}"/>
                 </Grid>
                 <Grid x:Name="grReports" Visibility="{Binding ElementName=ReportsTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -639,7 +644,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="5" Margin="-1,0,-1,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" />
-                    <ui:UITreeList Grid.Column="0" x:Name="TvReportsList" BorderThickness="1" Margin="-1,0,-1,0" ItemsSource="{Binding ReportRoot.Children}"
+                    <ui:UITreeList Grid.Column="0" x:Name="TvReportsList" BorderThickness="1" Margin="-1,0,-1,-1" ItemsSource="{Binding ReportRoot.Children}"
                                    VirtualizingPanel.IsVirtualizing="True"
                                    VirtualizingPanel.VirtualizationMode="Recycling"
                                    VirtualizingPanel.ScrollUnit="Item"
@@ -726,7 +731,7 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
                         </ui:UITreeList.ItemTemplate>
                         <ui:UITreeList.ItemContainerStyle>
-                            <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemStyle}">
+                            <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemVEnabledStyle}">
                                 <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnPreviewMouseRightButtonDown" />
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
@@ -1448,7 +1453,7 @@
                     </MenuItem>
                     <MenuItem Header="About" Click="About_Click"/>
                 </Menu>
-                <ui:UISearchBox x:Name="sbTreeItemsSearch" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,-1,0,0" HoldSearchTextAfterHide="False"
+                <ui:UISearchBox x:Name="sbTreeItemsSearch" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,-1,0,0" Width="250" HoldSearchTextAfterHide="False"
                                 Visibility="{Binding ElementName=ProjectTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}"
                                 SearchText="{Binding SearchText, Mode=TwoWay}" IsPressed="{Binding SearchEnabled, Mode=TwoWay}" 
                                 ItemsSource="{Binding ResultList, Mode=OneWay}" 
@@ -1459,13 +1464,11 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <ui:UISwitch Grid.Row="0" Margin="74,5,5,5" IsChecked="{Binding FilterItems, Mode=TwoWay}"  HeaderPlacement="Right" Header="  Exclude containers from search" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <ui:UISwitch Grid.Row="0" Margin="22,5,5,5" IsChecked="{Binding FilterItems, Mode=TwoWay}"  HeaderPlacement="Right" Header="  Exclude containers from search" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
-
-                                <ui:UIComboBox Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False" ItemsSource="{Binding ItemsToShow, Mode=OneWay}"/>
-                                <TextBlock Margin="5" Text="Show this amaunt of search results" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <ui:UIComboBox Width="50" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False" ItemsSource="{Binding ItemsToShow, Mode=OneWay}"/>
+                                <TextBlock Margin="5" Text="Show items count" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
-
                         </Grid>
                     </ui:UISearchBox.OptionsContent>
                     <ui:UISearchBox.ItemTemplate>

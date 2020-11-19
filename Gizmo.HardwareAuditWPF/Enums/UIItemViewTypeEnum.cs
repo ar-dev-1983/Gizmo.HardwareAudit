@@ -2,21 +2,9 @@
 {
     public enum UIItemViewTypeEnum
     {
-        Header,
+        None,
         OneValue,
         OneSmallValue,
-        TwoValues,
-        FourValues,
-        MemoryDevice,
-        CPU,
-        NetworkAdapter,
-        VideoController,
-        PhysicalDrive,
-        Partition,
-        Monitor,
-        Printer,
-        MicrosoftLicenseInformation,
-        WindowsLocalUser,
-        WindowsLocalGroup
+        TwoValues
     }
 }

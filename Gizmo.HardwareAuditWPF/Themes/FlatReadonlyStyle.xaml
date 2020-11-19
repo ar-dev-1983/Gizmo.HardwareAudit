@@ -1,0 +1,46 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Gizmo.HardwareAuditWPF"
+    xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF">
+
+    <Style x:Key="{ComponentResourceKey local:HWStyle, FlatRO}" TargetType="ui:UITextBox">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Flat" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:UITextBox">
+                    <Grid>
+                        <Border x:Name="PART_Background" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0" BorderBrush="Transparent"/>
+                        <Border x:Name="PART_border" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                        <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  Padding="{TemplateBinding Padding}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  BorderThickness="0" IsTabStop="False" ToolTip="{TemplateBinding ValidationError}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Flat" Value="True">
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="0" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="Transparent" />
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="PART_Background" Property="Opacity" Value="0.1" />
+                            <Setter TargetName="PART_Background" Property="Background" Value="{DynamicResource {ComponentResourceKey ui:UITheme, ControlSelectBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ui:UITheme, ControlSelectBorderBrush}}" />
+                            <Setter TargetName="PART_border" Property="BorderThickness" Value="1" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, AltOneForegroundBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

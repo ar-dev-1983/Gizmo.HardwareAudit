@@ -1,50 +1,93 @@
-﻿using Gizmo.HardwareAuditClasses;
-using Gizmo.HardwareAuditWPF;
+﻿using Gizmo.HardwareAuditClasses.Enums;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Media;
 
-namespace Gizmo.HardwareScan
+namespace Gizmo.HardwareAuditClasses.Helpers
 {
-    public static class htmlSerializer
+    public class fakeColor
     {
-        /*
-         Of course, i shouldn't write serialization exactly this way, but how to make serialization in html exactly in the same form as the scan is displayed in the program?
-         If I find another way, this section will be rewritten. Must be.
-         */
-        private static Color rgba2rgb(Color background, Color foreground)
+        public byte A { set; get; }
+        public byte R { set; get; }
+        public byte G { set; get; }
+        public byte B { set; get; }
+        public fakeColor()
+        {
+            A = 255;
+            R = 0;
+            G = 0;
+            B = 0;
+        }
+        public fakeColor(byte r, byte g, byte b)
+        {
+            A = 255;
+            R = r;
+            G = g;
+            B = b;
+        }
+        public fakeColor(byte a, byte r, byte g, byte b)
+        {
+            A = a;
+            R = r;
+            G = g;
+            B = b;
+        }
+
+        public static string GetHEXFromBytes(byte r, byte g, byte b) => $"#{r:X2}{g:X2}{b:X2}";
+        public static string GetHEXAsARGBFromBytes(byte a, byte r, byte g, byte b) => $"#{a:X2}{r:X2}{g:X2}{b:X2}";
+        public static string GetHEXAsRGBAFromBytes(byte a, byte r, byte g, byte b) => $"#{r:X2}{g:X2}{b:X2}{a:X2}";
+
+        public static fakeColor GetFromARGB(fakeColor background, fakeColor foreground)
         {
             if (foreground.A == 255)
                 return foreground;
 
             var alpha = foreground.A / 255.0;
             var diff = 1.0 - alpha;
-            return Color.FromArgb(255,
+            return new fakeColor(255,
                 (byte)(foreground.R * alpha + background.R * diff),
                 (byte)(foreground.G * alpha + background.G * diff),
                 (byte)(foreground.B * alpha + background.B * diff));
         }
-        
-        public static string Serialize(string name, ComputerHardwareScan sc, Dictionary<string, SolidColorBrush> BrushList, UIViewModeEnum ViewMode)
+
+        public string GetHEXFromBytes() => $"#{R:X2}{G:X2}{B:X2}";
+        public string GetHEXAsARGBFromBytes() => $"#{A:X2}{R:X2}{G:X2}{B:X2}";
+        public string GetHEXAsRGBAFromBytes() => $"#{R:X2}{G:X2}{B:X2}{A:X2}";
+
+        public fakeColor GetFromARGB(fakeColor background)
         {
-            var Background = new SolidColorBrush() { Color = Color.FromRgb(BrushList["Background"].Color.R, BrushList["Background"].Color.G, BrushList["Background"].Color.B) };
-            var Header = new SolidColorBrush() { Color = rgba2rgb(BrushList["Background"].Color, BrushList["Header"].Color) };
-            var Text = new SolidColorBrush() { Color = Color.FromRgb(BrushList["Text"].Color.R, BrushList["Text"].Color.G, BrushList["Text"].Color.B) };
+            if (A == 255)
+                return new fakeColor(R, G, B);
+
+            var alpha = A / 255.0;
+            var diff = 1.0 - alpha;
+            return new fakeColor(255, (byte)(R * alpha + background.R * diff), (byte)(G * alpha + background.G * diff), (byte)(B * alpha + background.B * diff));
+        }
+    }
+
+    public static class htmlSerializer
+    {
+
+        /*
+         Of course, i shouldn't write html serialization this way, but how to make serialization exactly in the same form as the scan is displayed in the program?
+         If I find another way, this section will be rewritten.
+         */
+        public static string Serialize(string name, ComputerHardwareScan sc, Dictionary<string, fakeColor> BrushList, UIViewModeEnum ViewMode, string description = "", string ipaddres = "", string fqdn = "", bool includeFullInfo = false)
+        {
             var fileContentTemplate = new StringBuilder();
             fileContentTemplate.AppendLine("<!DOCTYPE html>");
             fileContentTemplate.AppendLine("<head>");
             fileContentTemplate.AppendLine("    <style>");
             fileContentTemplate.AppendLine("        HTML { margin: 0 !important; border: none !important; }");
-            fileContentTemplate.AppendLine("        body { background-color: " + $"#{Background.Color.R:X2}{Background.Color.G:X2}{Background.Color.B:X2}" + ";");
-            fileContentTemplate.AppendLine("               color: " + $"#{Text.Color.R:X2}{Text.Color.G:X2}{Text.Color.B:X2}" + ";");
+            fileContentTemplate.AppendLine("        body { background-color: " + BrushList["Background"].GetHEXFromBytes() + ";");
+            fileContentTemplate.AppendLine("               color: " + BrushList["Text"].GetHEXFromBytes() + ";");
             fileContentTemplate.AppendLine("               font-family: Segoe UI;");
             fileContentTemplate.AppendLine("               font-size: 12px;");
             fileContentTemplate.AppendLine("             }");
             fileContentTemplate.AppendLine("        .headerStyle { width: 100%; border-collapse: collapse;}");
-            fileContentTemplate.AppendLine("        .headerStyle th { background-color: " + $"#{Header.Color.R:X2}{Header.Color.G:X2}{Header.Color.B:X2}" + "; width: 125px; text-align: right; height: 22px;}");
+            fileContentTemplate.AppendLine("        .headerStyle th { background-color: " + BrushList["Header"].GetFromARGB(BrushList["Background"]).GetHEXFromBytes() + "; width: 135px; text-align: right; height: 22px;}");
             fileContentTemplate.AppendLine("        .headerStyle td { height: 0px;}");
             fileContentTemplate.AppendLine("        .dataStyle { width: 100%; border-collapse: collapse;}");
-            fileContentTemplate.AppendLine("        hr.separator { margin-left: 145px; border: 3px solid " + $"#{Header.Color.R:X2}{Header.Color.G:X2}{Header.Color.B:X2}" + ";}");
+            fileContentTemplate.AppendLine("        hr.separator { margin-left: 145px; border: 3px solid " + BrushList["Header"].GetFromARGB(BrushList["Background"]).GetHEXFromBytes() + ";}");
             fileContentTemplate.AppendLine("    </style>");
             fileContentTemplate.AppendLine("    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">");
             fileContentTemplate.AppendLine("    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
@@ -53,6 +96,16 @@ namespace Gizmo.HardwareScan
             fileContentTemplate.AppendLine("    <title>" + name + "</title>");
             fileContentTemplate.AppendLine("</head>");
             fileContentTemplate.AppendLine("<body>");
+
+            if (includeFullInfo)
+            {
+                fileContentTemplate.AppendLine(GetHeader("GENERAL"));
+                fileContentTemplate.AppendLine(GetOneValue("Name", name));
+                fileContentTemplate.AppendLine(GetOneValue("Description", description));
+                fileContentTemplate.AppendLine(GetOneValue("IP Address", ipaddres));
+                fileContentTemplate.AppendLine(GetOneValue("FQDN", fqdn));
+            }
+
             switch (ViewMode)
             {
                 case UIViewModeEnum.All:
@@ -136,7 +189,7 @@ namespace Gizmo.HardwareScan
 
                     if (sc.IsNetworkAdaptersPresent)
                     {
-                        fileContentTemplate.AppendLine(GetHeader("NETWORK CARDS"));
+                        fileContentTemplate.AppendLine(GetHeader("NETWORK ADAPTERS"));
                         foreach (var node in sc.NetworkAdapters)
                         {
                             fileContentTemplate.AppendLine(GetNetworkAdapterValue("Product", node.Adapter, "IP", node.IPAddress, "Mask", node.SubnetMasks, "Geteway", node.DefaultGeteway, "MAC", node.MAC, "DHCP", node.DHCP_Enabled, "DHCP Server", node.DHCP_ServerIP));
@@ -183,7 +236,7 @@ namespace Gizmo.HardwareScan
 
                     if (sc.IsSoftwareLicensingProductsPresent)
                     {
-                        fileContentTemplate.AppendLine(GetHeader("LICENSES"));
+                        fileContentTemplate.AppendLine(GetHeader("MS LICENSES"));
                         foreach (var node in sc.SoftwareLicensingProducts)
                         {
                             fileContentTemplate.AppendLine(GetSoftwareLicencingProductValue("Name", node.Name, "Channel", node.Description, "Status", node.LicenseStatus, "Partial Product Key", node.PatrialProductKey, "Type", node.LicenseFamily, "Product Key ID", node.ProductKeyID));
@@ -248,7 +301,7 @@ namespace Gizmo.HardwareScan
 
             return fileContentTemplate.ToString();
         }
-        
+
         private static string GetHeader(string Header)
         {
             return "<table class=\"headerStyle\"><tr><th>" + Header + "</th><th style=\"width: 700px;\"/><th style=\"width: auto;\"/></tr></table>";
@@ -259,7 +312,7 @@ namespace Gizmo.HardwareScan
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
@@ -272,7 +325,7 @@ namespace Gizmo.HardwareScan
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 140px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 60px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -285,13 +338,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetCPUValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3, string Header4, string Value4)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 120px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -304,17 +357,17 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetMemoryDeviceValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3, string Header4, string Value4)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 120px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
-                "        <td style=\"width: 125px;\">" + Value2 + "</td>\n" +
+                "        <td style=\"width: 135px;\">" + Value2 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 155px;\">" + Value3 + "</td>\n" +
                 "        <td style=\"width: 50px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
@@ -323,13 +376,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetVideoControllerValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 265px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 40px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -340,13 +393,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetDisplayValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 120px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -357,19 +410,19 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetNetworkAdapterValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3, string Header4, string Value4, string Header5, string Value5, string Header6, string Value6, string Header7, string Value7)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px;\" colspan=\"7\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 110px;\">" + Value2 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\">" + Header5 + "</td>\n" +
@@ -381,7 +434,7 @@ namespace Gizmo.HardwareScan
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 110px;\">" + Value3 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\"></td>\n" +
@@ -393,7 +446,7 @@ namespace Gizmo.HardwareScan
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 110px;\">" + Value4 + "</td>\n" +
                 "        <td style=\"width: 80px; font-weight: bold; text-align: right;\"></td>\n" +
@@ -406,13 +459,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetPhsicalDriveValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -423,13 +476,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-       
+
         private static string GetLogicalDriveValue(string Header1, string Value1, string Header2, string Value2)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 70px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -444,30 +497,30 @@ namespace Gizmo.HardwareScan
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px;\" colspan=\"4\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px;\" colspan=\"4\">" + Value2 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
-                "        <td style=\"width: 125px;\">" + Value3 + "</td>\n" +
+                "        <td style=\"width: 135px;\">" + Value3 + "</td>\n" +
                 "        <td style=\"width: 100px; font-weight: bold; text-align: right;\">" + Header5 + "</td>\n" +
                 "        <td style=\"width: 215px;\">" + Value5 + "</td>\n" +
                 "        <td style=\"width: 240px; font-weight: bold; text-align: right;\"></td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
-                "        <td style=\"width: 125px;\">" + Value4 + "</td>\n" +
+                "        <td style=\"width: 135px;\">" + Value4 + "</td>\n" +
                 "        <td style=\"width: 100px; font-weight: bold; text-align: right;\">" + Header6 + "</td>\n" +
                 "        <td style=\"width: 215px;\">" + Value6 + "</td>\n" +
                 "        <td style=\"width: 240px; font-weight: bold; text-align: right;\"></td>\n" +
@@ -481,7 +534,7 @@ namespace Gizmo.HardwareScan
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -491,7 +544,7 @@ namespace Gizmo.HardwareScan
                 "</table>" +
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\"></td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\"></td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 70px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 40px;\">" + Value3 + "</td>\n" +
@@ -503,13 +556,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetLocalUserValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3, string Header4, string Value4, string Header5, string Value5, string Header6, string Value6, string Header7, string Value7, string Header8, string Value8)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -517,13 +570,13 @@ namespace Gizmo.HardwareScan
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px;\" colspan=\"4\">" + Value3 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value4 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header5 + "</td>\n" +
@@ -533,7 +586,7 @@ namespace Gizmo.HardwareScan
                 "</table>" +
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">Password</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">Password</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 70px; font-weight: bold; text-align: right;\">" + Header6 + "</td>\n" +
                 "        <td style=\"width: 40px;\">" + Value6 + "</td>\n" +
@@ -545,13 +598,13 @@ namespace Gizmo.HardwareScan
                 "    </tr>\n" +
                 "</table>";
         }
-        
+
         private static string GetLocalGroupValue(string Header1, string Value1, string Header2, string Value2, string Header3, string Value3, string Header4, string Value4, string Header5, string Value5, string Header6, string Value6)
         {
             return
                 "<table class=\"dataStyle\">\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header1 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value1 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header2 + "</td>\n" +
@@ -559,13 +612,13 @@ namespace Gizmo.HardwareScan
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header3 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px;\" colspan=\"4\">" + Value3 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; text-align: right;\">" + Header4 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 295px;\">" + Value4 + "</td>\n" +
                 "        <td style=\"width: 90px; font-weight: bold; text-align: right;\">" + Header5 + "</td>\n" +
@@ -573,7 +626,7 @@ namespace Gizmo.HardwareScan
                 "        <td style=\"width: auto;\"></td>\n" +
                 "    </tr>\n" +
                 "    <tr>\n" +
-                "        <td style=\"width: 125px; font-weight: bold; vertical-align:top; text-align: right;\">" + Header6 + "</td>\n" +
+                "        <td style=\"width: 135px; font-weight: bold; vertical-align:top; text-align: right;\">" + Header6 + "</td>\n" +
                 "        <td style=\"width: 20px;\"></td>\n" +
                 "        <td style=\"width: 680px; vertical-align:top;\" colspan=\"4\">" + Value6 + "</td>\n" +
                 "        <td style=\"width: auto;\"></td>\n" +
@@ -581,4 +634,5 @@ namespace Gizmo.HardwareScan
                 "</table>";
         }
     }
+
 }

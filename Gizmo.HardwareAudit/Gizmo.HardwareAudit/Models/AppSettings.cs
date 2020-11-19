@@ -10,6 +10,7 @@ namespace Gizmo.HardwareAudit.Models
 {
     public class AppSettings : BaseViewModel
     {
+        #region Private Properties
         private string mSL;
         private string uSl;
         private string mSH;
@@ -23,6 +24,10 @@ namespace Gizmo.HardwareAudit.Models
         private ObservableCollection<CheckTPCPortSetting> defaultCheckPorts;
         private ObservableCollection<UserProfile> userProfiles;
         private DataProtectionScope scope;
+        private bool minimizeToTray = false;
+        #endregion
+
+        #region Public Properties
         public string MSL
         {
             get => mSL;
@@ -33,6 +38,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public string USl
         {
@@ -44,6 +50,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public string MSH
         {
             get => mSH;
@@ -54,6 +61,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public UIThemeEnum Theme
         {
             get => theme;
@@ -64,6 +72,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public bool LoadLastFile
         {
             get => loadLastFile;
@@ -74,6 +83,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public string LastFile
         {
             get => lastFile;
@@ -84,6 +94,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public string LastReportFile
         {
             get => lastReportFile;
@@ -94,6 +105,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public string LogFile
         {
             get => logFile;
@@ -104,6 +116,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public bool CheckPortsThenPing
         {
             get => checkPortsThenPing;
@@ -114,6 +127,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public bool CheckSharedFoldersThenPing
         {
             get => checkSharedFoldersThenPing;
@@ -124,6 +138,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<CheckTPCPortSetting> DefaultCheckPorts
         {
             get => defaultCheckPorts;
@@ -134,6 +149,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<UserProfile> UserProfiles
         {
             get => userProfiles;
@@ -144,6 +160,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         public DataProtectionScope Scope
         {
             get => scope;
@@ -154,6 +171,19 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
+        public bool MinimizeToTray
+        {
+            get => minimizeToTray;
+            set
+            {
+                if (minimizeToTray == value) return;
+                minimizeToTray = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
         public AppSettings()
         {
             mSL = string.Empty;
@@ -168,6 +198,7 @@ namespace Gizmo.HardwareAudit.Models
             defaultCheckPorts = new ObservableCollection<CheckTPCPortSetting>();
             userProfiles = new ObservableCollection<UserProfile>();
             scope = DataProtectionScope.CurrentUser;
+            minimizeToTray = false;
         }
 
         internal List<LogItem> SaltUserProfiles(string salt)

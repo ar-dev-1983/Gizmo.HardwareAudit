@@ -1150,7 +1150,6 @@ namespace Gizmo.HardwareAudit.ViewModels
                 }
             }
         }
-
     }
 }
 

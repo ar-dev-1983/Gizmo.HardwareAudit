@@ -1,7 +1,32 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/FlatReadonlyStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/ComputerHardwareScanView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIItemView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/HardwareScanView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UISystemInformation.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIWindowsInformation.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UICPUListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UICPUInformation.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIMemoryDeviceListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIMemoryDevice.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIVideoControllerListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIVideoController.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIMonitorListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIMonitor.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UINetworkAdapterListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UINetworkAdapter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIPhysicalDriveListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIPhysicalDrive.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UILogicalDriveListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UILogicalDrive.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UISoftwareLicensingProductListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UISoftwareLicensingProduct.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIPrinterListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIPrinter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIWindowsLocalUserListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIWindowsLocalUser.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIWindowsLocalGroupListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Gizmo.HardwareAuditWPF;Component/Themes/UIWindowsLocalGroup.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

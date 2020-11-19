@@ -1,4 +1,5 @@
-﻿using Gizmo.HardwareAuditWPF;
+﻿using Gizmo.HardwareAuditClasses.Enums;
+using Gizmo.HardwareAuditClasses.Helpers;
 using Gizmo.WPF;
 using System;
 using System.Collections.Generic;
@@ -17,21 +18,25 @@ namespace Gizmo.HardwareScan
         #region Private Methods
         private void Pupulate()
         {
+            var b = ThemeManager.GetResource(AppTheme, "WindowBackgroundBrush") as SolidColorBrush;
+            var t = ThemeManager.GetResource(AppTheme, "WindowForegroundBrush") as SolidColorBrush;
+            var h = ThemeManager.GetResource(AppTheme, "RowHighlightBrush") as SolidColorBrush;
+
             BrushList.Clear();
-            BrushList.Add("Background", ThemeManager.GetResource(AppTheme, "WindowBackgroundBrush") as SolidColorBrush);
-            BrushList.Add("Text", ThemeManager.GetResource(AppTheme, "WindowForegroundBrush") as SolidColorBrush);
-            BrushList.Add("Header", ThemeManager.GetResource(AppTheme, "RowHighlightBrush") as SolidColorBrush);
+            BrushList.Add("Background", new fakeColor(b.Color.A, b.Color.R, b.Color.G, b.Color.B));
+            BrushList.Add("Text", new fakeColor(t.Color.A, t.Color.R, t.Color.G, t.Color.B));
+            BrushList.Add("Header", new fakeColor(h.Color.A, h.Color.R, h.Color.G, h.Color.B));
         }
         #endregion
 
         #region Private Properties
         private AppViewModel appvm;
-        private Dictionary<string, SolidColorBrush> BrushList = new Dictionary<string, SolidColorBrush>();
+        private Dictionary<string, fakeColor> BrushList = new Dictionary<string, fakeColor>();
         private UIThemeEnum AppTheme = UIThemeEnum.BlueDark;
         private DoubleAnimation ShowControls0Animation;
         private DoubleAnimation ShowControls1Animation;
         private DoubleAnimation ShowControls2Animation;
-        private DoubleAnimation ShowControls3Animation; 
+        private DoubleAnimation ShowControls3Animation;
         #endregion
 
         public MainWindow()
@@ -119,8 +124,13 @@ namespace Gizmo.HardwareScan
         {
             Pupulate();
             appvm.SaveAsHtmlFile(htmlSerializer.Serialize(appvm.HostName, appvm.Scan, BrushList, (UIViewModeEnum)ESViewMode.SelectedValue));
-
         }
-        #endregion    
+        #endregion
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWindow = new AboutWindow(AppTheme);
+            aboutWindow.ShowDialog();
+        }
     }
 }

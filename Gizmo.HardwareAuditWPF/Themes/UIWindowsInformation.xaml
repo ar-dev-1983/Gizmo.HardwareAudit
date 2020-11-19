@@ -1,0 +1,103 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Gizmo.HardwareAuditWPF"
+    xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF">
+
+    <Style TargetType="{x:Type local:UIWindowsInformation}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:UIWindowsInformation}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="135"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="175"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="175"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0" Margin="0,3,0,0" Height="22" Grid.ColumnSpan="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                BorderThickness="1" 
+                                BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" 
+                                Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}"/>
+
+                        <ContentPresenter Grid.Row="0" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="OS"/>
+
+                        <ContentPresenter Grid.Row="1" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Manufacturer"/>
+                        
+                        <ContentPresenter Grid.Row="2" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Install Date"/>
+                        
+                        <ContentPresenter Grid.Row="3" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Logged In User"/>
+
+                        <ui:GizmoIcon     Grid.Row="1"  Grid.Column="1" Margin="0,2,0,-2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"
+                                          Icon="{x:Static local:GizmiComputerHardwareIconsEnum.Windows}" 
+                                          IconFontFamily="{TemplateBinding IconFontFamily}"/>
+
+                        <ui:GizmoIcon     Grid.Row="3"  Grid.Column="1" Margin="0,2,0,-2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"
+                                          Icon="{x:Static local:GizmiComputerHardwareIconsEnum.User}" 
+                                          IconFontFamily="{TemplateBinding IconFontFamily}"/>
+                        
+                        <ContentPresenter Grid.Row="1" Grid.Column="3" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Product"/>
+
+                        <ContentPresenter Grid.Row="2" Grid.Column="3" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Directory"/>
+
+                        <ContentPresenter Grid.Row="1" Grid.Column="5" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Version"/>
+
+                        <ContentPresenter Grid.Row="2" Grid.Column="5" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Total Memory"/>
+                        
+                        <ContentPresenter Grid.Row="1" Grid.Column="7" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Architecture"/>
+
+                        <ContentPresenter Grid.Row="2" Grid.Column="7" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="Aviailable Memory"/>
+
+                        <ui:UITextBox Grid.Row="1" Grid.Column="2" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.Manufacturer, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="1" Grid.Column="4" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.Name, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="1" Grid.Column="6" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.Version, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="1" Grid.Column="8" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.OSArchitecture, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+
+                        <ui:UITextBox Grid.Row="2" Grid.Column="2" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.InstallDate, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="2" Grid.Column="4" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.WindowsDirectory, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="2" Grid.Column="6" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.TotalMemory, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        <ui:UITextBox Grid.Row="2" Grid.Column="8" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{Binding Info.AviailableMemory, RelativeSource={RelativeSource Mode=TemplatedParent}, BindsDirectlyToSource=True}" />
+                        
+                        <ui:UITextBox Grid.Row="3" Grid.Column="2" Margin="1,3,1,0" VerticalAlignment="Center" IsReadOnly="True" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Text="{TemplateBinding LoggedInUser}" Grid.ColumnSpan="3"/>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

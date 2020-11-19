@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gizmo.HardwareAuditWPF"
+                    xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF">
+
+    <ControlTemplate  x:Key="UIMonitorListBox_Style" TargetType="{x:Type local:UIMonitorListBox}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="135"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="680"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.Column="0" Margin="0,3,0,0" Height="22" Grid.ColumnSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                BorderThickness="1" 
+                                BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" 
+                                Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}"/>
+
+            <ContentPresenter Grid.Row="0" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          TextElement.FontWeight="Black" 
+                                          Content="DISPLAYS"/>
+
+            <ItemsPresenter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="UIMonitorListBox_Style_Empty" TargetType="{x:Type local:UIMonitorListBox}">
+        <Grid/>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type local:UIMonitorListBox}">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}" />
+        <Setter Property="Template" Value="{StaticResource UIMonitorListBox_Style}"/>
+        <Style.Triggers>
+            <Trigger Property="HasItems" Value="False">
+                <Setter Property="Template" Value="{StaticResource UIMonitorListBox_Style_Empty}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+</ResourceDictionary>

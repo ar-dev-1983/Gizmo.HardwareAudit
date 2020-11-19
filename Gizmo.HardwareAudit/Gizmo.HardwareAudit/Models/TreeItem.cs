@@ -13,8 +13,11 @@ namespace Gizmo.HardwareAudit.Models
 {
     public class TreeItem : BaseViewModel, IDisposable
     {
+        #region Handlers
         private readonly PropertyChangedEventHandler propertyChangedHandler;
         private readonly NotifyCollectionChangedEventHandler collectionChangedhandler;
+        private readonly NotifyCollectionChangedEventHandler scansChangedhandler;
+        #endregion
 
         #region Private Properties
         private Guid id = Guid.NewGuid();
@@ -259,6 +262,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [Category("Item")]
         [Description("Оборудование: время последнего сканирования")]
         public DateTime LastScanDateTime
@@ -271,6 +275,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [Category("Item")]
         [Description("Оборудование: время предыдущего сканирования")]
         public DateTime PreviousScanDateTime
@@ -294,21 +299,25 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public bool ScansAvailable
         {
             get => HardwareScans != null;
         }
+
         [JsonIgnore]
         public int LastScanIndex
         {
             get => ScansAvailable && HardwareScans.Count > 0 ? 0 : -1;
         }
+
         [JsonIgnore]
         public bool ScanAvailable
         {
             get => ScansAvailable && HardwareScans.Count > 0;
         }
+
         public ObservableCollection<TreeItem> Children
         {
             get => children;
@@ -341,6 +350,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public bool IsSelected
         {
@@ -352,6 +362,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public bool IsExpanded
         {
@@ -363,6 +374,7 @@ namespace Gizmo.HardwareAudit.Models
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public TreeItem SelectedItem
         {
@@ -377,31 +389,18 @@ namespace Gizmo.HardwareAudit.Models
         {
             propertyChangedHandler = new PropertyChangedEventHandler(Item_PropertyChanged);
             collectionChangedhandler = new NotifyCollectionChangedEventHandler(Items_CollectionChanged);
+            scansChangedhandler = new NotifyCollectionChangedEventHandler(Scans_CollectionChanged);
             Children.CollectionChanged += collectionChangedhandler;
+            HardwareScans.CollectionChanged += scansChangedhandler;
         }
 
-        public void Initialise()
-        {
-            SubscribePropertyChanged(this);
-        }
-
-        public static IEnumerable<T> Traverse<T>(T item, Func<T, IEnumerable<T>> childSelector)
-        {
-            var stack = new Stack<T>();
-            stack.Push(item);
-            while (stack.Any())
-            {
-                var next = stack.Pop();
-                yield return next;
-                foreach (var child in childSelector(next))
-                    stack.Push(child);
-            }
-        }
-
+        #region Private Methods
         private void SubscribePropertyChanged(TreeItem item)
         {
             item.PropertyChanged += propertyChangedHandler;
             item.Children.CollectionChanged += collectionChangedhandler;
+            item.HardwareScans.CollectionChanged += scansChangedhandler;
+
             foreach (var subitem in item.Children)
             {
                 SubscribePropertyChanged(subitem);
@@ -414,6 +413,7 @@ namespace Gizmo.HardwareAudit.Models
             {
                 UnsubscribePropertyChanged(subitem);
             }
+            item.HardwareScans.CollectionChanged -= scansChangedhandler;
             item.Children.CollectionChanged -= collectionChangedhandler;
             item.PropertyChanged -= propertyChangedHandler;
         }
@@ -445,13 +445,49 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
+        private void Scans_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                    OnNamedPropertyChanged("HardwareScans");
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
+                    OnNamedPropertyChanged("HardwareScans");
+                else if (e.Action == NotifyCollectionChangedAction.Reset)
+                    OnNamedPropertyChanged("HardwareScans");
+                else if (e.Action == NotifyCollectionChangedAction.Replace)
+                    OnNamedPropertyChanged("HardwareScans");
+                else if (e.Action == NotifyCollectionChangedAction.Move)
+                    OnNamedPropertyChanged("HardwareScans");
+            }
+        }
+
         public void Dispose()
         {
             UnsubscribePropertyChanged(this);
             Children.CollectionChanged -= collectionChangedhandler;
+            HardwareScans.CollectionChanged -= scansChangedhandler;
         }
+        #endregion
 
         #region Public Methods
+        public void Initialise()
+        {
+            SubscribePropertyChanged(this);
+        }
+
+        public static IEnumerable<T> Traverse<T>(T item, Func<T, IEnumerable<T>> childSelector)
+        {
+            var stack = new Stack<T>();
+            stack.Push(item);
+            while (stack.Any())
+            {
+                var next = stack.Pop();
+                yield return next;
+                foreach (var child in childSelector(next))
+                    stack.Push(child);
+            }
+        }
 
         internal void AddScan(ComputerHardwareScan scan)
         {
@@ -459,7 +495,19 @@ namespace Gizmo.HardwareAudit.Models
             LastScanDateTime = hardwareScans != null ? hardwareScans.Count != 0 ? hardwareScans[0].ScanTime : new DateTime() : new DateTime();
             PreviousScanDateTime = hardwareScans != null ? hardwareScans.Count != 0 ? hardwareScans.Count > 1 ? hardwareScans[1].ScanTime : new DateTime() : new DateTime() : new DateTime();
         }
+        internal void AddScanAndSort(ComputerHardwareScan scan)
+        {
+            var Result = new ObservableCollection<ComputerHardwareScan>() { scan };
+            foreach (var node in HardwareScans)
+            {
+                Result.Add(node);
+            }
+            HardwareScans.Insert(Result.OrderByDescending(x => x.ScanTime).ToList().IndexOf(scan), scan);
+            Result = null;
 
+            LastScanDateTime = hardwareScans != null ? hardwareScans.Count != 0 ? hardwareScans[0].ScanTime : new DateTime() : new DateTime();
+            PreviousScanDateTime = hardwareScans != null ? hardwareScans.Count != 0 ? hardwareScans.Count > 1 ? hardwareScans[1].ScanTime : new DateTime() : new DateTime() : new DateTime();
+        }
         internal void AddScan(int index, ComputerHardwareScan scan)
         {
             HardwareScans.Insert(index, scan);
@@ -641,7 +689,6 @@ namespace Gizmo.HardwareAudit.Models
                 }
             }
         }
-
         #endregion
     }
 }

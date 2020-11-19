@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
+            <ui:UISwitch Margin="5,2,5,15" x:Name="cbMinimizeToTray" Header="  Minimaze to tray then closed?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding MinimizeToTray, Mode=TwoWay}"/>
             <ui:UISwitch Margin="5,2" x:Name="cbLoadLastFileOnStart" Header="  Load last opened file on startup?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding LoadLastFile, Mode=TwoWay}"/>
             <ui:UISwitch Margin="5,2" x:Name="cbCheckPortsThenScanning" Header="  Check for opened TCP Ports?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckPortsThenPing, Mode=TwoWay}"/>
             <ui:UISwitch Margin="5,2" x:Name="cbCheckSharedFoldersThenScanning" Header="  Check for avialable shared folders?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckSharedFoldersThenPing, Mode=TwoWay}"/>

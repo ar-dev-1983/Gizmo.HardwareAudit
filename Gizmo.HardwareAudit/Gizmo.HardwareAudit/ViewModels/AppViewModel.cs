@@ -21,6 +21,16 @@ namespace Gizmo.HardwareAudit.ViewModels
     {
         #region Event Handlers
         public delegate void AppViewModelEventHandler(AppViewModel appViewModel);
+        public event AppViewModelEventHandler OnUnlocked;
+        public event AppViewModelEventHandler OnAppSettingsChanged;
+        public void InvokeUnlocked()
+        {
+            OnUnlocked?.Invoke(this);
+        }
+        public void InvokeAppSettingsChanged()
+        {
+            OnAppSettingsChanged?.Invoke(this);
+        }
         #endregion
 
         #region Private Properties
@@ -748,17 +758,24 @@ namespace Gizmo.HardwareAudit.ViewModels
             try
             {
                 var node = FindTreeItemByGuid(id);
-                if (!node.UseParentUserProfile && node.UserProfileId != new Guid())
+                if (node != null)
                 {
-                    return BuildConnectionOptions(node.UserProfileId);
+                    if (!node.UseParentUserProfile && node.UserProfileId != new Guid())
+                    {
+                        return BuildConnectionOptions(node.UserProfileId);
+                    }
+                    else
+                    {
+                        var result = GetConnectionOptions(node.ParentId);
+                        if (result != null)
+                            return result;
+                        else
+                            return null;
+                    }
                 }
                 else
                 {
-                    var result = GetConnectionOptions(node.ParentId);
-                    if (result != null)
-                        return result;
-                    else
-                        return null;
+                    return null;
                 }
             }
             catch (Exception)
@@ -919,11 +936,11 @@ namespace Gizmo.HardwareAudit.ViewModels
             {
                 if (FilterItems)
                 {
-                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(t => t.Type == ItemTypeEnum.ChildComputer).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root.Children[0], node => node.Children).Where(t => t.Type == ItemTypeEnum.ChildComputer).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
                 }
                 else
                 {
-                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root, node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
+                    ResultList = new ObservableCollection<TreeItem>(Traverse(Root.Children[0], node => node.Children).Where(x => x.Name.ToLower().Contains(searchText.ToLower()) || x.Description.ToLower().Contains(searchText.ToLower())).Take<TreeItem>(ItemsCountToShow));
                 }
             }
             else
@@ -936,18 +953,32 @@ namespace Gizmo.HardwareAudit.ViewModels
         {
             if (SelectedTreeItem != null)
                 SelectedTreeItem.IsSelected = false;
-            var item = FindTreeItemByGuid(id);
-            item.IsSelected = true;
-        }
+            Root.Children[0].IsExpanded = true;
 
-        internal void ExpandAllTreeItems()
-        {
-            foreach (var node in Traverse<TreeItem>(Root, item => item.Children).Where(t => t.Type != ItemTypeEnum.None || t.Type != ItemTypeEnum.ChildComputer || t.Type != ItemTypeEnum.ChildDevice).Where(exp => exp.IsExpanded != true))
+            var SelectedItem = FindTreeItemByGuid(id);
+            if (SelectedItem != null)
             {
-                node.IsExpanded = true;
+                var ParentId = SelectedItem.ParentId;
+                do
+                {
+                    var ParentItem = FindTreeItemByGuid(ParentId);
+                    if (ParentItem != null)
+                    {
+                        if (!ParentItem.IsExpanded)
+                        {
+                            ParentItem.IsExpanded = true;
+                        }
+                        ParentId = ParentItem.ParentId;
+                    }
+                    else
+                    {
+                        ParentId = Root.Children[0].Id;
+                    }
+                }
+                while (ParentId != Root.Children[0].Id);
+                SelectedItem.IsSelected = true;
             }
         }
-
         #endregion
 
         #endregion

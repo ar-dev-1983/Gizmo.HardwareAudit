@@ -11,9 +11,13 @@ namespace Gizmo.HardwareAudit.ViewModels
 
         #region Private Properties
         private AppSettings settings;
+        
         private int selectedCheckPortIndex;
+        
         private int selectedUserProfileIndex;
+        
         readonly IDialog dialogService;
+        
         readonly ISerialization serializationService;
         #endregion
 
@@ -28,6 +32,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
+        
         public bool LoadLastFile
         {
             get => settings.LoadLastFile;
@@ -38,6 +43,18 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public bool MinimizeToTray
+        {
+            get => settings.MinimizeToTray;
+            set
+            {
+                if (settings.MinimizeToTray == value) return;
+                settings.MinimizeToTray = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool CheckPortsThenPing
         {
             get => settings.CheckPortsThenPing;
@@ -48,6 +65,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
+        
         public bool CheckSharedFoldersThenPing
         {
             get => settings.CheckSharedFoldersThenPing;
@@ -58,6 +76,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
+        
         public ObservableCollection<CheckTPCPortSetting> DefaultCheckPorts
         {
             get => settings.DefaultCheckPorts;
@@ -68,6 +87,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 OnPropertyChanged();
             }
         }
+        
         public ObservableCollection<UserProfile> UserProfiles
         {
             get => settings.UserProfiles;

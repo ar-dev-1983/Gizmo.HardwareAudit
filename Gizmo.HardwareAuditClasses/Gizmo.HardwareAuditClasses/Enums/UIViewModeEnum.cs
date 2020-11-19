@@ -1,4 +1,4 @@
-﻿namespace Gizmo.HardwareAuditWPF
+﻿namespace Gizmo.HardwareAuditClasses.Enums
 {
     public enum UIViewModeEnum
     {

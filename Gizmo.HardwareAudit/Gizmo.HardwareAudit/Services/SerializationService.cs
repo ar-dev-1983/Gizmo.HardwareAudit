@@ -21,7 +21,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<ObservableCollection<LogItem>>(list, options);
             File.WriteAllText(filename, jsonString);
@@ -36,7 +37,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<TreeItem>(item, options);
             File.WriteAllText(filename, jsonString);
@@ -46,7 +48,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<AppSettings>(settings, options);
             File.WriteAllText(filename, jsonString);
@@ -61,7 +64,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<ComputerHardwareScan>(scan, options);
             File.WriteAllText(filename, jsonString);
@@ -76,7 +80,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<ObservableCollection<CheckTPCPortSetting>>(list, options);
             File.WriteAllText(filename, jsonString);
@@ -96,7 +101,8 @@ namespace Gizmo.HardwareAudit.Services
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             var jsonString = JsonSerializer.Serialize<ReportItem>(item, options);
             File.WriteAllText(filename, jsonString);
