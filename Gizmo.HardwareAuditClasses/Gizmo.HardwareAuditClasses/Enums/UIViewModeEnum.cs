@@ -6,13 +6,13 @@
         SystemEnclosure,
         CPUs,
         MemoryDevices,
-        NetworkAdapters,
         VideoControllers,
+        Displays,
+        NetworkAdapters,
         PhysicalDrives,
         Partitions,
+        Licenses, 
         Printers,
-        Licenses,
-        Displays,
         LocalUsers,
         LocalGroups
     }

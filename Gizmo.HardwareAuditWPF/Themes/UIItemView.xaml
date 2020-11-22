@@ -7,46 +7,46 @@
     <ControlTemplate x:Key="UIItemView_OneValue" TargetType="{x:Type local:UIItemView}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="135"/>
+                <ColumnDefinition Width="125"/>
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="680"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
             <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
-            <ui:UITextBox Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
+            <ui:UITextBox Height="24" CornerRadius="2" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
         </Grid>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UIItemView_TwoValues" TargetType="{x:Type local:UIItemView}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="135"/>
+                <ColumnDefinition Width="125"/>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="314"/>
                 <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="276"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
             <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
-            <ui:UITextBox Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
+            <ui:UITextBox Height="24" CornerRadius="2" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
             <TextBlock Margin="1,3,1,0"  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header02}" Foreground="{TemplateBinding Foreground}" />
-            <ui:UITextBox Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
+            <ui:UITextBox Height="24" CornerRadius="2" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="4" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" IsReadOnly="True" Text="{TemplateBinding Value02}"/>
         </Grid>
     </ControlTemplate>
 
     <ControlTemplate x:Key="UIItemView_OneSmallValue" TargetType="{x:Type local:UIItemView}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="135"/>
+                <ColumnDefinition Width="125"/>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="295"/>
+                <ColumnDefinition Width="314"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,3,5,0"  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Black" Text="{TemplateBinding Header01}" Foreground="{TemplateBinding Foreground}" />
             <ContentPresenter Margin="0,2,0,-2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Icon"/>
-            <ui:UITextBox Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
+            <ui:UITextBox Height="24" CornerRadius="2" Style="{DynamicResource {ComponentResourceKey local:HWStyle, FlatRO}}" Margin="1,3,1,0"  Grid.Column="2" VerticalAlignment="Center" Flat="{TemplateBinding Flat}" IsReadOnly="True" Text="{TemplateBinding Value01}"/>
         </Grid>
     </ControlTemplate>
 

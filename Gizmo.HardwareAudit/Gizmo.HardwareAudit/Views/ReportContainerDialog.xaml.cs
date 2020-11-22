@@ -12,11 +12,11 @@ namespace Gizmo.HardwareAudit
     public partial class ReportContainerDialog : Window
     {
 
-        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
+        private void FillWrapPanelWithIcons(bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon)
         {
             foreach (var node in GizmoIconHelper.GetIconsByCategory("Container Icons"))
             {
-                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmiComputerHardwareIconsEnum.Container ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } };
+                var btn = new UIButton() { Flat = useCustomIcon == true && node == customIcon ? false : useCustomIcon == false && node == GizmoComputerHardwareIconsEnum.Container ? false : true, Tag = node, Width = 30, Height = 30, Margin = new Thickness(3), Content = new GizmoIcon() { Icon = node, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } };
                 btn.Click += Btn_Click;
                 wpIconList.Children.Add(btn);
             }
@@ -28,11 +28,11 @@ namespace Gizmo.HardwareAudit
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, settings.Theme);
             DataContext = new ReportContainerSettingsViewModel();
-            FillWrapPanelWithIcons(false, GizmiComputerHardwareIconsEnum.None);
+            FillWrapPanelWithIcons(false, GizmoComputerHardwareIconsEnum.None);
 
         }
 
-        public ReportContainerDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
+        public ReportContainerDialog(AppSettings settings, string name, string description, bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon)
         {
             Owner = Application.Current.MainWindow;
             InitializeComponent();
@@ -45,9 +45,9 @@ namespace Gizmo.HardwareAudit
         {
             if (TbContainerName.Text != string.Empty)
             {
-                if ((DataContext as ReportContainerSettingsViewModel).UseCustomIcon && (DataContext as ReportContainerSettingsViewModel).CustomIcon == GizmiComputerHardwareIconsEnum.None)
+                if ((DataContext as ReportContainerSettingsViewModel).UseCustomIcon && (DataContext as ReportContainerSettingsViewModel).CustomIcon == GizmoComputerHardwareIconsEnum.None)
                 {
-                    (DataContext as ReportContainerSettingsViewModel).CustomIcon = GizmiComputerHardwareIconsEnum.Container;
+                    (DataContext as ReportContainerSettingsViewModel).CustomIcon = GizmoComputerHardwareIconsEnum.Container;
                 }
                 DialogResult = true;
             }
@@ -83,7 +83,7 @@ namespace Gizmo.HardwareAudit
                 }
             }
             (sender as UIButton).Flat = false;
-            (DataContext as ReportContainerSettingsViewModel).CustomIcon = (GizmiComputerHardwareIconsEnum)(sender as UIButton).Tag;
+            (DataContext as ReportContainerSettingsViewModel).CustomIcon = (GizmoComputerHardwareIconsEnum)(sender as UIButton).Tag;
         }
     }
 }

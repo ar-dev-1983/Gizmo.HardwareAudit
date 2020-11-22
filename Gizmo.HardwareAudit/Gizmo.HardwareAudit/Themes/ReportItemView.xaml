@@ -35,46 +35,50 @@
                         <haui:UIItemView  Grid.Row="2" Grid.ColumnSpan="2" ViewType="OneSmallValue" Flat="False"
                                           Header01="Report TimeStamp" Visibility="{TemplateBinding IsReport}"
                                           Value01="{Binding Item.Settings.ReportTimeStamp, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <ui:UISwitch Margin="5" Grid.Row="3" Grid.ColumnSpan="2" x:Name="PART_EachValueIsASepareteRow" Header=" Separate each value by row" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding Item.Settings.EachValueIsASepareteRow, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Visibility="Collapsed"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="146,3,5,5" Grid.Row="3" Grid.ColumnSpan="2">
+                            <ui:UIControlGroup VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{TemplateBinding IsReport}" CornerRadius="2" Height="25">
+                                <ui:UIButton Width="30" Command="{Binding BuildReportCommand}">
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Refresh}" FontSize="16"/>
+                                </ui:UIButton>
+                                <ui:UIPopupButton Width="48">
+                                    <ui:UIPopupButton.Content>
+                                        <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
+                                    </ui:UIPopupButton.Content>
+                                    <ui:UIPopupButton.Items>
+                                        <MenuItem Header="Export as CSV File" Command="{Binding ExportAsCSVReportCommand}">
+                                            <MenuItem.Icon>
+                                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Export as XML File" Command="{Binding ExportAsXMLReportCommand}">
+                                            <MenuItem.Icon>
+                                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileHtml}" FontSize="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Export as JSON File" Command="{Binding ExportAsJSONReportCommand}">
+                                            <MenuItem.Icon>
+                                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Export as Excel File" Command="{Binding ExportAsExcelReportCommand}">
+                                            <MenuItem.Icon>
+                                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileExcel}" FontSize="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ui:UIPopupButton.Items>
+                                </ui:UIPopupButton>
+                            </ui:UIControlGroup>
+                            <ui:UISwitch Margin="10,5,5,5" x:Name="PART_EachValueIsASepareteRow" Header=" Separate each value by row" HeaderPlacement="Right" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                         IsChecked="{Binding Item.Settings.EachValueIsASepareteRow, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Visibility="Collapsed"/>
+                        </StackPanel>
 
-                        <ui:UIControlGroup Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,3" Visibility="{TemplateBinding IsReport}" CornerRadius="0" Height="25">
-                            <ui:UIButton Width="30" Command="{Binding BuildReportCommand}">
-                                <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Refresh}" FontSize="16"/>
-                            </ui:UIButton>
-                            <ui:UIPopupButton Width="48">
-                                <ui:UIPopupButton.Content>
-                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
-                                </ui:UIPopupButton.Content>
-                                <ui:UIPopupButton.Items>
-                                    <MenuItem Header="Export as CSV File" Command="{Binding ExportAsCSVReportCommand}">
-                                        <MenuItem.Icon>
-                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Export as XML File" Command="{Binding ExportAsXMLReportCommand}">
-                                        <MenuItem.Icon>
-                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileHtml}" FontSize="16"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Export as JSON File" Command="{Binding ExportAsJSONReportCommand}">
-                                        <MenuItem.Icon>
-                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Export as Excel File" Command="{Binding ExportAsExcelReportCommand}">
-                                        <MenuItem.Icon>
-                                            <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileExcel}" FontSize="16"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </ui:UIPopupButton.Items>
-                            </ui:UIPopupButton>
-                        </ui:UIControlGroup>
                         <DataGrid Grid.Row="5" x:Name="PART_DataTable" Grid.ColumnSpan="2" Margin="0,5,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Visibility="{TemplateBinding IsReport}"
                           BorderThickness="1" BorderBrush="Transparent" Background="Transparent" ItemsSource="{Binding}"
                           AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="True" CanUserResizeRows="False" CanUserSortColumns="True" 
                           IsReadOnly="True" SelectionMode="Single" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow">
                         </DataGrid>
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

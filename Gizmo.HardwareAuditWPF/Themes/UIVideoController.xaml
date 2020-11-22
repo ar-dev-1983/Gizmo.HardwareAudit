@@ -12,7 +12,7 @@
                 <ControlTemplate TargetType="{x:Type local:UIVideoController}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="135"/>
+                            <ColumnDefinition Width="125"/>
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition Width="265"/>
                             <ColumnDefinition Width="40"/>
@@ -27,7 +27,7 @@
                                           Content="Product"/>
 
                         <ui:GizmoIcon     Grid.Column="1" Margin="0,2,0,-2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"
-                                          Icon="{x:Static local:GizmiComputerHardwareIconsEnum.VideoAdapter}" 
+                                          Icon="{x:Static local:GizmoComputerHardwareIconsEnum.VideoAdapter}" 
                                           IconFontFamily="{TemplateBinding IconFontFamily}"/>
 
                         <ContentPresenter Grid.Column="3" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"

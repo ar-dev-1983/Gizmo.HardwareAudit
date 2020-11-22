@@ -7,14 +7,14 @@ namespace Gizmo.HardwareAudit.Classes.Helpers
 {
     public class GizmoIconHelper
     {
-        public static List<GizmiComputerHardwareIconsEnum> GetIconsByCategory(string categoryName)
+        public static List<GizmoComputerHardwareIconsEnum> GetIconsByCategory(string categoryName)
         {
-            var result = new List<GizmiComputerHardwareIconsEnum>();
-            foreach (var node in Enum.GetValues(typeof(GizmiComputerHardwareIconsEnum)))
+            var result = new List<GizmoComputerHardwareIconsEnum>();
+            foreach (var node in Enum.GetValues(typeof(GizmoComputerHardwareIconsEnum)))
             {
-                if (((GizmiComputerHardwareIconsEnum)node).GetAttributeOfType<CategoryAttribute>().Category == categoryName)
+                if (((GizmoComputerHardwareIconsEnum)node).GetAttributeOfType<CategoryAttribute>().Category == categoryName)
                 {
-                    result.Add((GizmiComputerHardwareIconsEnum)node);
+                    result.Add((GizmoComputerHardwareIconsEnum)node);
                 }
             }
             return result;

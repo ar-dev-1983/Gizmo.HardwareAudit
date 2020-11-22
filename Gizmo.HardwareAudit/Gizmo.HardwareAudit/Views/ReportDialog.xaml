@@ -36,7 +36,7 @@
                     <ui:UITabPanelItem x:Name="tbDataSource" Orientation="Top">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                 <TextBlock Text="Data Source" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -44,7 +44,7 @@
                     <ui:UITabPanelItem x:Name="tbDataSettings" Orientation="Top">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                 <TextBlock Text="Report Settings" VerticalAlignment="Center" Margin="5,0"/>
                             </StackPanel>
                         </ui:UITabPanelItem.Header>
@@ -68,10 +68,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UITextBox x:Name="TbReportName" Text="{Binding ReportName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbReportName_KeyDown"/>
+            <ui:UITextBox CornerRadius="2" x:Name="TbReportName" Text="{Binding ReportName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbReportName_KeyDown"/>
 
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UITextBox x:Name="TbReportDescription" Text="{Binding ReportDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
+            <ui:UITextBox CornerRadius="2" x:Name="TbReportDescription" Text="{Binding ReportDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
 
             <ui:UISwitch Margin="5" Grid.Row="4" Grid.Column="1" x:Name="cbUseCustomIcon" Header="  Use custom report icon?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding UseCustomIcon, Mode=TwoWay}"/>
 
@@ -138,12 +138,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Report Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UIComboBox Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ReportTypeItems, Mode=OneWay}" 
+            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ReportTypeItems, Mode=OneWay}" 
                            SelectedItem="{Binding SelectedReportTypeItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
                            HorizontalAlignment="Left" Width="300"/>
             
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Data Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UIComboBox Grid.Column="1" Grid.Row="1" Margin="5" Flat="False" ItemsSource="{Binding ComponentTypeItems, Mode=OneWay}" 
+            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="1" Margin="5" Flat="False" ItemsSource="{Binding ComponentTypeItems, Mode=OneWay}" 
                            SelectedItem="{Binding SelectedComponentItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
                            HorizontalAlignment="Left" Width="300"/>
 

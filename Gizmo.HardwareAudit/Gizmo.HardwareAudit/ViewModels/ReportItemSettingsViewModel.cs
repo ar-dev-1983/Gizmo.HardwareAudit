@@ -15,7 +15,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         private string reportName;
         private string reportDescription;
         private bool useCustomIcon = false;
-        private GizmiComputerHardwareIconsEnum customIcon = GizmiComputerHardwareIconsEnum.None;
+        private GizmoComputerHardwareIconsEnum customIcon = GizmoComputerHardwareIconsEnum.None;
         private ContainerItem root;
         private ObservableCollection<ClassProperties> columns;
         private EnumProperies selectedReportTypeItem;
@@ -58,7 +58,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        public GizmiComputerHardwareIconsEnum CustomIcon
+        public GizmoComputerHardwareIconsEnum CustomIcon
         {
             get => customIcon;
             set
@@ -146,7 +146,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         #endregion
 
 
-        public ReportItemSettingsViewModel(string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon, TreeItem treeItem, ReportSettings reportSettings)
+        public ReportItemSettingsViewModel(string name, string description, bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon, TreeItem treeItem, ReportSettings reportSettings)
         {
             ReportDescription = description;
             ReportName = name;

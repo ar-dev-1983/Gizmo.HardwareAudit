@@ -10,7 +10,7 @@ namespace Gizmo.HardwareAudit.ViewModels
         private string containerName;
         private string containerDescription;
         private bool useCustomIcon = false;
-        private GizmiComputerHardwareIconsEnum customIcon = GizmiComputerHardwareIconsEnum.None;
+        private GizmoComputerHardwareIconsEnum customIcon = GizmoComputerHardwareIconsEnum.None;
         #endregion
 
         #region Public Properties
@@ -46,7 +46,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             }
         }
 
-        public GizmiComputerHardwareIconsEnum CustomIcon
+        public GizmoComputerHardwareIconsEnum CustomIcon
         {
             get => customIcon;
             set
@@ -68,7 +68,7 @@ namespace Gizmo.HardwareAudit.ViewModels
             ContainerDescription = description;
             ContainerName = name;
         }
-        public ReportContainerSettingsViewModel(string name, string description, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon)
+        public ReportContainerSettingsViewModel(string name, string description, bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon)
         {
             ContainerDescription = description;
             ContainerName = name;

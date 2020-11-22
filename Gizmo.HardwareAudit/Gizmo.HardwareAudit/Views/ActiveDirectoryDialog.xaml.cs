@@ -1,4 +1,5 @@
-﻿using Gizmo.HardwareAudit.Models;
+﻿using Gizmo.HardwareAudit.Enums;
+using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.ViewModels;
 using Gizmo.WPF;
 using System.Net;
@@ -14,6 +15,7 @@ namespace Gizmo.HardwareAudit
             InitializeComponent();
             ThemeManager.ApplyThemeToWindow(this, appSettings.Theme);
             DataContext = new DomainDiscoverySettingsViewModel(appSettings.UserProfiles);
+            EwMode.SelectedItem = (DataContext as DomainDiscoverySettingsViewModel).Settings.Mode;
         }
         public ActiveDirectoryDialog(AppSettings appSettings, DomainDiscoverySettings domainDiscoverySettings)
         {
@@ -23,6 +25,7 @@ namespace Gizmo.HardwareAudit
             EwMode.IsHitTestVisible = false;
             TbDomainName.IsReadOnly = true;
             DataContext = new DomainDiscoverySettingsViewModel(appSettings.UserProfiles, domainDiscoverySettings);
+            EwMode.SelectedItem = (DataContext as DomainDiscoverySettingsViewModel).Settings.Mode;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -32,6 +35,7 @@ namespace Gizmo.HardwareAudit
                 if (!IPAddress.TryParse(TbDomainName.Text, out _))
                 {
                     DialogResult = CbUserProfile.SelectedIndex != -1;
+                    (DataContext as DomainDiscoverySettingsViewModel).Settings.Mode = (DomainDiscoveryModeEnum)EwMode.LastSelectedItem;
                 }
                 else
                 {

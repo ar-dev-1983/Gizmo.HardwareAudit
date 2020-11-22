@@ -35,8 +35,8 @@
                 <WrapPanel x:Name="wpIconList"/>
             </ScrollViewer>
         </Border>
-        <ui:UITextBox x:Name="TbContainerName" Text="{Binding ContainerName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbContainerName_KeyDown"/>
-        <ui:UITextBox x:Name="TbContainerDescription" Text="{Binding ContainerDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
+        <ui:UITextBox CornerRadius="2" x:Name="TbContainerName" Text="{Binding ContainerName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbContainerName_KeyDown"/>
+        <ui:UITextBox CornerRadius="2" x:Name="TbContainerDescription" Text="{Binding ContainerDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5">
             <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
             <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>

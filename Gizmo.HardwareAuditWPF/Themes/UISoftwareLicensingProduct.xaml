@@ -12,9 +12,9 @@
                 <ControlTemplate TargetType="{x:Type local:UISoftwareLicensingProduct}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="135"/>
+                            <ColumnDefinition Width="125"/>
                             <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="135"/>
+                            <ColumnDefinition Width="125"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="215"/>
                             <ColumnDefinition Width="240"/>
@@ -42,7 +42,7 @@
                                           Content="Partial Product Key"/>
 
                         <ui:GizmoIcon     Grid.Row="0" Grid.Column="1" Margin="0,2,0,-2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"
-                                          Icon="{x:Static local:GizmiComputerHardwareIconsEnum.Windows}" 
+                                          Icon="{x:Static local:GizmoComputerHardwareIconsEnum.Windows}" 
                                           IconFontFamily="{TemplateBinding IconFontFamily}"/>
 
                         <ContentPresenter Grid.Row="2" Grid.Column="3" Margin="1,3,1,0" VerticalAlignment="Center" HorizontalAlignment="Right"

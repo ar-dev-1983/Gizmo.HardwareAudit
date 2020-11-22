@@ -2,7 +2,7 @@
 
 namespace Gizmo.HardwareAuditWPF
 {
-    public enum GizmiComputerHardwareIconsEnum
+    public enum GizmoComputerHardwareIconsEnum
     {
         [Category("App")]
         None = 0x0,

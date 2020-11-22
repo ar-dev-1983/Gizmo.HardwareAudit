@@ -71,17 +71,17 @@
                         <ui:UITabPanel.Items>
                             <ui:UITabPanelItem x:Name="ProjectTab" Margin="0,3">
                                 <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" />
+                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" />
                                 </ui:UITabPanelItem.Header>
                             </ui:UITabPanelItem>
                             <ui:UITabPanelItem x:Name="ReportsTab" Margin="0,3">
                                 <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" />
+                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" />
                                 </ui:UITabPanelItem.Header>
                             </ui:UITabPanelItem>
                             <ui:UITabPanelItem x:Name="MessagesTab" Margin="0,3">
                                 <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.NotificationBell}" />
+                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.NotificationBell}" />
                                 </ui:UITabPanelItem.Header>
                             </ui:UITabPanelItem>
                         </ui:UITabPanel.Items>
@@ -149,24 +149,24 @@
                             <ContextMenu x:Key="ActiveDirectoryMenu">
                                 <MenuItem Header="Enumerate from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BrowseActiveDirectoryToContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ActiveDirectory}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ActiveDirectory}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -194,7 +194,7 @@
                             <ContextMenu x:Key="DomainRootMenu">
                                 <MenuItem Header="Update from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.UpdateFromActiveDirectoryCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container2}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container2}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditDomainDiscoverySettingsCommand}">
@@ -204,7 +204,7 @@
                                 </MenuItem>
                                 <MenuItem Header="Export from Active Directory">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Export all information" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildActiveDirectoryReportsCommand}">
                                         <MenuItem.Icon>
@@ -230,29 +230,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -291,29 +291,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -352,29 +352,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -407,29 +407,29 @@
                             <ContextMenu x:Key="WorkgroupMenu">
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -463,18 +463,18 @@
                                 <Separator/>
                                 <MenuItem Header="Ping computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Import hardware scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ImportScanCommand}">
                                         <MenuItem.Icon>
@@ -500,18 +500,18 @@
                                 <Separator/>
                                 <MenuItem x:Name="miTCPPorts" Header="TCP Ports"  ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemTCPPortsMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem x:Name="miSharedFolders" Header="Shared Folders" ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemSharedFoldersMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenSharedFolder}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.OpenSharedFolder}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem x:Name="miMoveToContainer" Header="Move to..." Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ChoseContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ContainerMove}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ContainerMove}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -659,12 +659,12 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -688,12 +688,12 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -802,12 +802,12 @@
                             </MenuItem.Icon>
                             <MenuItem Header="Computers file" Height="22" Command="{Binding NewModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="Reports file" Height="22" Command="{Binding NewReportModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
@@ -817,12 +817,12 @@
                             </MenuItem.Icon>
                             <MenuItem Header="Computers file" Height="22" Command="{Binding OpenModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="Reports file" Height="22" Command="{Binding OpenReportModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
@@ -832,12 +832,12 @@
                             </MenuItem.Icon>
                             <MenuItem Header="Computers file" Height="22" Command="{Binding SaveModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="Reports file" Height="22" Command="{Binding SaveReportModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
@@ -847,12 +847,12 @@
                             </MenuItem.Icon>
                             <MenuItem Header="Computers file" Height="22" Command="{Binding SaveAsModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="Reports file" Height="22" Command="{Binding SaveAsReportModelCommand}">
                                 <MenuItem.Icon>
-                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                    <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
@@ -868,24 +868,24 @@
                             <CompositeCollection x:Key="EditActiveDirectoryMenu">
                                 <MenuItem Header="Enumerate from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BrowseActiveDirectoryToContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ActiveDirectory}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ActiveDirectory}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -913,7 +913,7 @@
                             <CompositeCollection x:Key="EditDomainRootMenu">
                                 <MenuItem Header="Update from Active Directory" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.UpdateFromActiveDirectoryCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container2}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container2}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Settings" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.EditDomainDiscoverySettingsCommand}">
@@ -923,7 +923,7 @@
                                 </MenuItem>
                                 <MenuItem Header="Export from Active Directory">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Export all information" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.BuildActiveDirectoryReportsCommand}">
                                         <MenuItem.Icon>
@@ -949,29 +949,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -1010,29 +1010,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -1071,29 +1071,29 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -1126,29 +1126,29 @@
                             <CompositeCollection x:Key="EditWorkgroupMenu">
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Ping all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan all" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Delete all, but keep last two scans" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ClearScansButKeepLastTwoInContainerCommand}">
                                         <MenuItem.Icon>
@@ -1182,18 +1182,18 @@
                                 <Separator/>
                                 <MenuItem Header="Ping computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PingComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Ping}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Ping}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Scan computer" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CheckComputerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.RefreshInfo}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Hardware scans">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Import hardware scan" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ImportScanCommand}">
                                         <MenuItem.Icon>
@@ -1219,18 +1219,18 @@
                                 <Separator/>
                                 <MenuItem Header="TCP Ports"  ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemTCPPortsMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Shared Folders" ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTreeItemSharedFoldersMenuList, Mode=OneWay}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Mode=Self}}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.OpenSharedFolder}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.OpenSharedFolder}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="Move to..." Command="{Binding Source={StaticResource BindingProxy}, Path=Data.ChoseContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ContainerMove}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ContainerMove}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -1310,12 +1310,12 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -1339,12 +1339,12 @@
                                 <Separator/>
                                 <MenuItem Header="Add container" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportContainerCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Header="Add report" Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NewReportCommand}">
                                     <MenuItem.Icon>
-                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" FontSize="16"/>
+                                        <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" FontSize="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator/>
@@ -1405,17 +1405,17 @@
                     <MenuItem Header="View">
                         <MenuItem Header="Computers" Click="Project_Click">
                             <MenuItem.Icon>
-                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" FontSize="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="Reports" Click="Reports_Click">
                             <MenuItem.Icon>
-                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" FontSize="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="Log" Click="Log_Click">
                             <MenuItem.Icon>
-                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.NotificationBell}" FontSize="16"/>
+                                <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.NotificationBell}" FontSize="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
@@ -1456,7 +1456,7 @@
                 <ui:UISearchBox x:Name="sbTreeItemsSearch" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,-1,0,0" Width="250" HoldSearchTextAfterHide="False"
                                 Visibility="{Binding ElementName=ProjectTab, Path=IsSelected,Converter={StaticResource BoolToVisivilityConverter}}"
                                 SearchText="{Binding SearchText, Mode=TwoWay}" IsPressed="{Binding SearchEnabled, Mode=TwoWay}" 
-                                ItemsSource="{Binding ResultList, Mode=OneWay}" 
+                                ItemsSource="{Binding ResultList, Mode=OneWay}" Watermark=" Search"
                                 SelectionChanged="sbTreeItemsSearch_SelectionChanged" ShowOptions="True">
                     <ui:UISearchBox.OptionsContent>
                         <Grid>
@@ -1466,7 +1466,7 @@
                             </Grid.RowDefinitions>
                             <ui:UISwitch Grid.Row="0" Margin="22,5,5,5" IsChecked="{Binding FilterItems, Mode=TwoWay}"  HeaderPlacement="Right" Header="  Exclude containers from search" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <ui:UIComboBox Width="50" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False" ItemsSource="{Binding ItemsToShow, Mode=OneWay}"/>
+                                <ui:UIComboBox CornerRadius="2" Width="50" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedValue="{Binding ItemsCountToShow, Mode=TwoWay}" Flat="False" ItemsSource="{Binding ItemsToShow, Mode=OneWay}"/>
                                 <TextBlock Margin="5" Text="Show items count" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Grid>

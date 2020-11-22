@@ -23,26 +23,125 @@ namespace Gizmo.HardwareAudit.Controls
     {
         private UIComboBox partScans;
         private ComputerHardwareScanView partScanView;
+        private ScrollViewer partScanViewScrollViewer;
         #region Commands
         public static RoutedCommand ExportAsPngFile = new RoutedCommand();
         
         public static RoutedCommand ExportAsHtmlFile = new RoutedCommand();
 
+        /*
+        public static void SnapShotPNG(this UIElement source, Uri destination, int zoom)
+        {
+            try
+            {
+                double actualHeight = source.RenderSize.Height;
+                double actualWidth = source.RenderSize.Width;
+
+                double renderHeight = actualHeight * zoom;
+                double renderWidth = actualWidth * zoom;
+
+                RenderTargetBitmap renderTarget = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
+                VisualBrush sourceBrush = new VisualBrush(source);
+
+                DrawingVisual drawingVisual = new DrawingVisual();
+                DrawingContext drawingContext = drawingVisual.RenderOpen();
+
+                using (drawingContext)
+                {
+                    drawingContext.PushTransform(new ScaleTransform(zoom, zoom));
+                    drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(actualWidth, actualHeight)));
+                }
+                renderTarget.Render(drawingVisual);
+
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(renderTarget));
+                using (FileStream stream = new FileStream(destination.LocalPath, FileMode.Create, FileAccess.Write))
+                {
+                    encoder.Save(stream);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e);
+            }
+        }
+         
+        public static void ExportToImage(Canvas canvas)
+        {
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            dlg.DefaultExt = "png";
+            dlg.FilterIndex = 2;
+            dlg.FileName = "DesignerImage.png";
+            dlg.RestoreDirectory = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+            string path = dlg.FileName;
+            int selectedFilterIndex = dlg.FilterIndex;
+
+            if(result==true)
+            {
+
+                try
+                {
+                    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                             (int)canvas.ActualWidth, (int)canvas.ActualHeight,
+                              96d, 96d, PixelFormats.Pbgra32);
+                    // needed otherwise the image output is black
+                    canvas.Measure(new Size((int)canvas.ActualWidth, (int)canvas.ActualHeight));
+                    canvas.Arrange(new Rect(new Size((int)canvas.ActualWidth, (int)canvas.ActualHeight)));
+
+                    renderBitmap.Render(canvas);
+                    BitmapEncoder imageEncoder = new PngBitmapEncoder();
+
+
+                    if (selectedFilterIndex == 0)
+                    {
+
+                    }
+                    else if (selectedFilterIndex == 1)
+                    {
+                        imageEncoder = new JpegBitmapEncoder();
+                    }
+                    else if (selectedFilterIndex == 2)
+                    {
+                        imageEncoder = new PngBitmapEncoder();
+                    }
+                    else if (selectedFilterIndex == 3)
+                    {
+                        imageEncoder = new JpegBitmapEncoder();
+                    }
+                    else if (selectedFilterIndex == 4)
+                    {
+                        imageEncoder = new GifBitmapEncoder();
+                    }
+
+
+                    imageEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                    using (FileStream file = File.Create(path))
+                    {
+                        imageEncoder.Save(file);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+         
+        */
         private void ExportAsPngFile_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (partScanView != null)
             {
                 IDialog SaveFileService = new DefaultDialogService();
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)partScanView.ActualWidth, (int)partScanView.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-                rtb.Render(partScanView);
                 var ScanTime = DateTime.Now;
-
                 if (SaveFileService.SaveFileDialog(Item.Name + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "PNG files|*.png") == true)
                 {
-                    PngBitmapEncoder png = new PngBitmapEncoder();
-                    png.Frames.Add(BitmapFrame.Create(rtb));
+                    UpdateLayout();
                     MemoryStream stream = new MemoryStream();
-                    png.Save(stream);
+                    VisualHelper.SnapShotPNG(partScanView).Save(stream);
                     var image = System.Drawing.Image.FromStream(stream);
                     image.Save(SaveFileService.FilePath);
                 }
@@ -51,7 +150,9 @@ namespace Gizmo.HardwareAudit.Controls
         private void ExportAsPngFile_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             if (partScanView != null)
+            {
                 e.CanExecute = (int)partScanView.ActualHeight != 0 && (int)partScanView.ActualWidth != 0;
+            }
             else
                 e.CanExecute = false;
         }
@@ -108,6 +209,7 @@ namespace Gizmo.HardwareAudit.Controls
             base.OnApplyTemplate();
             partScans = GetTemplateChild("PART_Scans") as UIComboBox;
             partScanView = GetTemplateChild("PART_ScanView") as ComputerHardwareScanView;
+            partScanViewScrollViewer = GetTemplateChild("PART_ScanViewScrollViewer") as ScrollViewer;
         }
 
         public TreeItem Item

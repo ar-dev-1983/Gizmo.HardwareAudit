@@ -30,7 +30,7 @@
                                 <Condition  Property="UseCustomIcon" Value="false"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Reports}" />
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         
@@ -40,7 +40,7 @@
                                 <Condition  Property="UseCustomIcon" Value="false"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Report}" />
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Report}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -50,7 +50,7 @@
                                 <Condition  Property="UseCustomIcon" Value="false"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" />
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -60,7 +60,7 @@
                                 <Condition  Property="UseCustomIcon" Value="false"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.None}" />
+                                <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.None}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 

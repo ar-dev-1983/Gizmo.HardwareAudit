@@ -29,7 +29,7 @@ namespace Gizmo.HardwareAudit.Models
         private bool isSelected = false;
         private bool isExpanded = false;
         private bool useCustomIcon = false;
-        private GizmiComputerHardwareIconsEnum customIcon = GizmiComputerHardwareIconsEnum.None;
+        private GizmoComputerHardwareIconsEnum customIcon = GizmoComputerHardwareIconsEnum.None;
         private ReportSettings settings = null;
         public DataTable dataTable = null;
         private bool reportIsBusy = false;
@@ -150,7 +150,7 @@ namespace Gizmo.HardwareAudit.Models
             }
         }
 
-        public GizmiComputerHardwareIconsEnum CustomIcon
+        public GizmoComputerHardwareIconsEnum CustomIcon
         {
             get => customIcon;
             set

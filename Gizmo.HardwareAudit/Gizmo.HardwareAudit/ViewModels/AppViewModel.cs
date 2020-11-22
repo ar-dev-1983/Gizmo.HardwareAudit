@@ -904,7 +904,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                 if (SelectedTreeItem.SharedFolders.Count > 0)
                 {
                     foreach (var node in SelectedTreeItem.SharedFolders)
-                        result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.OpenSharedFolder, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
+                        result.Add(new MenuItem() { Height = 22, Header = node, Command = OpenSharedFolderCommand, CommandParameter = node, Icon = new GizmoIcon() { Icon = GizmoComputerHardwareIconsEnum.OpenSharedFolder, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
                 }
             }
             return result;
@@ -921,7 +921,7 @@ namespace Gizmo.HardwareAudit.ViewModels
                         if (node.IsOpened)
                             foreach (var port in Settings.DefaultCheckPorts)
                                 if (node.Id == port.Id)
-                                    result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmiComputerHardwareIconsEnum.OpenConnection, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
+                                    result.Add(new MenuItem() { Height = 22, Header = port.Description, Command = OpenTCPPortCommand, CommandParameter = port.Id, Icon = new GizmoIcon() { Icon = GizmoComputerHardwareIconsEnum.OpenConnection, FontSize = 16, IconFontFamily = Application.Current.Resources["GizmoIcon"] as FontFamily } });
                 }
             }
             return result;

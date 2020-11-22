@@ -18,10 +18,10 @@
                                     <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
                                 </ui:GizmoIcon.Effect>
                             </ui:GizmoIcon>
-                            <ui:GizmoIcon x:Name="PART_IconState" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Transparent" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputerState}"/>
+                            <ui:GizmoIcon x:Name="PART_IconState" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Transparent" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputerState}"/>
                             <Border x:Name="PART_TooltipPlaceholder" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" CornerRadius="0" Background="Transparent" Visibility="Collapsed" ToolTip="" />
                         </Grid>
-                        <ui:GizmoIcon x:Name="PART_UserIcon" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="{TemplateBinding Foreground}" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmiComputerHardwareIconsEnum.User}"/>
+                        <ui:GizmoIcon x:Name="PART_UserIcon" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="{TemplateBinding Foreground}" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.User}"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="UserProfileSpecified" Value="False">
@@ -31,31 +31,31 @@
                             <Setter TargetName="PART_UserIcon" Property="Foreground" Value="LimeGreen" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="Root">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Root}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Root}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="ActiveDirectory">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.ActiveDirectory}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.ActiveDirectory}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="DomainRoot">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Container2}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Container2}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="DomainSite">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Container2}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Container2}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="Workgroup">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Workgroup}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Workgroup}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="ChildComputer">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="ChildDevice">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.ChildComputer}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputer}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="ChildContainer">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.Container}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.Container}" />
                         </Trigger>
                         <Trigger Property="ItemType" Value="None">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmiComputerHardwareIconsEnum.None}" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="{x:Static haui:GizmoComputerHardwareIconsEnum.None}" />
                         </Trigger>
                         <Trigger Property="ItemStatus" Value="Error">
                             <Setter TargetName="PART_IconState" Property="Foreground" Value="Yellow" />

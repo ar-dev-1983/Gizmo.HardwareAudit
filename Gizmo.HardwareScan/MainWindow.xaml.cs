@@ -115,9 +115,12 @@ namespace Gizmo.HardwareScan
         #region Save as.. Events
         private void SaveAsPNGFile_Click(object sender, RoutedEventArgs e)
         {
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)hsvCurrentScan.ActualWidth, (int)hsvCurrentScan.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            rtb.Render(hsvCurrentScan);
-            appvm.SaveAsPngFile(rtb);
+            if ((int)hsvCurrentScan.ActualHeight != 0 && (int)hsvCurrentScan.ActualWidth != 0)
+            {
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)hsvCurrentScan.ActualWidth, (int)hsvCurrentScan.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+                rtb.Render(hsvCurrentScan);
+                appvm.SaveAsPngFile(rtb);
+            }
         }
 
         private void SaveAsHTMLFile_Click(object sender, RoutedEventArgs e)

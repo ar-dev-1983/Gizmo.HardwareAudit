@@ -6,25 +6,23 @@
     <ControlTemplate  x:Key="UIWindowsLocalUserListBox_Style" TargetType="{x:Type local:UIWindowsLocalUserListBox}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="135"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="680"/>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Grid.Column="0" Margin="0,3,0,0" Height="22" Grid.ColumnSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            <Border Grid.Row="0" Grid.Column="0" Margin="0,3,0,0" Height="22" Grid.ColumnSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                 BorderThickness="1" 
                                 BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}" 
                                 Background="{DynamicResource {ComponentResourceKey ui:UITheme, RowHighlightBrush}}"/>
 
-            <ContentPresenter Grid.Row="0" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Right"
-                                          TextElement.FontWeight="Black" 
-                                          Content="LOCAL USERS"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,3,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Right" FontWeight="Black" Width="125"
+                       Text="LOCAL USERS"/>
 
-            <ItemsPresenter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+            <ItemsPresenter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
         </Grid>
     </ControlTemplate>
 

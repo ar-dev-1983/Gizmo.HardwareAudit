@@ -136,7 +136,7 @@ namespace Gizmo.HardwareScan
                     try
                     {
                         var ScanTime = DateTime.Now;
-                        if (SaveFileDialog(HostName + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "Scan files|*.scan") == true)
+                        if (SaveFileDialog(HostName.ToLower() + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "Scan files|*.scan") == true)
                         {
                             ExportScan(filePath);
                         }
@@ -260,7 +260,7 @@ namespace Gizmo.HardwareScan
             try
             {
                 var ScanTime = DateTime.Now;
-                if (SaveFileDialog(HostName + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "PNG files|*.png") == true)
+                if (SaveFileDialog(HostName.ToLower() + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "PNG files|*.png") == true)
                 {
                     PngBitmapEncoder png = new PngBitmapEncoder();
                     png.Frames.Add(BitmapFrame.Create(rtb));
@@ -278,7 +278,7 @@ namespace Gizmo.HardwareScan
             try
             {
                 var ScanTime = DateTime.Now;
-                if (SaveFileDialog(HostName + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "html files|*.html") == true)
+                if (SaveFileDialog(HostName.ToLower() + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "html files|*.html") == true)
                 {
                     File.WriteAllText(filePath, fileContent);
                 }

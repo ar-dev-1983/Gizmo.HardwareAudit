@@ -26,13 +26,13 @@ namespace Gizmo.HardwareAudit.Interfaces
         bool ChooseContainerDialog(AppSettings settings, TreeItem treeItem, bool useSelectedParentId);
 
         bool UseCustomIcon { get; set; }
-        GizmiComputerHardwareIconsEnum CustomIcon { set; get; }
+        GizmoComputerHardwareIconsEnum CustomIcon { set; get; }
 
         bool ReportContainerSettingsDialog(AppSettings settings);
-        bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon);
+        bool ReportContainerSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon);
 
         bool ReportItemSettingsDialog(AppSettings settings, TreeItem root);
-        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmiComputerHardwareIconsEnum customIcon, TreeItem root, ReportSettings reportSettings);
+        bool ReportItemSettingsDialog(AppSettings settings, string name, string desc, bool useCustomIcon, GizmoComputerHardwareIconsEnum customIcon, TreeItem root, ReportSettings reportSettings);
 
     }
 }
