@@ -3,7 +3,6 @@ using Gizmo.HardwareAudit.Interfaces;
 using Gizmo.HardwareAudit.Models;
 using Gizmo.HardwareAudit.Services;
 using Gizmo.HardwareAuditClasses;
-using Gizmo.HardwareAuditClasses.Enums;
 using Gizmo.HardwareAuditClasses.Helpers;
 using Gizmo.HardwareAuditWPF;
 using Gizmo.WPF;
@@ -13,9 +12,9 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Gizmo.HardwareAudit.Controls
 {
@@ -23,114 +22,14 @@ namespace Gizmo.HardwareAudit.Controls
     {
         private UIComboBox partScans;
         private ComputerHardwareScanView partScanView;
-        private ScrollViewer partScanViewScrollViewer;
+        private UIEnumSwitch partSwitch;
+        private UIPopupButton partExportGroup;
+
         #region Commands
         public static RoutedCommand ExportAsPngFile = new RoutedCommand();
-        
+
         public static RoutedCommand ExportAsHtmlFile = new RoutedCommand();
 
-        /*
-        public static void SnapShotPNG(this UIElement source, Uri destination, int zoom)
-        {
-            try
-            {
-                double actualHeight = source.RenderSize.Height;
-                double actualWidth = source.RenderSize.Width;
-
-                double renderHeight = actualHeight * zoom;
-                double renderWidth = actualWidth * zoom;
-
-                RenderTargetBitmap renderTarget = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
-                VisualBrush sourceBrush = new VisualBrush(source);
-
-                DrawingVisual drawingVisual = new DrawingVisual();
-                DrawingContext drawingContext = drawingVisual.RenderOpen();
-
-                using (drawingContext)
-                {
-                    drawingContext.PushTransform(new ScaleTransform(zoom, zoom));
-                    drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(actualWidth, actualHeight)));
-                }
-                renderTarget.Render(drawingVisual);
-
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(renderTarget));
-                using (FileStream stream = new FileStream(destination.LocalPath, FileMode.Create, FileAccess.Write))
-                {
-                    encoder.Save(stream);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e);
-            }
-        }
-         
-        public static void ExportToImage(Canvas canvas)
-        {
-            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-            dlg.DefaultExt = "png";
-            dlg.FilterIndex = 2;
-            dlg.FileName = "DesignerImage.png";
-            dlg.RestoreDirectory = true;
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> result = dlg.ShowDialog();
-            string path = dlg.FileName;
-            int selectedFilterIndex = dlg.FilterIndex;
-
-            if(result==true)
-            {
-
-                try
-                {
-                    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-                             (int)canvas.ActualWidth, (int)canvas.ActualHeight,
-                              96d, 96d, PixelFormats.Pbgra32);
-                    // needed otherwise the image output is black
-                    canvas.Measure(new Size((int)canvas.ActualWidth, (int)canvas.ActualHeight));
-                    canvas.Arrange(new Rect(new Size((int)canvas.ActualWidth, (int)canvas.ActualHeight)));
-
-                    renderBitmap.Render(canvas);
-                    BitmapEncoder imageEncoder = new PngBitmapEncoder();
-
-
-                    if (selectedFilterIndex == 0)
-                    {
-
-                    }
-                    else if (selectedFilterIndex == 1)
-                    {
-                        imageEncoder = new JpegBitmapEncoder();
-                    }
-                    else if (selectedFilterIndex == 2)
-                    {
-                        imageEncoder = new PngBitmapEncoder();
-                    }
-                    else if (selectedFilterIndex == 3)
-                    {
-                        imageEncoder = new JpegBitmapEncoder();
-                    }
-                    else if (selectedFilterIndex == 4)
-                    {
-                        imageEncoder = new GifBitmapEncoder();
-                    }
-
-
-                    imageEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                    using (FileStream file = File.Create(path))
-                    {
-                        imageEncoder.Save(file);
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-        }
-         
-        */
         private void ExportAsPngFile_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (partScanView != null)
@@ -139,23 +38,17 @@ namespace Gizmo.HardwareAudit.Controls
                 var ScanTime = DateTime.Now;
                 if (SaveFileService.SaveFileDialog(Item.Name + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "PNG files|*.png") == true)
                 {
-                    UpdateLayout();
+                    var partScanViewBackground = partScanView.Background;
+                    partScanView.Background = ThemeManager.GetResource(Theme, "WindowBackgroundBrush") as SolidColorBrush;
                     MemoryStream stream = new MemoryStream();
                     VisualHelper.SnapShotPNG(partScanView).Save(stream);
                     var image = System.Drawing.Image.FromStream(stream);
                     image.Save(SaveFileService.FilePath);
+                    partScanView.Background = partScanViewBackground;
                 }
             }
         }
-        private void ExportAsPngFile_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (partScanView != null)
-            {
-                e.CanExecute = (int)partScanView.ActualHeight != 0 && (int)partScanView.ActualWidth != 0;
-            }
-            else
-                e.CanExecute = false;
-        }
+        
         private Dictionary<string, fakeColor> Pupulate()
         {
             var BrushList = new Dictionary<string, fakeColor>();
@@ -171,8 +64,7 @@ namespace Gizmo.HardwareAudit.Controls
 
         private void ExportAsHtmlFile_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var partSwitch = GetTemplateChild("PART_Switch") as UIEnumSwitch;
-            if (partSwitch != null)
+            if (partSwitch!=null)
             {
                 if (partScans != null)
                 {
@@ -182,7 +74,7 @@ namespace Gizmo.HardwareAudit.Controls
                         var ScanTime = DateTime.Now;
                         if (SaveFileService.SaveFileDialog(Item.Name + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "html files|*.html") == true)
                         {
-                            var result = htmlSerializer.Serialize(Item.Name, partScans.SelectedValue as ComputerHardwareScan, Pupulate(), (UIViewModeEnum)partSwitch.SelectedValue, Item.Description, Item.Address, Item.FQDN, true);
+                            var result = htmlSerializer.Serialize(Item.Name, partScans.SelectedValue as ComputerHardwareScan, Pupulate(), partSwitch.SelectedItems, Item.Description, Item.Address, Item.FQDN, true);
                             File.WriteAllText(SaveFileService.FilePath, result);
                         }
                     }
@@ -194,9 +86,10 @@ namespace Gizmo.HardwareAudit.Controls
         public TreeItemView()
 : base()
         {
-            DefaultStyleKey = typeof(TreeItemView);
-            CommandBindings.Add(new CommandBinding(ExportAsPngFile, ExportAsPngFile_Executed, ExportAsPngFile_Enabled));
+            CommandBindings.Add(new CommandBinding(ExportAsPngFile, ExportAsPngFile_Executed));
             CommandBindings.Add(new CommandBinding(ExportAsHtmlFile, ExportAsHtmlFile_Executed));
+
+            DefaultStyleKey = typeof(TreeItemView);
         }
 
         static TreeItemView()
@@ -207,9 +100,28 @@ namespace Gizmo.HardwareAudit.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            partScans = GetTemplateChild("PART_Scans") as UIComboBox;
-            partScanView = GetTemplateChild("PART_ScanView") as ComputerHardwareScanView;
-            partScanViewScrollViewer = GetTemplateChild("PART_ScanViewScrollViewer") as ScrollViewer;
+            partScans = GetTemplateChild("partScans") as UIComboBox;
+            partScanView = GetTemplateChild("partScanView") as ComputerHardwareScanView;
+            partSwitch = GetTemplateChild("partSwitch") as UIEnumSwitch;
+            partExportGroup = GetTemplateChild("partExportGroup") as UIPopupButton;
+            partExportGroup.PopupOpened -= PartExportGroup_PopupOpened;
+            partExportGroup.PopupOpened += PartExportGroup_PopupOpened;
+            var viewModesBinding = new Binding("SelectedItems") 
+            {
+                Mode=  BindingMode.OneWay,
+                Source=partSwitch
+            };
+            partScanView.SetBinding(ComputerHardwareScanView.ViewModesProperty, viewModesBinding);
+        }
+
+        private void PartExportGroup_PopupOpened(object sender, RoutedEventArgs e)
+        {
+            if (partScanView != null && ScanAvailable)
+            {
+                CanBeExported = (int)partScanView.ActualHeight != 0 && (int)partScanView.ActualWidth != 0;
+            }
+            else
+                CanBeExported = false;
         }
 
         public TreeItem Item
@@ -232,6 +144,11 @@ namespace Gizmo.HardwareAudit.Controls
             get => (Visibility)GetValue(ScanControlsVisibilityProperty);
             set => SetValue(ScanControlsVisibilityProperty, value);
         }
+        public bool CanBeExported
+        {
+            get => (bool)GetValue(CanBeExportedProperty);
+            set => SetValue(CanBeExportedProperty, value);
+        }
 
         public UIThemeEnum Theme
         {
@@ -240,9 +157,10 @@ namespace Gizmo.HardwareAudit.Controls
         }
         public static readonly DependencyProperty ItemProperty = DependencyProperty.Register("Item", typeof(TreeItem), typeof(TreeItemView), new UIPropertyMetadata(null, new PropertyChangedCallback(OnItemPropertyChanged)));
         public static readonly DependencyProperty ScanAvailableProperty = DependencyProperty.Register("ScanAvailable", typeof(bool), typeof(TreeItemView), new UIPropertyMetadata(false));
-        public static readonly DependencyProperty IsChildComputerProperty = DependencyProperty.Register("IsChildComputer", typeof(Visibility), typeof(TreeItemView), new UIPropertyMetadata(Visibility.Collapsed));
-        public static readonly DependencyProperty ScanControlsVisibilityProperty = DependencyProperty.Register("ScanControlsVisibility", typeof(Visibility), typeof(TreeItemView), new UIPropertyMetadata(Visibility.Collapsed));
+        public static readonly DependencyProperty IsChildComputerProperty = DependencyProperty.Register("IsChildComputer", typeof(Visibility), typeof(TreeItemView), new UIPropertyMetadata(Visibility.Hidden));
+        public static readonly DependencyProperty ScanControlsVisibilityProperty = DependencyProperty.Register("ScanControlsVisibility", typeof(Visibility), typeof(TreeItemView), new UIPropertyMetadata(Visibility.Hidden));
         public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof(UIThemeEnum), typeof(TreeItemView), new UIPropertyMetadata(UIThemeEnum.BlueDark));
+        public static readonly DependencyProperty CanBeExportedProperty = DependencyProperty.Register("CanBeExported", typeof(bool), typeof(TreeItemView), new UIPropertyMetadata(false));
 
         private static void OnItemPropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
@@ -254,8 +172,8 @@ namespace Gizmo.HardwareAudit.Controls
         {
             if (Item != null)
             {
-                IsChildComputer = Item.Type == ItemTypeEnum.ChildComputer ? Visibility.Visible : Visibility.Collapsed;
-                ScanControlsVisibility = Item.Type == ItemTypeEnum.ChildComputer ? Item.ScanAvailable ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
+                IsChildComputer = Item.Type == ItemTypeEnum.ChildComputer ? Visibility.Visible : Visibility.Hidden;
+                ScanControlsVisibility = Item.Type == ItemTypeEnum.ChildComputer ? Item.ScanAvailable ? Visibility.Visible : Visibility.Hidden : Visibility.Hidden;
                 Item.HardwareScans.CollectionChanged -= HardwareScansChanged;
                 Item.HardwareScans.CollectionChanged += HardwareScansChanged;
                 if (Item.ScanAvailable)
@@ -296,6 +214,7 @@ namespace Gizmo.HardwareAudit.Controls
                             ScanAvailable = true;
                             partScans.SelectedIndex = -1;
                             partScans.UpdateLayout();
+                            partScanView.UpdateLayout();
                             partScans.SelectedIndex = 0;
                         }
                         else
@@ -303,8 +222,8 @@ namespace Gizmo.HardwareAudit.Controls
                             ScanAvailable = false;
                             partScans.SelectedIndex = -1;
                         }
-                        IsChildComputer = Item.Type == ItemTypeEnum.ChildComputer ? Visibility.Visible : Visibility.Collapsed;
-                        ScanControlsVisibility = Item.Type == ItemTypeEnum.ChildComputer ? Item.ScanAvailable ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
+                        IsChildComputer = Item.Type == ItemTypeEnum.ChildComputer ? Visibility.Visible : Visibility.Hidden;
+                        ScanControlsVisibility = Item.Type == ItemTypeEnum.ChildComputer ? Item.ScanAvailable ? Visibility.Visible : Visibility.Hidden : Visibility.Hidden;
                     }
                 }
             }

@@ -4,7 +4,8 @@
     xmlns:local="clr-namespace:Gizmo.HardwareAudit.Controls"
     xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
     xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF">
-    <FontFamily x:Key="HAIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
+    
+    <FontFamily x:Key="GizmoIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
 
     <Style TargetType="{x:Type local:TreeItemIcon}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
@@ -13,15 +14,15 @@
                 <ControlTemplate TargetType="{x:Type local:TreeItemIcon}">
                     <StackPanel Orientation="Horizontal">
                         <Grid>
-                            <ui:GizmoIcon x:Name="PART_Icon" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
+                            <ui:GizmoIcon x:Name="PART_Icon" IconFontFamily="{StaticResource GizmoIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
                                 <ui:GizmoIcon.Effect>
                                     <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
                                 </ui:GizmoIcon.Effect>
                             </ui:GizmoIcon>
-                            <ui:GizmoIcon x:Name="PART_IconState" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Transparent" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputerState}"/>
+                            <ui:GizmoIcon x:Name="PART_IconState" IconFontFamily="{StaticResource GizmoIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Transparent" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ChildComputerState}"/>
                             <Border x:Name="PART_TooltipPlaceholder" Grid.Column="1" BorderThickness="0" BorderBrush="Transparent" CornerRadius="0" Background="Transparent" Visibility="Collapsed" ToolTip="" />
                         </Grid>
-                        <ui:GizmoIcon x:Name="PART_UserIcon" IconFontFamily="{StaticResource HAIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="{TemplateBinding Foreground}" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.User}"/>
+                        <ui:GizmoIcon x:Name="PART_UserIcon" IconFontFamily="{StaticResource GizmoIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="{TemplateBinding Foreground}" TextAlignment="Center" Visibility="Collapsed" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.User}"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="UserProfileSpecified" Value="False">

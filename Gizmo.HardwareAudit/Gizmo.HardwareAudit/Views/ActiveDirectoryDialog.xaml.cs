@@ -35,7 +35,7 @@ namespace Gizmo.HardwareAudit
                 if (!IPAddress.TryParse(TbDomainName.Text, out _))
                 {
                     DialogResult = CbUserProfile.SelectedIndex != -1;
-                    (DataContext as DomainDiscoverySettingsViewModel).Settings.Mode = (DomainDiscoveryModeEnum)EwMode.LastSelectedItem;
+                    (DataContext as DomainDiscoverySettingsViewModel).Settings.Mode = (DomainDiscoveryModeEnum)EwMode.SelectedItem;
                 }
                 else
                 {

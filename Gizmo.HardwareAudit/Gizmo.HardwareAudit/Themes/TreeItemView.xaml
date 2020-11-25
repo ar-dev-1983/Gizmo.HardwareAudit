@@ -9,7 +9,7 @@
 
     <converters:ViewModeEnumToIconConverter x:Key="ViewModeEnumToIconConverter"/>
 
-    <FontFamily x:Key="HAIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
+    <FontFamily x:Key="GizmoIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
 
     <Style TargetType="{x:Type local:TreeItemView}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
@@ -49,29 +49,29 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Margin="5,3,5,0" FontWeight="Black" VerticalAlignment="Center" TextAlignment="Right" Text="Hardware Scan"/>
-                            <ui:UIComboBox x:Name="PART_Scans" Flat="False" Grid.Column="2" VerticalAlignment="Center" Margin="1,3,1,0" CornerRadius="2"
+                            <ui:UIComboBox x:Name="partScans" Flat="False" Grid.Column="2" VerticalAlignment="Center" Margin="1,3,1,0" CornerRadius="2"
                                            ItemsSource="{Binding Item.HardwareScans, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, NotifyOnTargetUpdated=True}" 
                                            DisplayMemberPath="ScanTime"/>
                             <ui:UIControlGroup Grid.Column="3"  VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="3,3,1,0" CornerRadius="2">
                                 <ui:UIButton Width="30" Command="{Binding ImportScanCommand}">
                                     <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Import}" FontSize="16"/>
                                 </ui:UIButton>
-                                <ui:UIPopupButton Width="48">
+                                <ui:UIPopupButton Width="48" x:Name="partExportGroup">
                                     <ui:UIPopupButton.Content>
                                         <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Export}" FontSize="16"/>
                                     </ui:UIPopupButton.Content>
                                     <ui:UIPopupButton.Items>
-                                        <MenuItem Header="Export Full Scan" IsEnabled="{TemplateBinding ScanAvailable}" Command="{Binding ExportScanCommand}" CommandParameter="{Binding ElementName=PART_Scans, Path=SelectedIndex}">
+                                        <MenuItem Header="Export Full Scan" IsEnabled="{TemplateBinding ScanAvailable}" Command="{Binding ExportScanCommand}" CommandParameter="{Binding ElementName=partScans, Path=SelectedIndex}">
                                             <MenuItem.Icon>
                                                 <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileText}" FontSize="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Export current view as png file" Command="{x:Static local:TreeItemView.ExportAsPngFile}" IsEnabled="{TemplateBinding ScanAvailable}">
+                                        <MenuItem Header="Export current view as png file" Command="{x:Static local:TreeItemView.ExportAsPngFile}" IsEnabled="{TemplateBinding CanBeExported}">
                                             <MenuItem.Icon>
                                                 <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileImage}" FontSize="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Export current view as html file" Command="{x:Static local:TreeItemView.ExportAsHtmlFile}" IsEnabled="{TemplateBinding ScanAvailable}">
+                                        <MenuItem Header="Export current view as html file" Command="{x:Static local:TreeItemView.ExportAsHtmlFile}" IsEnabled="{TemplateBinding CanBeExported}">
                                             <MenuItem.Icon>
                                                 <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.FileHtml}" FontSize="16"/>
                                             </MenuItem.Icon>
@@ -83,7 +83,7 @@
                                         <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Clear2}" FontSize="16"/>
                                     </ui:UIPopupButton.Content>
                                     <ui:UIPopupButton.Items>
-                                        <MenuItem Header="Delete selected" IsEnabled="{TemplateBinding ScanAvailable}" Command="{Binding DeleteScanCommand}" CommandParameter="{Binding ElementName=PART_Scans, Path=SelectedIndex}">
+                                        <MenuItem Header="Delete selected" IsEnabled="{TemplateBinding ScanAvailable}" Command="{Binding DeleteScanCommand}" CommandParameter="{Binding ElementName=partScans, Path=SelectedIndex}">
                                             <MenuItem.Icon>
                                                 <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Clear2}" FontSize="16"/>
                                             </MenuItem.Icon>
@@ -112,18 +112,20 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <ui:UIEnumSwitch x:Name="PART_Switch" Margin="147,0,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Height="24" CornerRadius="2"
+                            <ui:UIEnumSwitch x:Name="partSwitch" Margin="147,0,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Height="24" CornerRadius="2"
                                              SourceEnum="{x:Type haenums:UIViewModeEnum}" 
-                                             SelectionMode="Single" 
+                                             SelectionMode="MultipleWithDefault" 
                                              SelectedIndex="0">
                                 <ui:UIEnumSwitch.ItemTemplate>
                                     <DataTemplate>
-                                        <ui:GizmoIcon FontSize="16" Icon="{Binding Converter={StaticResource ViewModeEnumToIconConverter}}" IconFontFamily="{StaticResource HAIcon}"/>
+                                        <ui:GizmoIcon FontSize="16" Icon="{Binding Converter={StaticResource ViewModeEnumToIconConverter}}" IconFontFamily="{StaticResource GizmoIcon}"/>
                                     </DataTemplate>
                                 </ui:UIEnumSwitch.ItemTemplate>
                             </ui:UIEnumSwitch>
-                            <ScrollViewer x:Name="PART_ScanViewScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" CanContentScroll="True">
-                                <haui:ComputerHardwareScanView x:Name="PART_ScanView" Icons="{StaticResource HAIcon}"  ViewMode="{Binding ElementName=PART_Switch, Path=LastSelectedItem, Mode=OneWay}" Item="{Binding ElementName=PART_Scans, Path=SelectedItem, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="1512" Width="1512"/>
+                            <ScrollViewer x:Name="partScanViewScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" CanContentScroll="True">
+                                <haui:ComputerHardwareScanView x:Name="partScanView"  VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="1512" Width="1512"
+                                                               Item="{Binding ElementName=partScans, Path=SelectedItem, Mode=OneWay}"
+                                                               Icons="{StaticResource GizmoIcon}"/>
                             </ScrollViewer>
                         </Grid>
                     </Grid>

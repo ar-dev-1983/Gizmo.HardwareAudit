@@ -45,8 +45,16 @@ namespace Gizmo.HardwareAudit
 
         private void PbUserPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            PasswordBox pBox = sender as PasswordBox;
+            UIPasswordBox pBox = sender as UIPasswordBox;
             SecurePasswordAttachedProperties.SetEncryptedPassword(pBox, pBox.SecurePassword);
+        }
+
+        private void lbUserProfilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                pbUserPassword.SecurePassword = ((sender as ListView).SelectedItem as UserProfile).UserPassword;
+            }
         }
     }
 }

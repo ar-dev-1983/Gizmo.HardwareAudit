@@ -4,7 +4,8 @@
     xmlns:local="clr-namespace:Gizmo.HardwareAudit.Controls"
     xmlns:ui="clr-namespace:Gizmo.WPF;assembly=Gizmo.WPF"
     xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF">
-    <FontFamily x:Key="HAIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
+    
+    <FontFamily x:Key="GizmoIcon">/Resources/Fonts/Gizmo.ComputerHardwareIconFont.ttf#Gizmo.ComputerHardwareIconFont</FontFamily>
 
     <Style TargetType="{x:Type local:ReportItemIcon}">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" />
@@ -12,12 +13,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ReportItemIcon}">
                     <StackPanel Orientation="Horizontal">
-                        <ui:GizmoIcon x:Name="PART_Icon" Focusable="False" VerticalAlignment="Center" IconFontFamily="{StaticResource HAIcon}" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
+                        <ui:GizmoIcon x:Name="PART_Icon" Focusable="False" VerticalAlignment="Center" IconFontFamily="{StaticResource GizmoIcon}" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
                             <ui:GizmoIcon.Effect>
                                 <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
                             </ui:GizmoIcon.Effect>
                         </ui:GizmoIcon>
-                        <ui:GizmoIcon x:Name="PART_Icon2" Visibility="Collapsed" IconFontFamily="{StaticResource HAIcon}" Icon="{TemplateBinding CustomIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
+                        <ui:GizmoIcon x:Name="PART_Icon2" Visibility="Collapsed" IconFontFamily="{StaticResource GizmoIcon}" Icon="{TemplateBinding CustomIcon}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="{TemplateBinding Foreground}" TextAlignment="Center">
                             <ui:GizmoIcon.Effect>
                                 <DropShadowEffect Color="{DynamicResource {ComponentResourceKey ui:UITheme, ShadowColor}}" BlurRadius="1" Opacity="1" ShadowDepth="0"/>
                             </ui:GizmoIcon.Effect>

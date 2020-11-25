@@ -196,7 +196,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListView x:Name="lbUserProfilesList" Grid.RowSpan="4" Margin="5" SelectedIndex="{Binding SelectedUserProfileIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding UserProfiles}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListView x:Name="lbUserProfilesList" Grid.RowSpan="4" Margin="5" SelectedIndex="{Binding SelectedUserProfileIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding UserProfiles}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="lbUserProfilesList_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>
@@ -236,8 +236,7 @@
                         <TextBlock Grid.Row="2" TextAlignment="Right" Margin="4,2" VerticalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}" Text="User Password:"/>
                         <ui:UITextBox DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" Text="{Binding Path=ProfileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" Grid.Row="0" Margin="5" Height="26" VerticalAlignment="Center" CornerRadius="2"/>
                         <ui:UITextBox DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" Text="{Binding Path=UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" Grid.Row="1" Margin="5" Height="26" VerticalAlignment="Center" CornerRadius="2"/>
-                        <PasswordBox x:Name="pbUserPassword"  Grid.Column="1" Grid.Row="2" Margin="5" VerticalAlignment="Center" Behaviors:SecurePasswordAttachedProperties.EncryptedPassword="{Binding Path=UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" PasswordChanged="PbUserPassword_PasswordChanged"  Height="26" >
-                        </PasswordBox>
+                        <ui:UIPasswordBox x:Name="pbUserPassword"  Grid.Column="1" Grid.Row="2" Margin="5" VerticalAlignment="Center" Behaviors:SecurePasswordAttachedProperties.EncryptedPassword="{Binding Path=UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding ElementName=lbUserProfilesList, Path=SelectedItem}" PasswordChanged="PbUserPassword_PasswordChanged"  Height="26" CornerRadius="2" />
                     </Grid>
                 </Border>
             </Grid>

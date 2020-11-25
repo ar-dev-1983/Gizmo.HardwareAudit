@@ -35,7 +35,7 @@
                     <TextBlock x:Name="tbSetUnlock" Margin="5" FontSize="18" Text="Create master password for sensitive data" TextWrapping="Wrap"/>
                     <TextBlock Margin="5" FontSize="13" Text="Master password is required to encrypt user profiles stored in application" TextWrapping="Wrap"/>
                     <TextBlock x:Name="tbSetUnlockTip" Margin="5" FontSize="13" Text="* password is required" TextWrapping="Wrap"/>
-                    <PasswordBox Margin="5" x:Name="tbSetUnlockPassword" VerticalAlignment="Center" KeyDown="TbSetUnlockPassword_KeyDown"/>
+                    <ui:UIPasswordBox CornerRadius="2" Margin="5" Height="24" x:Name="tbSetUnlockPassword" VerticalAlignment="Center" KeyDown="TbSetUnlockPassword_KeyDown"/>
                     <ui:UISwitch Margin="5" x:Name="swScope" VerticalAlignment="Center" Header="Encrypt with Current User?"/>
                     <ui:UIButton x:Name="btnSetUnlock" Margin="5" Width="80" Content="SAVE" Flat="False" Height="24" CornerRadius="12" Click="BtnSetUnlock_Click"/>
                 </StackPanel>
@@ -45,8 +45,8 @@
                     <TextBlock x:Name="tbUnlock" Margin="5" FontSize="18" Text="Enter master password to unlock" TextWrapping="Wrap"/>
                     <TextBlock x:Name="tbUnlockTip" Margin="5" FontSize="13" Text="* password is required" TextWrapping="Wrap" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, DisabledWindowForegroundBrush}}"/>
                     <TextBlock Margin="5" FontSize="13" Text="* to change master password click CHANGE button" TextWrapping="Wrap" Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, DisabledWindowForegroundBrush}}"/>
-                    <PasswordBox Margin="5" x:Name="tbUnlockPassword" VerticalAlignment="Center" KeyDown="TbUnlockPassword_KeyDown"/>
-                    <PasswordBox Margin="5" x:Name="tbNewUnlockPassword" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <ui:UIPasswordBox CornerRadius="2" Margin="5" Height="24" x:Name="tbUnlockPassword" VerticalAlignment="Center" KeyDown="TbUnlockPassword_KeyDown"/>
+                    <ui:UIPasswordBox CornerRadius="2" Margin="5" Height="24" x:Name="tbNewUnlockPassword" VerticalAlignment="Center" Visibility="Collapsed" Watermark="New password"/>
                     <ui:UISwitch Margin="5" x:Name="swNewScope" VerticalAlignment="Center" Header="Encrypt with Current User?" Visibility="Collapsed"/>
                     <StackPanel x:Name="spUnlock" Orientation="Horizontal" HorizontalAlignment="Center">
                         <ui:UIButton x:Name="btnUnlock" Margin="5" Width="80" Content="UNLOCK" Flat="False" Height="24" CornerRadius="12" Click="BtnUnlock_Click"/>

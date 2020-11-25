@@ -1,5 +1,6 @@
 ﻿using Gizmo.HardwareAuditClasses.Enums;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Gizmo.HardwareAuditClasses.Helpers
@@ -71,7 +72,7 @@ namespace Gizmo.HardwareAuditClasses.Helpers
          Of course, i shouldn't write html serialization this way, but how to make serialization exactly in the same form as the scan is displayed in the program?
          If I find another way, this section will be rewritten.
          */
-        public static string Serialize(string name, ComputerHardwareScan sc, Dictionary<string, fakeColor> BrushList, UIViewModeEnum ViewMode, string description = "", string ipaddres = "", string fqdn = "", bool includeFullInfo = false)
+        public static string Serialize(string name, ComputerHardwareScan sc, Dictionary<string, fakeColor> BrushList, ObservableCollection<object> ViewModes, string description = "", string ipaddres = "", string fqdn = "", bool includeFullInfo = false)
         {
             var fileContentTemplate = new StringBuilder();
             fileContentTemplate.AppendLine("<!DOCTYPE html>");
@@ -106,200 +107,280 @@ namespace Gizmo.HardwareAuditClasses.Helpers
                 fileContentTemplate.AppendLine(GetOneValue("FQDN", fqdn));
             }
 
-            switch (ViewMode)
+            if (ViewModes != null)
             {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.SystemEnclosure:
+                if (ViewModes.Count != 0)
+                {
+                    bool showAll = false;
 
-                    fileContentTemplate.AppendLine(GetHeader("SYSTEM"));
-                    fileContentTemplate.AppendLine(GetFourValues("System Enclosure", sc.SystemInformation.ManufacturerName, "Product", sc.SystemInformation.ProductName, "Serial Number", sc.SystemInformation.SerialNumber, "Version", sc.SystemInformation.Version));
-                    fileContentTemplate.AppendLine(GetFourValues("Motherboard", sc.MotherBoardInformation.ManufacturerName, "Product", sc.MotherBoardInformation.ProductName, "Serial Number", sc.MotherBoardInformation.SerialNumber, "Version", sc.MotherBoardInformation.Version));
-                    fileContentTemplate.AppendLine(GetHeader("OS"));
-                    fileContentTemplate.AppendLine(GetFourValues("Manufacturer", sc.WindowsInformation.Manufacturer, "Product", sc.WindowsInformation.Name, "Version", sc.WindowsInformation.Version, "Architecture", sc.WindowsInformation.OSArchitecture));
-                    fileContentTemplate.AppendLine(GetFourValues("Install Date", sc.WindowsInformation.InstallDate, "Directory", sc.WindowsInformation.WindowsDirectory, "Total Memory", sc.WindowsInformation.TotalMemory, "Aviailable Memory", sc.WindowsInformation.AviailableMemory));
-                    fileContentTemplate.AppendLine(GetOneValue("LoggedInUser", sc.LoggedInUser));
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.CPUs:
-
-                    if (sc.IsCPUsPresent)
+                    foreach (var node in ViewModes)
                     {
-                        fileContentTemplate.AppendLine(GetHeader("CPU"));
-                        foreach (var node in sc.CPUs)
+                        if (Equals(node, UIViewModeEnum.All))
                         {
-                            fileContentTemplate.AppendLine(GetCPUValue(node.SlotLocator, node.ManufacturerName, "Model", node.Version, "Cores", node.CoreCount.ToString(), "Threads", node.ThreadCount.ToString()));
+                            showAll = true;
                         }
                     }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.MemoryDevices:
 
-                    if (sc.IsMemoryDevicesPresent)
+                    if (showAll)
                     {
-                        fileContentTemplate.AppendLine(GetHeader("MEMORY DEVICES"));
-                        foreach (var node in sc.MemoryDevices)
+                        SystemEnclosure(sc, fileContentTemplate);
+                        CPUs(sc, fileContentTemplate);
+                        MemoryDevices(sc, fileContentTemplate);
+                        VideoControllers(sc, fileContentTemplate);
+                        Displays(sc, fileContentTemplate);
+                        NetworkAdapters(sc, fileContentTemplate);
+                        PhysicalDrives(sc, fileContentTemplate);
+                        Partitions(sc, fileContentTemplate);
+                        Licenses(sc, fileContentTemplate);
+                        Printers(sc, fileContentTemplate);
+                        LocalUsers(sc, fileContentTemplate);
+                        LocalGroups(sc, fileContentTemplate);
+                    }
+                    else
+                    { 
+                        foreach (var node in ViewModes)
                         {
-                            fileContentTemplate.AppendLine(GetMemoryDeviceValue(string.Empty, node.MemoryTypeString, "Vendor", node.ManufacturerName, "Part Number", node.PartNumber, "Size", node.SizeString));
-                            if (sc.MemoryDevices.IndexOf(node) != sc.MemoryDevices.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                            if (Equals(node, UIViewModeEnum.SystemEnclosure))
+                            {
+                                SystemEnclosure(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.CPUs))
+                            {
+                                CPUs(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.MemoryDevices))
+                            {
+                                MemoryDevices(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.VideoControllers))
+                            {
+                                VideoControllers(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.Displays))
+                            {
+                                Displays(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.NetworkAdapters))
+                            {
+                                NetworkAdapters(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.PhysicalDrives))
+                            {
+                                PhysicalDrives(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.Partitions))
+                            {
+                                Partitions(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.Licenses))
+                            {
+                                Licenses(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.Printers))
+                            {
+                                Printers(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.LocalUsers))
+                            {
+                                LocalUsers(sc, fileContentTemplate);
+                            }
+                            else if (Equals(node, UIViewModeEnum.LocalGroups))
+                            {
+                                LocalGroups(sc, fileContentTemplate);
+                            }
                         }
                     }
-                    break;
+                }
+                else
+                {
+                    SystemEnclosure(sc, fileContentTemplate);
+                    CPUs(sc, fileContentTemplate);
+                    MemoryDevices(sc, fileContentTemplate);
+                    VideoControllers(sc, fileContentTemplate);
+                    Displays(sc, fileContentTemplate);
+                    NetworkAdapters(sc, fileContentTemplate);
+                    PhysicalDrives(sc, fileContentTemplate);
+                    Partitions(sc, fileContentTemplate);
+                    Licenses(sc, fileContentTemplate);
+                    Printers(sc, fileContentTemplate);
+                    LocalUsers(sc, fileContentTemplate);
+                    LocalGroups(sc, fileContentTemplate);
+                }
             }
-            switch (ViewMode)
+            else
             {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.VideoControllers:
-
-                    if (sc.IsVideoControllersPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("VIDEO CARDS"));
-                        foreach (var node in sc.VideoControllers)
-                        {
-                            fileContentTemplate.AppendLine(GetVideoControllerValue("Product", node.Name, "CPU", node.VideoProcessor, "Mode", node.VideoModeDescription));
-                        }
-                    }
-                    break;
+                SystemEnclosure(sc, fileContentTemplate);
+                CPUs(sc, fileContentTemplate);
+                MemoryDevices(sc, fileContentTemplate);
+                VideoControllers(sc, fileContentTemplate);
+                Displays(sc, fileContentTemplate);
+                NetworkAdapters(sc, fileContentTemplate);
+                PhysicalDrives(sc, fileContentTemplate);
+                Partitions(sc, fileContentTemplate);
+                Licenses(sc, fileContentTemplate);
+                Printers(sc, fileContentTemplate);
+                LocalUsers(sc, fileContentTemplate);
+                LocalGroups(sc, fileContentTemplate);
             }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.Displays:
 
-                    if (sc.IsMonitorsPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("DISPLAYS"));
-                        foreach (var node in sc.Monitors)
-                        {
-                            fileContentTemplate.AppendLine(GetDisplayValue("Vendor", node.Manufacturer, "Product", node.MonitorModel, "Serial Number", node.MonitorSerialNumber));
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.NetworkAdapters:
-
-                    if (sc.IsNetworkAdaptersPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("NETWORK ADAPTERS"));
-                        foreach (var node in sc.NetworkAdapters)
-                        {
-                            fileContentTemplate.AppendLine(GetNetworkAdapterValue("Product", node.Adapter, "IP", node.IPAddress, "Mask", node.SubnetMasks, "Geteway", node.DefaultGeteway, "MAC", node.MAC, "DHCP", node.DHCP_Enabled, "DHCP Server", node.DHCP_ServerIP));
-                            if (sc.NetworkAdapters.IndexOf(node) != sc.NetworkAdapters.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.PhysicalDrives:
-
-                    if (sc.IsPhysicalDrivesPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("PHYSICAL DRIVES"));
-                        foreach (var node in sc.PhysicalDrives)
-                        {
-                            fileContentTemplate.AppendLine(GetPhsicalDriveValue("Product", node.Model, "Serial Number", node.SerialNumber, "Size", node.Size));
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.Partitions:
-
-                    if (sc.IsLogicalDrivesPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("PARTITIONS"));
-                        foreach (var node in sc.LogicalDrives)
-                        {
-                            fileContentTemplate.AppendLine(GetLogicalDriveValue(node.Letter, node.TotalSize, "Aviailable Size", node.AviailableSize));
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.Licenses:
-
-                    if (sc.IsSoftwareLicensingProductsPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("MS LICENSES"));
-                        foreach (var node in sc.SoftwareLicensingProducts)
-                        {
-                            fileContentTemplate.AppendLine(GetSoftwareLicencingProductValue("Name", node.Name, "Channel", node.Description, "Status", node.LicenseStatus, "Partial Product Key", node.PatrialProductKey, "Type", node.LicenseFamily, "Product Key ID", node.ProductKeyID));
-                            if (sc.SoftwareLicensingProducts.IndexOf(node) != sc.SoftwareLicensingProducts.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.Printers:
-
-                    if (sc.IsPrintersPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("PRINTERS"));
-                        foreach (var node in sc.Printers)
-                        {
-                            fileContentTemplate.AppendLine(GetPrinterValue("Name", node.DefaultPrinter, "Port", node.DefaultPrinterPortName, "Local", node.IsLocal.ToString(), "Network", node.IsNetwork.ToString(), "Shared", node.IsShared.ToString()));
-                            if (sc.Printers.IndexOf(node) != sc.Printers.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.LocalUsers:
-
-                    if (sc.IsWindowsLocalUsersPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("LOCAL USERS"));
-                        foreach (var node in sc.WindowsLocalUsers)
-                        {
-                            fileContentTemplate.AppendLine(GetLocalUserValue("Name", node.Name, "Caption", node.Caption, "Description", node.Description, "Active", node.IsActive.ToString(), "Status", node.Status, "Changeable", node.PasswordChangeable.ToString(), "Expires", node.PasswordExpires.ToString(), "Required", node.PasswordRequired.ToString()));
-                            if (sc.WindowsLocalUsers.IndexOf(node) != sc.WindowsLocalUsers.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
-                        }
-                    }
-                    break;
-            }
-            switch (ViewMode)
-            {
-                case UIViewModeEnum.All:
-                case UIViewModeEnum.LocalGroups:
-
-                    if (sc.IsWindowsLocalGroupsPresent)
-                    {
-                        fileContentTemplate.AppendLine(GetHeader("LOCAL GROUPS"));
-                        foreach (var node in sc.WindowsLocalGroups)
-                        {
-                            fileContentTemplate.AppendLine(GetLocalGroupValue("Name", node.Name, "Caption", node.Caption, "Description", node.Description, "Local", node.IsLocal.ToString(), "Status", node.Status, "Users", string.Join("<br>", node.MembersInOneLine.Split('\n'))));
-                            if (sc.WindowsLocalGroups.IndexOf(node) != sc.WindowsLocalGroups.Count - 1)
-                                fileContentTemplate.AppendLine("<hr class=\"separator\">");
-                        }
-                    }
-                    break;
-            }
             fileContentTemplate.AppendLine("</body>");
 
             return fileContentTemplate.ToString();
+        }
+
+        private static void LocalGroups(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsWindowsLocalGroupsPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("LOCAL GROUPS"));
+                foreach (var node in sc.WindowsLocalGroups)
+                {
+                    fileContentTemplate.AppendLine(GetLocalGroupValue("Name", node.Name, "Caption", node.Caption, "Description", node.Description, "Local", node.IsLocal.ToString(), "Status", node.Status, "Users", string.Join("<br>", node.MembersInOneLine.Split('\n'))));
+                    if (sc.WindowsLocalGroups.IndexOf(node) != sc.WindowsLocalGroups.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void LocalUsers(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsWindowsLocalUsersPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("LOCAL USERS"));
+                foreach (var node in sc.WindowsLocalUsers)
+                {
+                    fileContentTemplate.AppendLine(GetLocalUserValue("Name", node.Name, "Caption", node.Caption, "Description", node.Description, "Active", node.IsActive.ToString(), "Status", node.Status, "Changeable", node.PasswordChangeable.ToString(), "Expires", node.PasswordExpires.ToString(), "Required", node.PasswordRequired.ToString()));
+                    if (sc.WindowsLocalUsers.IndexOf(node) != sc.WindowsLocalUsers.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void Printers(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsPrintersPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("PRINTERS"));
+                foreach (var node in sc.Printers)
+                {
+                    fileContentTemplate.AppendLine(GetPrinterValue("Name", node.DefaultPrinter, "Port", node.DefaultPrinterPortName, "Local", node.IsLocal.ToString(), "Network", node.IsNetwork.ToString(), "Shared", node.IsShared.ToString()));
+                    if (sc.Printers.IndexOf(node) != sc.Printers.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void Licenses(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsSoftwareLicensingProductsPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("MS LICENSES"));
+                foreach (var node in sc.SoftwareLicensingProducts)
+                {
+                    fileContentTemplate.AppendLine(GetSoftwareLicencingProductValue("Name", node.Name, "Channel", node.Description, "Status", node.LicenseStatus, "Partial Product Key", node.PatrialProductKey, "Type", node.LicenseFamily, "Product Key ID", node.ProductKeyID));
+                    if (sc.SoftwareLicensingProducts.IndexOf(node) != sc.SoftwareLicensingProducts.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void Partitions(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsLogicalDrivesPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("PARTITIONS"));
+                foreach (var node in sc.LogicalDrives)
+                {
+                    fileContentTemplate.AppendLine(GetLogicalDriveValue(node.Letter, node.TotalSize, "Aviailable Size", node.AviailableSize));
+                }
+            }
+        }
+
+        private static void PhysicalDrives(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsPhysicalDrivesPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("PHYSICAL DRIVES"));
+                foreach (var node in sc.PhysicalDrives)
+                {
+                    fileContentTemplate.AppendLine(GetPhsicalDriveValue("Product", node.Model, "Serial Number", node.SerialNumber, "Size", node.Size));
+                }
+            }
+        }
+
+        private static void NetworkAdapters(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsNetworkAdaptersPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("NETWORK ADAPTERS"));
+                foreach (var node in sc.NetworkAdapters)
+                {
+                    fileContentTemplate.AppendLine(GetNetworkAdapterValue("Product", node.Adapter, "IP", node.IPAddress, "Mask", node.SubnetMasks, "Geteway", node.DefaultGeteway, "MAC", node.MAC, "DHCP", node.DHCP_Enabled, "DHCP Server", node.DHCP_ServerIP));
+                    if (sc.NetworkAdapters.IndexOf(node) != sc.NetworkAdapters.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void Displays(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsMonitorsPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("DISPLAYS"));
+                foreach (var node in sc.Monitors)
+                {
+                    fileContentTemplate.AppendLine(GetDisplayValue("Vendor", node.Manufacturer, "Product", node.MonitorModel, "Serial Number", node.MonitorSerialNumber));
+                }
+            }
+        }
+
+        private static void VideoControllers(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsVideoControllersPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("VIDEO ADAPTERS"));
+                foreach (var node in sc.VideoControllers)
+                {
+                    fileContentTemplate.AppendLine(GetVideoControllerValue("Product", node.Name, "CPU", node.VideoProcessor, "Mode", node.VideoModeDescription));
+                }
+            }
+        }
+
+        private static void MemoryDevices(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsMemoryDevicesPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("MEMORY DEVICES"));
+                foreach (var node in sc.MemoryDevices)
+                {
+                    fileContentTemplate.AppendLine(GetMemoryDeviceValue(string.Empty, node.MemoryTypeString, "Vendor", node.ManufacturerName, "Part Number", node.PartNumber, "Size", node.SizeString));
+                    if (sc.MemoryDevices.IndexOf(node) != sc.MemoryDevices.Count - 1)
+                        fileContentTemplate.AppendLine("<hr class=\"separator\">");
+                }
+            }
+        }
+
+        private static void CPUs(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            if (sc.IsCPUsPresent)
+            {
+                fileContentTemplate.AppendLine(GetHeader("CPU"));
+                foreach (var node in sc.CPUs)
+                {
+                    fileContentTemplate.AppendLine(GetCPUValue(node.SlotLocator, node.ManufacturerName, "Model", node.Version, "Cores", node.CoreCount.ToString(), "Threads", node.ThreadCount.ToString()));
+                }
+            }
+        }
+
+        private static void SystemEnclosure(ComputerHardwareScan sc, StringBuilder fileContentTemplate)
+        {
+            fileContentTemplate.AppendLine(GetHeader("SYSTEM"));
+            fileContentTemplate.AppendLine(GetFourValues("System Enclosure", sc.SystemInformation.ManufacturerName, "Product", sc.SystemInformation.ProductName, "Serial Number", sc.SystemInformation.SerialNumber, "Version", sc.SystemInformation.Version));
+            fileContentTemplate.AppendLine(GetFourValues("Motherboard", sc.MotherBoardInformation.ManufacturerName, "Product", sc.MotherBoardInformation.ProductName, "Serial Number", sc.MotherBoardInformation.SerialNumber, "Version", sc.MotherBoardInformation.Version));
+            fileContentTemplate.AppendLine(GetHeader("OS"));
+            fileContentTemplate.AppendLine(GetFourValues("Manufacturer", sc.WindowsInformation.Manufacturer, "Product", sc.WindowsInformation.Name, "Version", sc.WindowsInformation.Version, "Architecture", sc.WindowsInformation.OSArchitecture));
+            fileContentTemplate.AppendLine(GetFourValues("Install Date", sc.WindowsInformation.InstallDate, "Directory", sc.WindowsInformation.WindowsDirectory, "Total Memory", sc.WindowsInformation.TotalMemory, "Aviailable Memory", sc.WindowsInformation.AviailableMemory));
+            fileContentTemplate.AppendLine(GetOneValue("LoggedInUser", sc.LoggedInUser));
         }
 
         private static string GetHeader(string Header)

@@ -255,17 +255,15 @@ namespace Gizmo.HardwareScan
             }
         }
 
-        public void SaveAsPngFile(RenderTargetBitmap rtb)
+        public void SaveAsPngFile(PngBitmapEncoder rtb)
         {
             try
             {
                 var ScanTime = DateTime.Now;
                 if (SaveFileDialog(HostName.ToLower() + "_" + ScanTime.ToShortDateString().Replace(".", "_") + "_" + ScanTime.ToLongTimeString().Replace(":", "_"), "PNG files|*.png") == true)
                 {
-                    PngBitmapEncoder png = new PngBitmapEncoder();
-                    png.Frames.Add(BitmapFrame.Create(rtb));
                     MemoryStream stream = new MemoryStream();
-                    png.Save(stream);
+                    rtb.Save(stream);
                     Image image = Image.FromStream(stream);
                     image.Save(filePath);
                 }
