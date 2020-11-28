@@ -120,7 +120,7 @@ namespace Gizmo.HardwareAuditClasses
             {
                 Scope.Options.Timeout = new TimeSpan(0, 1, 0);
                 Scope.Connect();
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_UserAccount");
+                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_UserAccount where LocalAccount = True");
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(Scope, query);
 
                 ManagementObjectCollection queryCollection = searcher.Get();

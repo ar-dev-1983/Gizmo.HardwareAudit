@@ -19,10 +19,6 @@
         Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
         Icon="/Resources/Icons/AppIcon.ico">
     <Window.Resources>
-        <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
-        <local:BoolToFontStyle x:Key="BoolToFontStyle" />
-        <local:BoolToFontWeight x:Key="BoolToFontWeight" />
-        <local:BoolToVisivilityInvertedConverter x:Key="BoolToVisivilityInvertedConverter" />
         <local:LogItemTypeEnumToColorConverter x:Key="LogItemTypeEnumToColorConverter" />
         <local:LogItemTypeEnumToTextConverter x:Key="LogItemTypeEnumToTextConverter" />
         <local:BindingProxy x:Key="BindingProxy" Data="{Binding}" />

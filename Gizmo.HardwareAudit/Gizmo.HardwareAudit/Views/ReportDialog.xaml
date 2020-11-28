@@ -12,10 +12,6 @@
         Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
         Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
-    <Window.Resources>
-        <local:BoolConverter x:Key="BoolConverter" />
-        <local:BoolToVisivilityConverter x:Key="BoolToVisivilityConverter" />
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

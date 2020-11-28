@@ -10,9 +10,6 @@
         Title="Computer Settings"  Height="270" Icon="/Resources/Images/Settings.png" Width="500" SnapsToDevicePixels="True" UseLayoutRounding="True" 
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
         Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
-    <Window.Resources>
-        <local:BoolConverter x:Key="BoolConverter" />
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"/>

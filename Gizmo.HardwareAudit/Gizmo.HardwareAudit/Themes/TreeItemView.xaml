@@ -115,7 +115,7 @@
                             <ui:UIEnumSwitch x:Name="partSwitch" Margin="147,0,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Height="24" CornerRadius="2"
                                              SourceEnum="{x:Type haenums:UIViewModeEnum}" 
                                              SelectionMode="MultipleWithDefault" 
-                                             SelectedIndex="0">
+                                             SelectedIndex="0"  ShowDescriptionInTooltip="True">
                                 <ui:UIEnumSwitch.ItemTemplate>
                                     <DataTemplate>
                                         <ui:GizmoIcon FontSize="16" Icon="{Binding Converter={StaticResource ViewModeEnumToIconConverter}}" IconFontFamily="{StaticResource GizmoIcon}"/>
