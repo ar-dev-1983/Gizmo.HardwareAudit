@@ -9,7 +9,6 @@
         xmlns:bhv="clr-namespace:Gizmo.HardwareAudit.Behaviors" 
         xmlns:enums="clr-namespace:Gizmo.HardwareAudit.Enums"
         xmlns:controls="clr-namespace:Gizmo.HardwareAudit.Controls" 
-        d:DataContext="{d:DesignInstance Type=local:UserProfile}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Gizmo ITK" 
         Width="1132" Height="650" MinWidth="800" MinHeight="600" d:DesignHeight="650" d:DesignWidth="1132" 
@@ -62,27 +61,25 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border IsHitTestVisible="False" Grid.ColumnSpan="2" Background="{DynamicResource {ComponentResourceKey ui:UITheme, KeyBackgroundBrush}}" VerticalAlignment="Top" Height="26"/>
-                <Border Margin="0,26,0,0" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}" BorderThickness="0,0,1,0">
-                    <ui:UITabPanel x:Name="tpTabPanelLeft" Orientation="Left" SelectedIndex="0">
-                        <ui:UITabPanel.Items>
-                            <ui:UITabPanelItem x:Name="ProjectTab" Margin="0,3">
-                                <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" />
-                                </ui:UITabPanelItem.Header>
-                            </ui:UITabPanelItem>
-                            <ui:UITabPanelItem x:Name="ReportsTab" Margin="0,3">
-                                <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" />
-                                </ui:UITabPanelItem.Header>
-                            </ui:UITabPanelItem>
-                            <ui:UITabPanelItem x:Name="MessagesTab" Margin="0,3">
-                                <ui:UITabPanelItem.Header>
-                                    <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.NotificationBell}" />
-                                </ui:UITabPanelItem.Header>
-                            </ui:UITabPanelItem>
-                        </ui:UITabPanel.Items>
-                    </ui:UITabPanel>
-                </Border>
+                <ui:UITabPanel x:Name="tpTabPanelLeft" Orientation="Left" SelectedIndex="0" Margin="0,26,0,0" TabsStyle="CompactTabs" CanUnselect="False">
+                    <ui:UITabPanel.Items>
+                        <ui:UITabPanelItem x:Name="ProjectTab">
+                            <ui:UITabPanelItem.Header>
+                                <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.ComputerAll}" />
+                            </ui:UITabPanelItem.Header>
+                        </ui:UITabPanelItem>
+                        <ui:UITabPanelItem x:Name="ReportsTab">
+                            <ui:UITabPanelItem.Header>
+                                <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.Reports}" />
+                            </ui:UITabPanelItem.Header>
+                        </ui:UITabPanelItem>
+                        <ui:UITabPanelItem x:Name="MessagesTab">
+                            <ui:UITabPanelItem.Header>
+                                <ui:GizmoIcon  FontSize="16"  IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.NotificationBell}" />
+                            </ui:UITabPanelItem.Header>
+                        </ui:UITabPanelItem>
+                    </ui:UITabPanel.Items>
+                </ui:UITabPanel>
                 <Grid x:Name="grMessages" Visibility="{Binding ElementName=MessagesTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

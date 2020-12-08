@@ -25,10 +25,9 @@
             <ui:UISwitch Margin="5,2" x:Name="cbCheckPortsThenScanning" Header="  Check for opened TCP Ports?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckPortsThenPing, Mode=TwoWay}"/>
             <ui:UISwitch Margin="5,2" x:Name="cbCheckSharedFoldersThenScanning" Header="  Check for avialable shared folders?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding CheckSharedFoldersThenPing, Mode=TwoWay}"/>
         </StackPanel>
-        <Border Grid.Row="1" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlSelectBorderBrush}}" BorderThickness="0,0,0,2">
-            <ui:UITabPanel x:Name="tbTabs" Orientation="Top">
+        <ui:UITabPanel Grid.Row="1" x:Name="tbTabs" Orientation="Top" TabsStyle="CompactTabs"  CanUnselect="False" SelectedIndex="0">
                 <ui:UITabPanel.Items>
-                    <ui:UITabPanelItem x:Name="PortsTab" IsSelected="True">
+                    <ui:UITabPanelItem x:Name="PortsTab">
                         <ui:UITabPanelItem.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ui:GizmoIcon IconFontFamily="{StaticResource GizmoIcon}" Icon="{x:Static haui:GizmoComputerHardwareIconsEnum.OpenConnection}" FontSize="16"/>
@@ -46,7 +45,7 @@
                     </ui:UITabPanelItem>
                 </ui:UITabPanel.Items>
             </ui:UITabPanel>
-        </Border>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlSelectBorderBrush}}" BorderThickness="0,0,0,1" IsHitTestVisible="False" Focusable="False"/>
         <Grid x:Name="grPorts" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Visibility="{Binding ElementName=PortsTab, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
