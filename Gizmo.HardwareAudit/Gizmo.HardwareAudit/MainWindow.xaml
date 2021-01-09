@@ -89,17 +89,17 @@
                         <StackPanel Margin="5,5,15,5" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
                             <ui:UIButton Flat="False" Content="SAVE" CornerRadius="12" Height="24" Width="70" Margin="5,0,0,0" Command="{Binding SaveLogCommand}">
                                 <ui:UIButton.Icon>
-                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.SaveAsFile}" FontSize="16"/>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.SaveAsFile}" FontSize="16" Margin="4,-1,-4,1"/>
                                 </ui:UIButton.Icon>
                             </ui:UIButton>
                             <ui:UIButton Flat="False" Content="LOAD" CornerRadius="12" Height="24" Width="70" Margin="5,0,0,0" Command="{Binding OpenLogCommand}">
                                 <ui:UIButton.Icon>
-                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.OpenFile}" FontSize="16"/>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.OpenFile}" FontSize="16" Margin="4,-1,-4,1"/>
                                 </ui:UIButton.Icon>
                             </ui:UIButton>
                             <ui:UIButton Flat="False" Content="CLEAR" CornerRadius="12" Height="24" Width="70" Margin="5,0,0,0" Command="{Binding ClearLogCommand}">
                                 <ui:UIButton.Icon>
-                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Clear2}" FontSize="16"/>
+                                    <ui:GizmoIcon Icon="{x:Static ui:GizmoIconEnum.Clear2}" FontSize="16" Margin="4,-1,-4,1"/>
                                 </ui:UIButton.Icon>
                             </ui:UIButton>
                         </StackPanel>

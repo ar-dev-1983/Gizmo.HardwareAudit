@@ -9,16 +9,15 @@
         xmlns:haui="clr-namespace:Gizmo.HardwareAuditWPF;assembly=Gizmo.HardwareAuditWPF"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Title="Report Settings" MinHeight="480" MinWidth="640" Height="480" Width="640" Icon="/Resources/Images/Settings.png" SnapsToDevicePixels="True" UseLayoutRounding="True" 
-        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}"
         Style="{DynamicResource {ComponentResourceKey ResourceId=ToolWindowStyle, TypeInTargetAssembly={x:Type ui:UITheme}}}"
-        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}">
+        Background="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBackgroundBrush}}"
+        Foreground="{DynamicResource {ComponentResourceKey ui:UITheme, WindowForegroundBrush}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ui:UITabPanel Orientation="Top" SelectedIndex="0" VerticalAlignment="Top" TabsStyle="CompactTabs"  CanUnselect="False">
+        <ui:UITabPanel Orientation="Top" VerticalAlignment="Stretch" TabsStyle="CompactTabs" CanUnselect="False" SelectedIndex="0" ResizeAllowed="False" IsExpandable="True" IsExpanded="True" Margin="-1,0" BorderThickness="0,1">
             <ui:UITabPanel.Items>
                 <ui:UITabPanelItem x:Name="tbReportSettings" Orientation="Top">
                     <ui:UITabPanelItem.Header>
@@ -27,6 +26,38 @@
                             <TextBlock Text="Settings" VerticalAlignment="Center" Margin="5,0"/>
                         </StackPanel>
                     </ui:UITabPanelItem.Header>
+                    <ui:UITabPanelItem.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            <ui:UITextBox CornerRadius="2" x:Name="TbReportName" Text="{Binding ReportName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbReportName_KeyDown"/>
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            <ui:UITextBox CornerRadius="2" x:Name="TbReportDescription" Text="{Binding ReportDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
+
+                            <ui:UISwitch Margin="5" Grid.Row="4" Grid.Column="1" x:Name="cbUseCustomIcon" Header="  Use custom report icon?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding UseCustomIcon, Mode=TwoWay}"/>
+
+                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Report Icon:" VerticalAlignment="Top" HorizontalAlignment="Right"  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}" />
+
+                            <Border IsEnabled="{Binding UseCustomIcon, Mode=OneWay}" Grid.Column="1" Grid.Row="5" Margin="2" Height="110" BorderThickness="1" CornerRadius="0" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBorderBrush}}">
+                                <ScrollViewer>
+                                    <WrapPanel x:Name="wpIconList"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </ui:UITabPanelItem.Content>
                 </ui:UITabPanelItem>
                 <ui:UITabPanelItem x:Name="tbDataSource" Orientation="Top">
                     <ui:UITabPanelItem.Header>
@@ -35,6 +66,46 @@
                             <TextBlock Text="Data Source" VerticalAlignment="Center" Margin="5,0"/>
                         </StackPanel>
                     </ui:UITabPanelItem.Header>
+                    <ui:UITabPanelItem.Content>
+                        <Grid>
+                            <ui:UITreeList x:Name="TvContainerList" BorderThickness="0,0,0,0" Margin="-1,0,-1,0" ItemsSource="{Binding Root.Children}" VerticalAlignment="Stretch"
+                                   VirtualizingPanel.IsVirtualizing="True"
+                                   VirtualizingPanel.VirtualizationMode="Recycling"
+                                   VirtualizingPanel.ScrollUnit="Item"
+                                   VirtualizingPanel.IsContainerVirtualizable="True"
+                                   Style="{StaticResource HeaderlessUITreeList}">
+                                <ui:UITreeList.ItemTemplate>
+                                    <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
+                                </ui:UITreeList.ItemTemplate>
+                                <ui:UITreeList.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemVEnabledStyle}">
+                                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    </Style>
+                                </ui:UITreeList.ItemContainerStyle>
+                                <ui:UITreeList.Columns>
+                                    <GridViewColumn Width="500">
+                                        <GridViewColumnHeader>Select Container</GridViewColumnHeader>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <ui:UITreeNodeExpanderControl Grid.Column="0" VerticalAlignment="Center" />
+                                                    <controls:TreeItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </ui:UITreeList.Columns>
+                            </ui:UITreeList>
+                        </Grid>
+                    </ui:UITabPanelItem.Content>
                 </ui:UITabPanelItem>
                 <ui:UITabPanelItem x:Name="tbDataSettings" Orientation="Top">
                     <ui:UITabPanelItem.Header>
@@ -43,144 +114,72 @@
                             <TextBlock Text="Report Settings" VerticalAlignment="Center" Margin="5,0"/>
                         </StackPanel>
                     </ui:UITabPanelItem.Header>
-                </ui:UITabPanelItem>
-            </ui:UITabPanel.Items>
-        </ui:UITabPanel>
-
-
-        <Grid Grid.Row="1" Visibility="{Binding ElementName=tbReportSettings, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UITextBox CornerRadius="2" x:Name="TbReportName" Text="{Binding ReportName, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="0" Grid.Column="1" Height="24"  KeyDown="TbReportName_KeyDown"/>
-
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UITextBox CornerRadius="2" x:Name="TbReportDescription" Text="{Binding ReportDescription, Mode=TwoWay}" VerticalAlignment="Center" Margin="5" Grid.Row="1" Grid.Column="1" Height="24"/>
-
-            <ui:UISwitch Margin="5" Grid.Row="4" Grid.Column="1" x:Name="cbUseCustomIcon" Header="  Use custom report icon?" HeaderPlacement="Right" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding UseCustomIcon, Mode=TwoWay}"/>
-
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="Report Icon:" VerticalAlignment="Top" HorizontalAlignment="Right"  />
-
-            <Border IsEnabled="{Binding UseCustomIcon, Mode=OneWay}" Grid.Column="1" Grid.Row="5" Margin="2" Height="110" BorderThickness="1" CornerRadius="0" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, WindowBorderBrush}}">
-                <ScrollViewer>
-                    <WrapPanel x:Name="wpIconList"/>
-                </ScrollViewer>
-            </Border>
-        </Grid>
-
-        <Grid Grid.Row="1" Visibility="{Binding ElementName=tbDataSource, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
-            <ui:UITreeList x:Name="TvContainerList" BorderThickness="0,0,0,0" Margin="-1,0,-1,0" ItemsSource="{Binding Root.Children}" VerticalAlignment="Stretch"
-                                   VirtualizingPanel.IsVirtualizing="True"
-                                   VirtualizingPanel.VirtualizationMode="Recycling"
-                                   VirtualizingPanel.ScrollUnit="Item"
-                                   VirtualizingPanel.IsContainerVirtualizable="True"
-                                   Style="{StaticResource HeaderlessUITreeList}">
-                <ui:UITreeList.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}"/>
-                </ui:UITreeList.ItemTemplate>
-                <ui:UITreeList.ItemContainerStyle>
-                    <Style TargetType="{x:Type ui:UITreeListItem}" BasedOn="{StaticResource UITreeListItemVEnabledStyle}">
-                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
-                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                    </Style>
-                </ui:UITreeList.ItemContainerStyle>
-                <ui:UITreeList.Columns>
-                    <GridViewColumn Width="500">
-                        <GridViewColumnHeader>Select Container</GridViewColumnHeader>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ui:UITreeNodeExpanderControl Grid.Column="0" VerticalAlignment="Center" />
-                                    <controls:TreeItemIcon Focusable="False" Grid.Column="1" ItemType="{Binding Path=Type, Mode=OneWay}" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=Name, Mode=OneWay}" Grid.Column="2" VerticalAlignment="Center" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </ui:UITreeList.Columns>
-            </ui:UITreeList>
-        </Grid>
-
-        <Grid Grid.Row="1" Visibility="{Binding ElementName=tbDataSettings, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisivilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Report Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ReportTypeItems, Mode=OneWay}" 
+                    <ui:UITabPanelItem.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Report Type:" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="0" Margin="5" Flat="False" ItemsSource="{Binding ReportTypeItems, Mode=OneWay}" 
                            SelectedItem="{Binding SelectedReportTypeItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
                            HorizontalAlignment="Left" Width="300"/>
-            
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Data Type:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="1" Margin="5" Flat="False" ItemsSource="{Binding ComponentTypeItems, Mode=OneWay}" 
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Data Type:" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            <ui:UIComboBox CornerRadius="2" Grid.Column="1" Grid.Row="1" Margin="5" Flat="False" ItemsSource="{Binding ComponentTypeItems, Mode=OneWay}" 
                            SelectedItem="{Binding SelectedComponentItem, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Description"
                            HorizontalAlignment="Left" Width="300"/>
 
-            <DataGrid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="10" Margin="0,8,0,0" ItemsSource="{Binding Columns, Mode=OneWay}"
+                            <DataGrid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="10" Margin="0,8,0,0" ItemsSource="{Binding Columns, Mode=OneWay}"
                                       AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" SelectionMode="Single"  VerticalScrollBarVisibility="Auto">
-                <DataGrid.Columns>
-                    <DataGridCheckBoxColumn  CanUserReorder="False" Header="Show Column" Width="100" Binding="{Binding Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SortMemberPath="IsEnabled" CanUserSort="True" >
-                        <DataGridCheckBoxColumn.ElementStyle>
-                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                                <Setter Property="Margin" Value="2" />
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                            </Style>
-                        </DataGridCheckBoxColumn.ElementStyle>
-                        <DataGridCheckBoxColumn.EditingElementStyle>
-                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                                <Setter Property="Margin" Value="2" />
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                            </Style>
-                        </DataGridCheckBoxColumn.EditingElementStyle>
-                    </DataGridCheckBoxColumn>
-                    <DataGridTextColumn CanUserReorder="False" Header="Column Name" Width="*" Binding="{Binding Path=PropertyDescription}" SortMemberPath="Name" CanUserSort="True">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
-                                <Setter Property="VerticalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <Border Grid.Row="2" BorderBrush="{DynamicResource {ComponentResourceKey ui:UITheme, ControlBorderBrush}}"  BorderThickness="0,1,0,0">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5">
-                <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
-                <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
-            </StackPanel>
-        </Border>
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn  CanUserReorder="False" Header="Show Column" Width="100" Binding="{Binding Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SortMemberPath="IsEnabled" CanUserSort="True" >
+                                        <DataGridCheckBoxColumn.ElementStyle>
+                                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="Margin" Value="2" />
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridCheckBoxColumn.ElementStyle>
+                                        <DataGridCheckBoxColumn.EditingElementStyle>
+                                            <Style TargetType="CheckBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingCheckBoxStyle}}">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="Margin" Value="2" />
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridCheckBoxColumn.EditingElementStyle>
+                                    </DataGridCheckBoxColumn>
+                                    <DataGridTextColumn CanUserReorder="False" Header="Column Name" Width="*" Binding="{Binding Path=PropertyDescription}" SortMemberPath="Name" CanUserSort="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox" BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:UITheme}, ResourceId=EditingTextBoxStyle}}">
+                                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </ui:UITabPanelItem.Content>
+                </ui:UITabPanelItem>
+            </ui:UITabPanel.Items>
+        </ui:UITabPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="28" Margin="5" Grid.Row="2">
+            <ui:UIButton x:Name="BtnSave" Width="80" Content="OK" Click="BtnSave_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+            <ui:UIButton x:Name="BtnCancel" Width="80" Content="CANCEL" Click="BtnCancel_Click" CornerRadius="12" Height="24" Flat="False" Margin="5,0"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -22,6 +22,7 @@ namespace Gizmo.HardwareAudit
         private bool IsRealyClosingApp = true;
         private readonly AppViewModel appvm;
         private System.Windows.Forms.NotifyIcon m_notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip m_contextMenu;
         private WindowState m_storedWindowState = WindowState.Normal;
         #endregion
 
@@ -34,8 +35,28 @@ namespace Gizmo.HardwareAudit
             m_notifyIcon.Text = "Gizmo Hardware Audit";
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Gizmo.HardwareAudit;component/Resources/Icons/AppIcon.ico")).Stream;
             m_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
-            m_notifyIcon.MouseClick += NotifyIcon_MouseClick;
             m_notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
+
+            m_contextMenu = new System.Windows.Forms.ContextMenuStrip();
+            var restoreMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            restoreMenuItem.Text = "Restore";
+            restoreMenuItem.Click += NotifyIcon_DoubleClick;
+            m_contextMenu.Items.Add(restoreMenuItem);
+            var separatorMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            m_contextMenu.Items.Add(separatorMenuItem);
+
+            var exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            exitMenuItem.Text = "Close";
+            exitMenuItem.Click += ExitMenuItem_Click;
+            m_contextMenu.Items.Add(exitMenuItem);
+
+            m_notifyIcon.ContextMenuStrip = m_contextMenu;
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            IsRealyClosingApp = true;
+            Close();
         }
 
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
@@ -45,14 +66,6 @@ namespace Gizmo.HardwareAudit
             if (m_notifyIcon != null)
             {
                 m_notifyIcon.Visible = false;
-            }
-        }
-
-        private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-
             }
         }
         #endregion
